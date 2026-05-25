@@ -1387,7 +1387,7 @@ lightbox.addEventListener('click',e=>{if(e.target===lightbox){lightbox.classList
 
 /* ── GALLERY STAGGER ── */
 gsap.set('.masonry-item',{opacity:0,y:40,scale:0.93});
-ScrollTrigger.create({ trigger:'#masonryGrid', start:'top 10%', once:true, lazy:true,
+ScrollTrigger.create({ trigger:'#masonryGrid', start:'top 75%', once:true, lazy:true,
   onEnter:()=>gsap.to('.masonry-item',{opacity:1,y:0,scale:1,stagger:0.07,duration:0.6,ease:'power3.out'}),
 });
 
@@ -1400,7 +1400,7 @@ ScrollTrigger.create({
 
 /* ── REVIEWS ── */
 gsap.set('.review-card',{opacity:0,y:40,scale:.93});
-ScrollTrigger.create({ trigger:'#reviews', start:'top 15%', once:true, lazy:true,
+ScrollTrigger.create({ trigger:'#reviews', start:'top 75%', once:true, lazy:true,
   onEnter:()=>gsap.to('.review-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.6,ease:'power3.out'}),
 });
 const trackWrap = document.getElementById('reviewsTrackWrap');
