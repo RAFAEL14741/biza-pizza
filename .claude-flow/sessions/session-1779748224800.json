@@ -1,13 +1,15 @@
 {
-  "id": "session-1779752538842",
-  "startedAt": "2026-05-25T23:42:18.842Z",
+  "id": "session-1779748224800",
+  "startedAt": "2026-05-25T22:30:24.800Z",
   "platform": "darwin",
   "cwd": "/Users/rafaelrodrigues/Desktop/Projects/BizaPizza",
   "context": {},
   "metrics": {
-    "edits": 14,
+    "edits": 13,
     "commands": 0,
     "tasks": 0,
     "errors": 0
-  }
+  },
+  "endedAt": "2026-05-25T23:39:20.223Z",
+  "duration": 4135424
 }
