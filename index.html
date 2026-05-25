@@ -655,57 +655,9 @@ section { position:relative; }
   opacity:0; pointer-events:none; max-width:280px;
 }
 
-/* ── CHECKOUT SECTION ── */
-#checkout { background:var(--slate); padding:100px 80px 120px; }
-.checkout-header { text-align:center; margin-bottom:48px; }
-.checkout-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; }
-.checkout-inner { display:grid; grid-template-columns:1fr 1.1fr; gap:60px; max-width:1200px; margin:0 auto; align-items:start; }
-.checkout-panel { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:32px; }
-.checkout-panel-title { font-size:.78rem; font-weight:700; color:rgba(255,255,255,.4); letter-spacing:.12em; text-transform:uppercase; margin-bottom:20px; }
-.co-item { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,.06); }
-.co-item:last-child { border-bottom:none; }
-.co-item-name { font-size:.9rem; color:rgba(255,255,255,.8); }
-.co-item-price { font-size:.9rem; color:#fff; font-weight:600; flex-shrink:0; margin-left:12px; }
-.co-divider { border:none; border-top:1px solid rgba(255,255,255,.1); margin:16px 0; }
-.co-subtotal { display:flex; justify-content:space-between; color:rgba(255,255,255,.45); font-size:.88rem; margin-bottom:8px; }
-.co-delivery { display:flex; justify-content:space-between; color:rgba(255,255,255,.45); font-size:.88rem; margin-bottom:16px; }
-.co-total { display:flex; justify-content:space-between; font-size:1.3rem; font-weight:700; color:var(--red); }
-.checkout-empty { color:rgba(255,255,255,.3); font-size:.88rem; text-align:center; padding:20px 0; font-style:italic; }
-.form-group { margin-bottom:18px; }
-.form-label { font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.45); display:block; margin-bottom:8px; }
-.form-input {
-  width:100%; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-  border-radius:12px; padding:14px 16px; color:#fff; font-family:var(--sans);
-  font-size:.95rem; outline:none; transition:border-color .2s, box-shadow .2s; cursor:text;
-}
-.form-input:focus { border-color:var(--red); box-shadow:0 0 0 2px rgba(200,40,42,.2); }
-.form-input::placeholder { color:rgba(255,255,255,.22); }
-textarea.form-input { resize:vertical; min-height:90px; cursor:text; }
-.delivery-pills { display:flex; gap:8px; flex-wrap:wrap; }
-.delivery-pill {
-  flex:1; min-width:100px; background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12); border-radius:999px;
-  padding:10px 12px; color:rgba(255,255,255,.65); font-size:.78rem; font-weight:600;
-  letter-spacing:.04em; cursor:none; transition:all .2s; text-align:center;
-  font-family:var(--sans);
-}
-.delivery-pill:hover { border-color:var(--red); color:#fff; }
-.delivery-pill.active { background:var(--red); border-color:var(--red); color:#fff; }
-.checkout-fine { font-size:.74rem; color:rgba(255,255,255,.25); text-align:center; margin-top:12px; }
-#placeOrderBtn {
-  width:100%; background:var(--red); color:#fff; border:none; border-radius:12px;
-  padding:16px; font-size:1rem; font-weight:700; cursor:none; margin-top:8px;
-  transition:background .2s, transform .2s; box-shadow:0 8px 24px rgba(200,40,42,.35);
-  font-family:var(--sans);
-}
-#placeOrderBtn:hover { background:#a81f21; transform:translateY(-2px); }
-input, textarea, select { cursor: text; }
-
 @media(max-width:768px) {
   #cartDrawer { width:100vw; }
   #cartBtn { bottom:20px; right:16px; padding:12px 18px; font-size:.82rem; }
-  #checkout { padding:80px 24px; }
-  .checkout-inner { grid-template-columns:1fr; gap:32px; }
   #cartToast { top:16px; right:16px; left:16px; max-width:none; }
 }
 </style>
@@ -954,61 +906,6 @@ input, textarea, select { cursor: text; }
           Order on WhatsApp
         </button>
         <p class="wa-note">Opens WhatsApp with your full order ready to send.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CHECKOUT -->
-<section id="checkout">
-  <div class="checkout-header">
-    <p class="checkout-eyebrow">Order · Checkout</p>
-    <h2 class="section-title">Complete Your<br>Order</h2>
-  </div>
-  <div class="checkout-inner">
-    <!-- Left: order summary -->
-    <div>
-      <div class="checkout-panel">
-        <p class="checkout-panel-title">Order Summary</p>
-        <div id="checkoutItems">
-          <p class="checkout-empty">Add items from the menu above</p>
-        </div>
-        <hr class="co-divider">
-        <div class="co-subtotal"><span>Subtotal</span><span id="checkoutSubtotalVal">$0.00</span></div>
-        <div class="co-delivery"><span>Delivery fee</span><span>Calculated at pickup / delivery</span></div>
-        <div class="co-total"><span>Total</span><span id="checkoutTotalVal">$0.00</span></div>
-      </div>
-    </div>
-    <!-- Right: form -->
-    <div>
-      <div class="checkout-panel">
-        <p class="checkout-panel-title">Your Info</p>
-        <div class="form-group">
-          <label class="form-label" for="checkoutName">Name</label>
-          <input class="form-input" id="checkoutName" type="text" placeholder="Your name" autocomplete="name">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="checkoutPhone">Phone</label>
-          <input class="form-input" id="checkoutPhone" type="tel" placeholder="(215) 555-1234" autocomplete="tel">
-        </div>
-        <div class="form-group">
-          <label class="form-label">How would you like to receive it?</label>
-          <div class="delivery-pills">
-            <button type="button" class="delivery-pill active" data-method="doordash">🚗 DoorDash Delivery</button>
-            <button type="button" class="delivery-pill" data-method="pickup">📦 Pickup</button>
-            <button type="button" class="delivery-pill" data-method="whatsapp">💬 WhatsApp</button>
-          </div>
-        </div>
-        <div class="form-group" id="addressGroup">
-          <label class="form-label" for="checkoutAddress">Delivery Address</label>
-          <input class="form-input" id="checkoutAddress" type="text" placeholder="123 Main St, Philadelphia PA" autocomplete="street-address">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="checkoutNotes">Special Instructions <span style="opacity:.5;font-weight:400">(optional)</span></label>
-          <textarea class="form-input" id="checkoutNotes" placeholder="Allergies, substitutions, special requests…"></textarea>
-        </div>
-        <button id="placeOrderBtn" class="magnetic-btn">Place Order →</button>
-        <p class="checkout-fine">This is a demo — no real charge will be made</p>
       </div>
     </div>
   </div>
@@ -1417,7 +1314,6 @@ const bgSections = [
   { id:'#about',   bg:'#F5EDD8' },
   { id:'#menu',    bg:'#1C0E08' },
   { id:'#builder', bg:'#120A06' },
-  { id:'#checkout', bg:'#1C0E08' },
   { id:'#gallery', bg:'#F5EDD8' },
   { id:'#order',   bg:'#ffffff' },
   { id:'#reviews', bg:'#FDF3E3' },
@@ -1767,11 +1663,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     {el:'#about',num:'02',name:'STORY'},
     {el:'#menu',num:'03',name:'MENU'},
     {el:'#builder',num:'04',name:'BUILD'},
-    {el:'#checkout',num:'05',name:'CHECKOUT'},
-    {el:'#gallery',num:'06',name:'GALLERY'},
-    {el:'#order',num:'07',name:'ORDER'},
-    {el:'#reviews',num:'08',name:'REVIEWS'},
-    {el:'#hours',num:'09',name:'HOURS'},
+    {el:'#gallery',num:'05',name:'GALLERY'},
+    {el:'#order',num:'06',name:'ORDER'},
+    {el:'#reviews',num:'07',name:'REVIEWS'},
+    {el:'#hours',num:'08',name:'HOURS'},
   ].forEach(s=>{
     const el=document.querySelector(s.el);if(!el)return;
     ScrollTrigger.create({trigger:el,start:'top center',
@@ -1780,7 +1675,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     });
   });
   const counter=document.getElementById('section-counter');
-  ['#menu','#builder','#checkout'].forEach(sel => {
+  ['#menu','#builder'].forEach(sel => {
     ScrollTrigger.create({trigger:sel,start:'top center',end:'bottom center',
       onEnter:()=>{if(counter)counter.style.color='rgba(255,255,255,0.45)';},
       onLeave:()=>{if(counter)counter.style.color='rgba(0,0,0,0.3)';},
@@ -1815,7 +1710,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
         if (prev) gsap.to(prev, { scale: 0.88, opacity: 0.45, filter: 'blur(3px)', ease: 'none', scrollTrigger: st });
       }
     });
-    ['#gallery', '#order', '#reviews', '#hours', '#builder', '#checkout'].forEach(sel => {
+    ['#gallery', '#order', '#reviews', '#hours', '#builder'].forEach(sel => {
       const el = document.querySelector(sel);
       if (el && !el.classList.contains('clip-section')) fadeUp(el);
     });
@@ -1895,26 +1790,6 @@ function renderCart() {
     });
   }
   if (subtotalEl) subtotalEl.textContent = '$' + total.toFixed(2);
-  renderCheckoutSummary();
-}
-
-function renderCheckoutSummary() {
-  const list = document.getElementById('checkoutItems');
-  const subtotalEl = document.getElementById('checkoutSubtotalVal');
-  const totalEl = document.getElementById('checkoutTotalVal');
-  if (!list) return;
-  const total = cartTotal();
-  if (cart.length === 0) {
-    list.innerHTML = '<p class="checkout-empty">Add items from the menu above</p>';
-  } else {
-    list.innerHTML = cart.map(item => `
-      <div class="co-item">
-        <span class="co-item-name">${item.qty}× ${item.name}${item.variant ? ` (${item.variant})` : ''}</span>
-        <span class="co-item-price">$${(item.price * item.qty).toFixed(2)}</span>
-      </div>`).join('');
-  }
-  if (subtotalEl) subtotalEl.textContent = '$' + total.toFixed(2);
-  if (totalEl) totalEl.textContent = '$' + total.toFixed(2);
 }
 
 function showToast(msg) {
@@ -1962,37 +1837,7 @@ document.getElementById('cartClose').addEventListener('click', closeCartDrawer);
 document.getElementById('cartBackdrop').addEventListener('click', closeCartDrawer);
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && cartDrawerOpen) closeCartDrawer(); });
 document.getElementById('cartCheckoutBtn').addEventListener('click', () => {
-  closeCartDrawer();
-  setTimeout(() => { const s = document.getElementById('checkout'); if (s) s.scrollIntoView({ behavior: 'smooth' }); }, 360);
-});
-
-/* ── CHECKOUT FORM ── */
-document.querySelectorAll('.delivery-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('.delivery-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    const ag = document.getElementById('addressGroup');
-    if (ag) ag.style.display = pill.dataset.method === 'doordash' ? '' : 'none';
-  });
-});
-
-document.getElementById('placeOrderBtn').addEventListener('click', () => {
-  if (cart.length === 0) { showToast('Add items to your cart first'); return; }
-  const total = cartTotal().toFixed(2);
-  const orderNum = '#' + (Math.floor(Math.random() * 9000) + 1000);
-  const itemsHtml = cart.map(item =>
-    `<div class="confirm-item-line"><span>${item.qty}× ${item.name}${item.variant ? ' (' + item.variant + ')' : ''}</span><span>$${(item.price * item.qty).toFixed(2)}</span></div>`
-  ).join('') + `<div class="confirm-item-line total"><span>Total</span><span>$${total}</span></div>`;
-  document.getElementById('confirmOrderNum').textContent = 'Order ' + orderNum;
-  document.getElementById('confirmItems').innerHTML = itemsHtml;
-  document.getElementById('order-confirm-overlay').classList.add('active');
-  const orders = JSON.parse(localStorage.getItem('biza_demo_orders') || '[]');
-  orders.unshift({
-    id: orderNum, timestamp: Date.now(),
-    items: cart.map(i => i.qty + '× ' + i.name + (i.variant ? ' (' + i.variant + ')' : '')).join(', '),
-    total, status: 'new'
-  });
-  localStorage.setItem('biza_demo_orders', JSON.stringify(orders));
+  window.location.href = 'biza-checkout.html';
 });
 
 /* ── INIT CART ── */
