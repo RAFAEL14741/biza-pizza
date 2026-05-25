@@ -276,6 +276,14 @@ section { position:relative; }
   margin-top:4px; transition:background .2s;
 }
 .menu-card-btn:hover { background:#a81f21; }
+.menu-card-from { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:-4px; }
+.overlay-pizza-sizes { display:flex; gap:10px; margin-bottom:16px; }
+.overlay-size-opt { flex:1; background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; cursor:pointer; text-align:center; transition:all .2s; }
+.overlay-size-opt:hover { border-color:rgba(200,40,42,.5); }
+.overlay-size-opt.selected { border-color:var(--red); background:rgba(200,40,42,.12); }
+.sz-name { font-size:.9rem; font-weight:700; color:#fff; }
+.sz-slices { font-size:.72rem; color:rgba(255,255,255,.45); margin:3px 0; }
+.sz-price { font-size:1rem; font-weight:700; color:var(--red); }
 
 /* ── MENU OVERLAY ── */
 #menu-overlay {
@@ -289,11 +297,11 @@ section { position:relative; }
 .menu-overlay-desc { font-size:.9rem; color:rgba(255,255,255,.55); line-height:1.6; margin-bottom:16px; }
 .menu-overlay-price { font-size:1.5rem; font-weight:700; color:var(--red); margin-bottom:20px; }
 .menu-overlay-wa {
-  display:block; width:100%; text-align:center; background:#25D366; color:#fff;
+  display:block; width:100%; text-align:center; background:var(--red); color:#fff;
   padding:14px; border-radius:10px; font-weight:700; font-size:.95rem;
-  transition:background .2s;
+  transition:background .2s; cursor:pointer; border:none;
 }
-.menu-overlay-wa:hover { background:#1da855; }
+.menu-overlay-wa:hover { background:#a81f21; }
 #menu-close {
   position:absolute; top:16px; right:16px; width:40px; height:40px;
   border-radius:50%; background:rgba(0,0,0,.5); color:#fff;
@@ -682,7 +690,8 @@ section { position:relative; }
   <div class="menu-tabs">
     <button class="menu-tab active" data-filter="all">All</button>
     <button class="menu-tab" data-filter="pizzas">🍕 Pizzas</button>
-    <button class="menu-tab" data-filter="esfihas">🥟 Esfihas</button>
+    <button class="menu-tab" data-filter="pasteis">🥟 Pastéis</button>
+    <button class="menu-tab" data-filter="esfihas">🧆 Esfihas</button>
     <button class="menu-tab" data-filter="drinks">🥤 Drinks</button>
     <button class="menu-tab" data-filter="combos">🎁 Combos</button>
   </div>
@@ -698,7 +707,18 @@ section { position:relative; }
       <h2 class="menu-overlay-title" id="overlayTitle"></h2>
       <p class="menu-overlay-desc" id="overlayDesc"></p>
       <p class="menu-overlay-price" id="overlayPrice"></p>
-      <a class="menu-overlay-wa" id="overlayWa" href="#" target="_blank">Order on WhatsApp</a>
+      <div id="overlayPizzaSizes" class="overlay-pizza-sizes" style="display:none">
+        <button class="overlay-size-opt" data-size="Broto" data-price="33.39">
+          <div class="sz-name">Broto</div><div class="sz-slices">4 slices · 1–2</div><div class="sz-price">$33.39</div>
+        </button>
+        <button class="overlay-size-opt" data-size="Grande" data-price="39.59">
+          <div class="sz-name">Grande</div><div class="sz-slices">8 slices · 2–3</div><div class="sz-price">$39.59</div>
+        </button>
+        <button class="overlay-size-opt" data-size="Gigante" data-price="49.49">
+          <div class="sz-name">Gigante</div><div class="sz-slices">8 slices · 3–4</div><div class="sz-price">$49.49</div>
+        </button>
+      </div>
+      <button class="menu-overlay-wa" id="overlayWa">Build Your Order →</button>
     </div>
   </div>
 </div>
@@ -968,18 +988,38 @@ section { position:relative; }
 
 <script>
 /* ── MENU DATA ── */
-const IMG_PIZZA = 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80';
-const IMG_ESFIHA = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80';
-const IMG_DRINK = 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600&q=80';
-const IMG_COMBO = 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80';
+const IMG = id => `https://images.unsplash.com/${id}?fm=jpg&q=80&w=600&auto=format&fit=crop`;
 
 const ORDER_ITEMS = [
-  { name:'Pizza Broto', price:'$33.39', desc:'Personal 8-slice pizza. Choice of flavor. Feeds 1–2.', category:'pizzas', img:IMG_PIZZA },
-  { name:'Pizza Grande', price:'$39.59', desc:'Large 8-slice pizza. Choice of flavor. Feeds 2–3.', category:'pizzas', img:IMG_PIZZA },
-  { name:'Pizza Gigante', price:'$49.49', desc:'XL 8-slice pizza. Choice of flavor. Feeds 3–4.', category:'pizzas', img:IMG_PIZZA },
-  { name:'Esfihas', price:'$21.69', desc:'Traditional Brazilian savory pastries. 6-pack.', category:'esfihas', img:IMG_ESFIHA },
-  { name:'Guaraná Antártica', price:'$7.59', desc:'Classic Brazilian soda. 2L bottle.', category:'drinks', img:IMG_DRINK },
-  { name:'Combo Eu', price:'$28.49', desc:'1 personal pizza + 1 Guaraná Antártica. Perfect solo meal.', category:'combos', img:IMG_COMBO },
+  /* PIZZAS */
+  { name:'Pizza Mussarela',       price:'From $33.39', fromPrice:'$33.39', desc:'Classic mozzarella, rich tomato sauce, and fresh basil. The one that started it all.', category:'pizzas', img:IMG('photo-1513104890138-7c749659a591'), isPizza:true },
+  { name:'Pizza Calabresa',       price:'From $33.39', fromPrice:'$33.39', desc:'Spicy Brazilian sausage with mozzarella and caramelized onion rings.', category:'pizzas', img:IMG('photo-1574071318508-1cdbab80d002'), isPizza:true },
+  { name:'Pizza Frango Catupiry', price:'From $33.39', fromPrice:'$33.39', desc:"Tender shredded chicken with Brazil's iconic Catupiry cream cheese.", category:'pizzas', img:IMG('photo-1565299624946-b28f40a0ae38'), isPizza:true },
+  { name:'Pizza Portuguesa',      price:'From $33.39', fromPrice:'$33.39', desc:'Ham, boiled egg, onion, bell pepper, and olives. A Brazilian classic.', category:'pizzas', img:IMG('photo-1571997478779-2adcbbe9ab2f'), isPizza:true },
+  { name:'Pizza Quatro Queijos',  price:'From $33.39', fromPrice:'$33.39', desc:'Mozzarella, cheddar, provolone, and Catupiry melted to golden perfection.', category:'pizzas', img:IMG('photo-1593560708920-61dd98c46a4e'), isPizza:true },
+  { name:'Pizza Margherita',      price:'From $33.39', fromPrice:'$33.39', desc:'Fresh tomato, mozzarella, and basil. Light, bright, and timeless.', category:'pizzas', img:IMG('photo-1548369937-47519962c11a'), isPizza:true },
+  { name:'Pizza Lombo Canadense', price:'From $33.39', fromPrice:'$33.39', desc:'Canadian-style pork loin with cheddar, tomato, and crispy onion.', category:'pizzas', img:IMG('photo-1604382354936-07c5d9983bd3'), isPizza:true },
+  { name:'Pizza Brigadeiro',      price:'From $33.39', fromPrice:'$33.39', desc:'Brazilian chocolate dream — Nutella base, brigadeiro drizzle, and condensed milk.', category:'pizzas', img:IMG('photo-1590947132387-155cc02f3212'), isPizza:true },
+  /* PASTÉIS */
+  { name:'Pastel de Carne',     price:'$8.99',  desc:'Ground beef with onion and parsley in golden fried dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Queijo',    price:'$8.49',  desc:'Melted mozzarella in crispy, thin-crust fried pastry. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Frango',    price:'$9.49',  desc:'Shredded chicken with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Palmito',   price:'$9.99',  desc:'Heart of palm with mozzarella in crispy dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Carne Seca',price:'$10.49', desc:'Savory dried beef with mozzarella. A Brazilian favorite. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Calabresa', price:'$9.49',  desc:'Spicy sausage with cheddar and Catupiry cream cheese. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Camarão',   price:'$11.99', desc:'Juicy shrimp with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Banana',    price:'$7.99',  desc:'Sweet banana with cinnamon and condensed milk. Dessert. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  /* ESFIHAS */
+  { name:'Esfihas de Carne', price:'$21.69', desc:'Traditional open-faced minced beef pastries with onion and parsley. 6-pack.', category:'esfihas', img:IMG('photo-1528735602780-2552fd46c7af') },
+  /* DRINKS */
+  { name:'Guaraná Antártica',   price:'$7.59', desc:'Classic Brazilian soda — sweet, citrusy, and refreshing. 2L bottle.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  { name:'Coca-Cola',           price:'$5.99', desc:'Ice-cold Coca-Cola. 2L bottle.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  { name:'Suco de Maracujá',    price:'$6.49', desc:'Passion fruit juice — tangy and tropical. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  { name:'Água com Gás',        price:'$3.49', desc:'Sparkling mineral water. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  { name:'Limonada Brasileira', price:'$6.99', desc:'Brazilian lemonade blended with condensed milk. Creamy and citrusy. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  /* COMBOS */
+  { name:'Combo Eu',      price:'$28.49', desc:'1 Broto pizza + 1 Guaraná Antártica + 2 pastéis. Perfect solo meal.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
+  { name:'Combo Família', price:'$52.99', desc:'1 Grande pizza + 2L Guaraná + 4 pastéis. The full family feast.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
 ];
 
 const HOURS_DATA = [
@@ -1216,13 +1256,13 @@ document.querySelectorAll('.reveal-img-clip').forEach((img,i) => {
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
   grid.innerHTML = ORDER_ITEMS.map(item => `
-    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}">
+    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}"${item.isPizza ? ' data-is-pizza="1"' : ''}>
       <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
       <div class="menu-card-body">
         <h3 class="menu-card-name">${item.name}</h3>
         <p class="menu-card-desc">${item.desc}</p>
-        <p class="menu-card-price">${item.price}</p>
-        <button type="button" class="menu-card-btn">+ Add to Order</button>
+        ${item.isPizza ? `<p class="menu-card-from">From</p><p class="menu-card-price">${item.fromPrice}</p>` : `<p class="menu-card-price">${item.price}</p>`}
+        <button type="button" class="menu-card-btn">${item.isPizza ? 'Choose Size →' : '+ Add to Order'}</button>
       </div>
     </article>`).join('');
 })();
@@ -1253,13 +1293,33 @@ function openMenuOverlay(item) {
   if (overlayOpen) return;
   overlayOpen = true;
   const name = item.dataset.name, price = item.dataset.price, desc = item.dataset.desc, img = item.dataset.img;
+  const isPizza = !!item.dataset.isPizza;
   document.getElementById('overlayImg').src = img;
   document.getElementById('overlayImg').alt = name;
   document.getElementById('overlayTitle').textContent = name;
   document.getElementById('overlayDesc').textContent = desc;
-  document.getElementById('overlayPrice').textContent = price;
-  const waMsg = `I'd like to order: ${name} - ${price}`;
-  document.getElementById('overlayWa').href = 'https://wa.link/7v1ndm?text=' + encodeURIComponent(waMsg);
+  const sizesEl = document.getElementById('overlayPizzaSizes');
+  const waBtn = document.getElementById('overlayWa');
+  if (isPizza) {
+    document.getElementById('overlayPrice').textContent = 'From $33.39';
+    sizesEl.style.display = 'flex';
+    sizesEl.querySelectorAll('.overlay-size-opt').forEach(btn => {
+      btn.classList.remove('selected');
+      btn.onclick = () => {
+        sizesEl.querySelectorAll('.overlay-size-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        document.getElementById('overlayPrice').textContent = '$' + btn.dataset.price;
+      };
+    });
+  } else {
+    document.getElementById('overlayPrice').textContent = price;
+    sizesEl.style.display = 'none';
+  }
+  waBtn.textContent = 'Build Your Order →';
+  waBtn.onclick = () => {
+    closeMenuOverlay();
+    document.getElementById('builder').scrollIntoView({ behavior: 'smooth' });
+  };
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
   if (lenis) lenis.stop();
