@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biza Pizzas — Authentic Brazilian Pizza · Philadelphia</title>
+<meta name="description" content="Authentic Brazilian pizza with stuffed crust, pastéis, and esfihas. Northeast Philadelphia's best-kept secret. Order via WhatsApp or DoorDash.">
+<meta property="og:title" content="Biza Pizzas — Authentic Brazilian Pizza">
+<meta property="og:description" content="Stuffed crust. Natural ingredients. Brazilian flavor. 6339 Rising Sun Ave, Philadelphia.">
+<meta property="og:image" content="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="https://img.cdn4dd.com/p/fit=contain,width=200,height=200,format=auto,quality=95/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03">
+<link rel="preload" as="image" href="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<style>
+/* ── RESET & VARIABLES ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --red:#C8282A;
+  --dark:#120A06;
+  --cream:#F5EDD8;
+  --gold:#B8860B;
+  --slate:#1C0E08;
+  --text:#1a1a1a;
+  --warm:#FAF5EC;
+  --review-bg:#FDF3E3;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+html { font-size:16px; }
+body { font-family:var(--sans); color:var(--text); background:var(--cream); overflow-x:hidden; cursor:none; }
+img { display:block; max-width:100%; }
+a { text-decoration:none; color:inherit; }
+button { background:none; border:none; font-family:var(--sans); cursor:none; }
+section { position:relative; }
+#hero, #about, #menu, #gallery, #order, #reviews, #hours, #builder {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+#hero         { z-index:1; }
+#about        { z-index:2; }
+#menu         { z-index:3; }
+#builder      { z-index:4; }
+#gallery      { z-index:5; }
+#order        { z-index:6; }
+#reviews      { z-index:7; }
+#hours        { z-index:8; }
+#footer       { z-index:9; }
+
+/* ── CUSTOM CURSOR ── */
+#cursor {
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--red); transform:translate(-50%,-50%);
+  transition:width .25s,height .25s,background .25s;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:600; color:#fff; letter-spacing:.05em;
+  overflow:hidden; white-space:nowrap;
+}
+#cursor.state-hover { width:44px; height:44px; background:rgba(200,40,42,.75); }
+#cursor.state-image { width:60px; height:60px; background:rgba(200,40,42,.65); }
+#cursor.state-drag  { width:64px; height:64px; background:rgba(28,14,8,.9); }
+#cursor span { opacity:0; transition:opacity .2s; font-size:9px; text-transform:uppercase; letter-spacing:.08em; }
+#cursor.state-hover span, #cursor.state-image span, #cursor.state-drag span { opacity:1; }
+
+/* ── NAV PILL ── */
+#nav {
+  position:fixed; top:20px; left:50%; transform:translateX(-50%);
+  background:rgba(255,255,255,.88); backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(0,0,0,.08); border-radius:50px;
+  padding:10px 20px; display:flex; align-items:center; gap:36px;
+  z-index:998; box-shadow:0 4px 24px rgba(0,0,0,.06);
+  transition:box-shadow .35s, background .35s;
+  white-space:nowrap;
+}
+#nav.scrolled { box-shadow:0 8px 40px rgba(0,0,0,.14); background:rgba(255,255,255,.96); }
+#nav.nav-dark { background:rgba(18,10,6,.88); border-color:rgba(255,255,255,.12); }
+#nav.nav-dark .nav-link { color:rgba(255,255,255,.8); }
+#nav.nav-dark .nav-logo { color:#fff; }
+.nav-logo { display:flex; align-items:center; }
+.nav-logo img { height:42px; width:42px; object-fit:contain; border-radius:8px; }
+.nav-links { display:flex; gap:28px; }
+.nav-link { font-size:.82rem; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--slate); opacity:.7; transition:opacity .2s; }
+.nav-link:hover { opacity:1; }
+.nav-order {
+  background:var(--red); color:#fff; border-radius:50px;
+  padding:8px 20px; font-size:.82rem; font-weight:600; letter-spacing:.05em;
+  text-transform:uppercase; transition:transform .2s, box-shadow .2s;
+}
+.nav-order:hover { box-shadow:0 4px 20px rgba(200,40,42,.45); }
+
+/* ── HERO ── */
+#hero {
+  position:relative; height:100vh; min-height:640px;
+  display:flex; align-items:center; overflow:hidden;
+}
+.hero-bg { position:absolute; inset:0; z-index:0; background:#0a0806; }
+.hero-slide {
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  opacity:0; will-change:transform,opacity;
+  animation:heroSlide 24s ease-in-out infinite;
+}
+.hero-slide:nth-child(1) { animation-delay:0s; }
+.hero-slide:nth-child(2) { animation-delay:8s; }
+.hero-slide:nth-child(3) { animation-delay:16s; }
+@keyframes heroSlide {
+  0%   { opacity:0; transform:scale(1)    translate(0,0); }
+  6%   { opacity:1; transform:scale(1)    translate(0,0); }
+  32%  { opacity:1; transform:scale(1.07) translate(-0.8%,-0.4%); }
+  38%  { opacity:0; transform:scale(1.09) translate(-1%,-0.5%); }
+  100% { opacity:0; transform:scale(1.09) translate(-1%,-0.5%); }
+}
+.hero-overlay {
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(108deg, rgba(6,2,0,.92) 0%, rgba(6,2,0,.74) 40%, rgba(6,2,0,.28) 66%, rgba(6,2,0,.06) 100%),
+    linear-gradient(to top, rgba(6,2,0,.6) 0%, transparent 44%);
+}
+.hero-content {
+  position:relative; z-index:2;
+  width:100%; max-width:1300px; margin:0 auto; padding:0 80px;
+}
+.hero-eyebrow {
+  font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--red); margin-bottom:28px;
+  display:flex; align-items:center; gap:12px; opacity:0;
+}
+.hero-eyebrow::before {
+  content:''; display:inline-block; width:32px; height:1px;
+  background:var(--red); flex-shrink:0;
+}
+.hero-title {
+  font-family:var(--serif); font-size:clamp(3.8rem,7.5vw,8rem);
+  line-height:.97; color:#fff; margin-bottom:32px;
+  perspective:1200px; max-width:680px;
+}
+.hero-title em { font-style:normal; color:var(--red); }
+.hero-tagline {
+  font-size:1.05rem; font-weight:300; color:rgba(255,255,255,.55);
+  line-height:1.78; font-style:italic; max-width:440px;
+  margin-bottom:52px; opacity:0;
+}
+.hero-ctas { display:flex; gap:16px; align-items:center; flex-wrap:wrap; opacity:0; }
+.btn-red {
+  background:var(--red); color:#fff; border-radius:50px;
+  padding:16px 38px; font-size:.9rem; font-weight:600;
+  letter-spacing:.06em; display:inline-block;
+  box-shadow:0 8px 32px rgba(200,40,42,.42);
+  transition:transform .22s, box-shadow .22s;
+}
+.btn-red:hover { transform:translateY(-2px); box-shadow:0 14px 44px rgba(200,40,42,.56); }
+.btn-glass {
+  border:1.5px solid rgba(255,255,255,.38); color:#fff;
+  border-radius:50px; padding:14px 34px; font-size:.9rem;
+  font-weight:400; letter-spacing:.04em; display:inline-block;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.07);
+  transition:background .25s, border-color .25s;
+}
+.btn-glass:hover { background:rgba(255,255,255,.13); border-color:rgba(255,255,255,.65); }
+.hero-badge {
+  position:absolute; bottom:52px; right:72px; z-index:3; opacity:0;
+  width:112px; height:112px; border-radius:50%;
+  background:var(--red); color:#fff;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; font-size:.72rem; font-weight:600;
+  line-height:1.5; letter-spacing:.04em;
+  box-shadow:0 12px 48px rgba(200,40,42,.5), 0 0 0 6px rgba(200,40,42,.15);
+  animation:badgePulse 4s ease-in-out infinite;
+}
+.hero-badge .badge-stars { font-size:1rem; margin-bottom:3px; }
+@keyframes badgePulse {
+  0%,100% { box-shadow:0 12px 48px rgba(200,40,42,.5),  0 0 0 6px  rgba(200,40,42,.15); }
+  50%     { box-shadow:0 12px 48px rgba(200,40,42,.62), 0 0 0 13px rgba(200,40,42,.08); }
+}
+.hero-scroll {
+  position:absolute; bottom:44px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  z-index:3; opacity:0;
+  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
+  color:rgba(255,255,255,.32);
+}
+.hero-scroll-line {
+  width:1px; height:52px; background:rgba(255,255,255,.18);
+  position:relative; overflow:hidden;
+}
+.hero-scroll-line::after {
+  content:''; position:absolute; top:-100%; left:0; width:100%; height:100%;
+  background:var(--red); animation:scrollLineAnim 2.2s ease-in-out infinite;
+}
+@keyframes scrollLineAnim { 0%{top:-100%} 50%{top:0} 100%{top:100%} }
+
+/* ── MARQUEE ── */
+#marquee { background:var(--red); padding:18px 0; overflow:hidden; }
+.marquee-track {
+  display:flex; gap:60px; align-items:center;
+  animation:marqueeScroll 28s linear infinite;
+  width:max-content;
+}
+.marquee-item { font-size:.9rem; font-weight:500; color:#fff; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; }
+.marquee-sep { color:rgba(255,255,255,.5); flex-shrink:0; }
+@keyframes marqueeScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── ABOUT ── */
+#about { background:var(--cream); padding:120px 80px; overflow:hidden; }
+.about-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1300px; margin:0 auto; }
+.about-left { position:relative; }
+.about-watermark {
+  position:absolute; top:-30px; left:-20px;
+  font-family:var(--serif); font-size:clamp(80px,12vw,180px);
+  color:rgba(200,40,42,.055); line-height:1; white-space:nowrap;
+  pointer-events:none; user-select:none; z-index:0;
+}
+.about-content { position:relative; z-index:1; }
+.about-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:20px; }
+.about-title { font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.4rem); line-height:1.15; color:var(--slate); margin-bottom:24px; }
+.about-body { font-size:1rem; line-height:1.8; color:rgba(26,26,26,.65); max-width:440px; margin-bottom:48px; }
+.about-stats { display:flex; gap:40px; }
+.stat-num { font-family:var(--serif); font-size:2.4rem; color:var(--slate); line-height:1; }
+.stat-label { font-size:.78rem; color:rgba(26,26,26,.5); letter-spacing:.06em; text-transform:uppercase; margin-top:4px; }
+.about-right { position:relative; height:520px; }
+.about-img {
+  position:absolute; border-radius:12px; overflow:hidden;
+  box-shadow:0 24px 80px rgba(0,0,0,.16);
+}
+.about-img img { width:100%; height:100%; object-fit:cover; }
+.about-img-1 { width:300px; height:380px; top:0; right:60px; transform:rotate(-3deg); }
+.about-img-2 { width:260px; height:320px; bottom:0; right:0; transform:rotate(2deg); }
+.women-badge {
+  position:absolute; bottom:20px; left:20px; z-index:2;
+  background:var(--red); color:#fff; border-radius:50px;
+  padding:8px 18px; font-size:.75rem; font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase; box-shadow:0 4px 20px rgba(200,40,42,.4);
+}
+
+/* ── MENU ── */
+#menu { background:var(--slate); padding:100px 80px 120px; }
+.menu-header { text-align:center; margin-bottom:48px; }
+.menu-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; }
+.menu-title { font-family:var(--serif); font-size:clamp(2.4rem,4.5vw,4rem); color:#fff; line-height:1.1; }
+.menu-subtitle { font-size:.95rem; color:rgba(255,255,255,.45); margin-top:12px; font-style:italic; }
+.menu-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:36px; }
+.menu-tab { background:rgba(255,255,255,.07); color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:8px 20px; font-size:.82rem; letter-spacing:.06em; cursor:pointer; transition:all .2s ease; }
+.menu-tab:hover { background:rgba(200,40,42,.15); border-color:var(--red); color:#fff; }
+.menu-tab.active { background:var(--red); border-color:var(--red); color:#fff; }
+.menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1200px; margin:0 auto; }
+.menu-card {
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:16px; overflow:hidden; cursor:pointer;
+  display:flex; flex-direction:column;
+  transition:transform .25s ease, box-shadow .25s ease;
+  opacity:0; transform:translateY(40px);
+  position:relative;
+}
+@media (hover:hover) and (pointer:fine) {
+  .menu-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.35); }
+}
+.menu-card-img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+.menu-card-body { padding:20px; display:flex; flex-direction:column; gap:10px; flex:1; }
+.menu-card-name { font-size:1.1rem; font-weight:700; color:#fff; line-height:1.25; }
+.menu-card-desc { font-size:.82rem; color:rgba(255,255,255,.6); line-height:1.5; flex:1; }
+.menu-card-price { font-size:1.2rem; font-weight:700; color:var(--red); }
+.menu-card-btn {
+  width:100%; background:var(--red); color:#fff; border:none; border-radius:8px;
+  padding:10px; font-size:.82rem; font-weight:600; letter-spacing:.04em;
+  margin-top:4px; transition:background .2s;
+}
+.menu-card-btn:hover { background:#a81f21; }
+
+/* ── MENU OVERLAY ── */
+#menu-overlay {
+  position:fixed; inset:0; background:rgba(13,10,8,.92); z-index:800;
+  display:none; align-items:center; justify-content:center; padding:40px 24px;
+}
+.menu-overlay-inner { max-width:520px; width:100%; background:var(--slate); border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.1); position:relative; }
+.menu-overlay-img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+.menu-overlay-body { padding:28px; }
+.menu-overlay-title { font-family:var(--serif); font-size:1.8rem; color:#fff; margin-bottom:8px; }
+.menu-overlay-desc { font-size:.9rem; color:rgba(255,255,255,.55); line-height:1.6; margin-bottom:16px; }
+.menu-overlay-price { font-size:1.5rem; font-weight:700; color:var(--red); margin-bottom:20px; }
+.menu-overlay-wa {
+  display:block; width:100%; text-align:center; background:var(--red); color:#fff;
+  padding:14px; border-radius:10px; font-weight:700; font-size:.95rem;
+  transition:background .2s;
+}
+.menu-overlay-wa:hover { background:#a81f21; }
+#menu-close {
+  position:absolute; top:16px; right:16px; width:40px; height:40px;
+  border-radius:50%; background:rgba(0,0,0,.5); color:#fff;
+  font-size:2rem; line-height:1; display:flex; align-items:center; justify-content:center;
+  transition:background .2s; z-index:801; border:none; cursor:pointer;
+}
+#menu-close:hover { background:rgba(0,0,0,.75); }
+
+/* ── PIZZA BUILDER ── */
+#builder { background:var(--dark); padding:100px 0; }
+#builder .container { max-width:1200px; margin:0 auto; padding:0 80px; }
+#builder .section-label { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; font-weight:600; }
+#builder .section-title { font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.5rem); color:#fff; line-height:1.1; margin-bottom:12px; }
+#builder .section-title em { font-style:normal; color:var(--red); }
+#builder .section-sub { font-size:.95rem; color:rgba(255,255,255,.45); margin-bottom:0; font-style:italic; }
+.builder-layout { display:grid; grid-template-columns:1fr 380px; gap:48px; margin-top:56px; align-items:start; }
+.builder-step { margin-bottom:40px; }
+.step-label { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; font-weight:600; }
+.size-options { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.size-card { position:relative; background:rgba(255,255,255,.04); border:2px solid rgba(255,255,255,.1); border-radius:14px; padding:20px 16px; cursor:pointer; transition:all .2s ease; text-align:center; }
+.size-card:hover { border-color:rgba(200,40,42,.5); background:rgba(200,40,42,.07); }
+.size-card.selected { border-color:var(--red); background:rgba(200,40,42,.12); }
+.size-name { font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:4px; }
+.size-slices { font-size:.78rem; color:rgba(255,255,255,.5); margin-bottom:10px; }
+.size-price { font-size:1.25rem; font-weight:700; color:var(--red); }
+.size-badge { position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:var(--red); color:#fff; font-size:.65rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:3px 10px; border-radius:999px; white-space:nowrap; }
+.flavor-options, .extras-options { display:flex; flex-wrap:wrap; gap:10px; }
+.flavor-btn { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.75); border-radius:999px; padding:9px 18px; font-size:.85rem; cursor:pointer; transition:all .18s ease; }
+.flavor-btn:hover { border-color:var(--red); color:#fff; }
+.flavor-btn.selected { background:var(--red); border-color:var(--red); color:#fff; font-weight:600; }
+.extra-btn { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); color:rgba(255,255,255,.7); border-radius:10px; padding:10px 16px; font-size:.83rem; cursor:pointer; transition:all .18s ease; display:flex; gap:8px; align-items:center; }
+.extra-btn span { color:rgba(255,255,255,.45); font-size:.78rem; }
+.extra-btn:hover { border-color:rgba(200,40,42,.4); }
+.extra-btn.selected { background:rgba(200,40,42,.15); border-color:var(--red); color:#fff; }
+.extra-btn.selected span { color:rgba(255,255,255,.6); }
+.builder-summary { background:var(--slate); border:1px solid rgba(255,255,255,.08); border-radius:20px; padding:32px; position:sticky; top:100px; }
+.summary-header { font-size:1.1rem; font-weight:700; color:#fff; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:16px; margin-bottom:20px; }
+.summary-placeholder { color:rgba(255,255,255,.35); font-size:.88rem; text-align:center; padding:20px 0; }
+.summary-line { display:flex; justify-content:space-between; color:rgba(255,255,255,.75); font-size:.88rem; margin-bottom:10px; }
+.summary-line.main { color:#fff; font-weight:600; font-size:.95rem; }
+.summary-total { display:flex; justify-content:space-between; border-top:1px solid rgba(255,255,255,.12); padding-top:16px; margin-top:8px; margin-bottom:24px; font-size:1.1rem; font-weight:700; color:#fff; }
+.place-order-btn { width:100%; background:var(--red); color:#fff; border:none; border-radius:12px; padding:16px; font-size:1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all .2s ease; }
+.place-order-btn:hover:not(:disabled) { background:#a81f21; transform:translateY(-1px); box-shadow:0 8px 28px rgba(200,40,42,.4); }
+.place-order-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.wa-note { text-align:center; font-size:.75rem; color:rgba(255,255,255,.35); margin-top:12px; }
+/* ── ORDER CONFIRMATION OVERLAY ── */
+#order-confirm-overlay { position:fixed; inset:0; background:rgba(18,10,6,.97); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px; }
+#order-confirm-overlay.active { display:flex; }
+.confirm-box { background:var(--slate); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:40px 36px; max-width:460px; width:100%; text-align:center; }
+.confirm-check { width:72px; height:72px; border-radius:50%; background:var(--red); color:#fff; font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; animation:checkPop .45s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes checkPop { from{scale:0;opacity:0} to{scale:1;opacity:1} }
+.confirm-order-num { font-family:var(--serif); font-size:2.2rem; color:var(--cream); margin-bottom:4px; }
+.confirm-preparing { font-size:.85rem; color:rgba(255,255,255,.4); margin-bottom:24px; font-style:italic; }
+.confirm-items-list { background:rgba(255,255,255,.04); border-radius:12px; padding:16px 20px; margin-bottom:2px; text-align:left; }
+.confirm-item-row { display:flex; justify-content:space-between; color:rgba(255,255,255,.7); font-size:.88rem; margin-bottom:8px; }
+.confirm-item-row:last-child { margin-bottom:0; }
+.confirm-total-row { display:flex; justify-content:space-between; font-size:1.1rem; font-weight:700; color:#fff; border-top:1px solid rgba(255,255,255,.1); padding-top:12px; margin:0 0 24px; }
+.confirm-status { font-size:1rem; color:var(--cream); font-weight:600; margin-bottom:6px; }
+.confirm-eta { font-size:.88rem; color:rgba(255,255,255,.45); margin-bottom:6px; }
+.confirm-track { font-size:.78rem; color:rgba(255,255,255,.2); font-style:italic; margin-bottom:28px; }
+.confirm-track a { color:rgba(200,40,42,.6); }
+.confirm-close-btn { width:100%; background:var(--red); color:#fff; border:none; border-radius:12px; padding:14px; font-size:.95rem; font-weight:700; cursor:pointer; transition:background .2s; }
+.confirm-close-btn:hover { background:#a81f21; }
+
+/* ── GALLERY ── */
+#gallery { background:var(--cream); padding:100px 80px 0; }
+.gallery-header { margin-bottom:56px; }
+.gallery-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; }
+.gallery-title { font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.4rem); color:var(--slate); }
+.masonry { columns:3; column-gap:16px; max-width:1400px; margin:0 auto; }
+.masonry-item { break-inside:avoid; margin-bottom:16px; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
+.masonry-item img { width:100%; display:block; transition:transform .5s ease; clip-path:inset(0 100% 0 0); }
+.masonry-item:hover img { transform:scale(1.04); }
+.masonry-item.tall img { height:420px; object-fit:cover; }
+.masonry-item.short img { height:260px; object-fit:cover; }
+.masonry-item.square img { height:320px; object-fit:cover; }
+.gallery-panorama { width:100%; height:420px; overflow:hidden; margin-top:16px; }
+.gallery-panorama img { width:100%; height:100%; object-fit:cover; clip-path:inset(0 100% 0 0); }
+
+/* Lightbox */
+#lightbox { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:900; display:none; align-items:center; justify-content:center; }
+#lightbox.active { display:flex; }
+#lightbox img { max-width:90vw; max-height:88vh; border-radius:8px; object-fit:contain; }
+#lightbox-close { position:absolute; top:24px; right:32px; color:#fff; font-size:2rem; cursor:none; }
+
+/* ── ORDER SECTION (replaces reservations) ── */
+#order { background:#fff; padding:120px 80px; }
+.order-inner { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; max-width:1200px; margin:0 auto; }
+.order-left { position:relative; }
+.order-blob {
+  position:absolute; width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle,rgba(200,40,42,.08),transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;
+}
+.order-quote { font-family:var(--serif); font-style:italic; font-size:clamp(1.8rem,3vw,2.6rem); color:var(--slate); line-height:1.3; margin-bottom:32px; position:relative; z-index:1; }
+.order-quote::before { content:'"'; font-size:6rem; color:rgba(200,40,42,.12); font-family:var(--serif); position:absolute; top:-30px; left:-20px; line-height:1; }
+.order-attrib { font-size:.85rem; font-weight:600; color:var(--slate); margin-bottom:20px; position:relative; z-index:1; }
+.order-sub { font-size:.88rem; color:rgba(26,26,26,.5); line-height:1.8; position:relative; z-index:1; }
+.order-right { }
+.order-title { font-family:var(--serif); font-size:1.8rem; color:var(--slate); margin-bottom:12px; }
+.order-desc { font-size:.95rem; color:rgba(26,26,26,.55); line-height:1.7; margin-bottom:36px; }
+.order-options { display:flex; flex-direction:column; gap:16px; }
+.order-btn {
+  display:flex; align-items:center; gap:18px;
+  padding:22px 28px; border-radius:16px; border:1.5px solid rgba(26,26,26,.1);
+  background:#fafafa; transition:all .25s; cursor:none;
+  text-decoration:none; color:var(--text);
+}
+.order-btn:hover { border-color:var(--red); background:#fff; transform:translateY(-2px); box-shadow:0 8px 32px rgba(200,40,42,.12); }
+.order-btn-icon { font-size:2rem; flex-shrink:0; }
+.order-btn-text strong { display:block; font-weight:600; font-size:1rem; color:var(--slate); margin-bottom:2px; }
+.order-btn-text span { font-size:.85rem; color:rgba(26,26,26,.5); }
+.order-btn.primary { background:var(--red); border-color:var(--red); color:#fff; }
+.order-btn.primary:hover { background:#a81f21; border-color:#a81f21; box-shadow:0 8px 32px rgba(200,40,42,.35); }
+.order-btn.primary .order-btn-text strong { color:#fff; }
+.order-btn.primary .order-btn-text span { color:rgba(255,255,255,.7); }
+
+/* ── REVIEWS ── */
+#reviews { background:var(--review-bg); padding:100px 0 120px; overflow:hidden; }
+.reviews-header { padding:0 80px; display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; }
+.reviews-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#B8860B; margin-bottom:12px; }
+.reviews-title { font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.2rem); color:var(--slate); }
+.reviews-progress-wrap { width:200px; }
+.reviews-progress-label { font-size:.75rem; color:rgba(26,26,26,.4); margin-bottom:8px; letter-spacing:.06em; text-transform:uppercase; }
+.reviews-progress-bar { height:3px; background:rgba(26,26,26,.12); border-radius:2px; overflow:hidden; }
+.reviews-progress-fill { height:100%; width:0%; background:var(--red); border-radius:2px; transform-origin:left; }
+.reviews-track-wrap { overflow:visible; padding:20px 80px 40px; cursor:none; }
+.reviews-track { display:flex; gap:24px; width:max-content; }
+.review-card {
+  width:380px; flex-shrink:0; background:#fff; border-radius:20px;
+  padding:36px 32px; box-shadow:0 4px 32px rgba(0,0,0,.06);
+  transform-style:preserve-3d; perspective:800px;
+  opacity:0; transform:translateY(40px) scale(.93);
+}
+.review-stars { color:var(--red); font-size:1.1rem; margin-bottom:20px; letter-spacing:2px; }
+.review-text { font-size:.95rem; line-height:1.7; color:rgba(26,26,26,.7); margin-bottom:28px; font-style:italic; }
+.review-author { display:flex; align-items:center; gap:14px; }
+.review-photo { width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0; background:var(--red); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:1.1rem; }
+.review-name { font-weight:600; font-size:.9rem; color:var(--slate); }
+.review-via { font-size:.78rem; color:rgba(26,26,26,.4); margin-top:2px; }
+
+/* ── HOURS + LOCATION ── */
+#hours { background:var(--cream); padding:120px 80px; }
+.hours-inner { display:grid; grid-template-columns:1fr 1.1fr; gap:80px; max-width:1200px; margin:0 auto; align-items:start; }
+.hours-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; }
+.hours-left { }
+.hours-title { font-family:var(--serif); font-size:clamp(2rem,3.5vw,3rem); color:var(--slate); margin-bottom:36px; }
+.hours-cards { display:flex; flex-direction:column; gap:4px; }
+.hours-row { display:flex; justify-content:space-between; align-items:center; padding:13px 18px; border-radius:10px; background:transparent; transition:background .2s; }
+.hours-row:hover { background:rgba(200,40,42,.04); }
+.hours-row.today { background:rgba(200,40,42,.08); border:1px solid rgba(200,40,42,.18); }
+.hours-row.closed .hours-day, .hours-row.closed .hours-time { opacity:.35; }
+.hours-day { font-size:.92rem; font-weight:500; color:var(--slate); display:flex; align-items:center; gap:10px; }
+.hours-time { font-size:.9rem; color:rgba(26,26,26,.55); }
+.hours-row.today .hours-time { color:var(--red); font-weight:600; }
+.today-pill { background:var(--red); color:#fff; border-radius:20px; padding:2px 10px; font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.hours-right { display:flex; flex-direction:column; gap:16px; }
+.hours-sub { font-size:.9rem; color:rgba(26,26,26,.45); margin-bottom:32px; font-style:italic; line-height:1.6; }
+.hours-map-wrap { width:100%; height:380px; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.18); }
+.map-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.map-link { display:inline-block; padding:11px 22px; border-radius:50px; font-size:.82rem; font-weight:600; letter-spacing:.03em; transition:all .2s; }
+.map-link.red { background:var(--red); color:#fff; box-shadow:0 4px 16px rgba(200,40,42,.3); }
+.map-link.red:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(200,40,42,.42); }
+.map-link.outline { border:1.5px solid rgba(26,26,26,.18); color:var(--slate); background:#fff; }
+.map-link.outline:hover { border-color:var(--red); color:var(--red); }
+
+/* ── FOOTER ── */
+#footer { background:var(--slate); padding:80px 80px 40px; }
+.footer-inner { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:60px; padding-bottom:60px; border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:32px; }
+.footer-brand-name { font-family:var(--serif); font-size:1.8rem; color:#fff; margin-bottom:8px; }
+.footer-tagline { font-size:.85rem; color:rgba(255,255,255,.4); line-height:1.6; margin-bottom:28px; }
+.footer-socials { display:flex; gap:12px; }
+.social-icon {
+  width:40px; height:40px; border-radius:50%; border:1px solid rgba(255,255,255,.15);
+  display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.6);
+  transition:background .2s, border-color .2s;
+}
+.social-icon:hover { background:var(--red); border-color:var(--red); color:#fff; }
+.social-icon svg { width:16px; height:16px; }
+.footer-col-title { font-size:.78rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:20px; }
+.footer-links { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-links li a { font-size:.9rem; color:rgba(255,255,255,.55); transition:color .2s; }
+.footer-links li a:hover { color:#fff; }
+.footer-contact p { font-size:.9rem; color:rgba(255,255,255,.55); line-height:1.8; }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; }
+.footer-copy { font-size:.78rem; color:rgba(255,255,255,.25); }
+.footer-credit { font-size:.78rem; color:rgba(255,255,255,.25); }
+.footer-credit a { color:rgba(255,255,255,.4); transition:color .2s; }
+.footer-credit a:hover { color:#fff; }
+
+/* ── SCROLL RIVER ── */
+#scroll-river { position:fixed; left:0; top:0; width:3px; height:0%; background:var(--red); z-index:9999; border-radius:0 2px 2px 0; pointer-events:none; }
+
+/* ── SECTION COUNTER ── */
+#section-counter {
+  position:fixed; right:28px; top:50%; transform:translateY(-50%);
+  z-index:9998; display:flex; flex-direction:column; align-items:center;
+  gap:4px; font-family:var(--sans); font-size:9px;
+  font-weight:600; letter-spacing:.12em; color:rgba(0,0,0,.3); pointer-events:none; transition:color .4s;
+}
+#section-counter .sc-line { width:1px; height:40px; background:currentColor; margin:4px auto; opacity:.35; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  *, *::before, *::after { cursor:auto !important; }
+  #cursor { display:none; }
+  body { cursor:auto; }
+  #nav { gap:12px; padding:10px 16px; top:14px; max-width:calc(100vw - 32px); }
+  .nav-links { display:none; }
+  .nav-logo { font-size:1.1rem; }
+  .nav-order { padding:7px 16px; font-size:.75rem; }
+  #hero { height:100svh; min-height:560px; align-items:center; }
+  .hero-content { padding:0 24px; margin-top:60px; }
+  .hero-title { font-size:clamp(3rem,11vw,4.2rem); max-width:100%; }
+  .hero-tagline { display:none; }
+  .hero-ctas { gap:12px; }
+  .btn-red { padding:14px 28px; font-size:.84rem; }
+  .btn-glass { padding:12px 24px; font-size:.84rem; }
+  .hero-badge { bottom:auto; right:20px; top:50%; transform:translateY(-50%); width:88px; height:88px; font-size:.62rem; }
+  .hero-scroll { display:none; }
+  #about { padding:80px 24px 60px; }
+  .about-inner { grid-template-columns:1fr; gap:48px; }
+  .about-right { height:280px; }
+  .about-img-1 { width:60%; height:220px; right:4%; }
+  .about-img-2 { width:52%; height:180px; bottom:0; right:0; }
+  .about-stats { gap:20px; flex-wrap:wrap; }
+  .stat-num { font-size:1.8rem; }
+  #menu { padding:80px 24px 100px; }
+  .menu-grid { grid-template-columns:1fr; gap:16px; max-width:100%; }
+  #builder { padding:80px 0; }
+  #builder .container { padding:0 24px; }
+  .builder-layout { grid-template-columns:1fr; gap:32px; }
+  .size-options { grid-template-columns:1fr; }
+  .builder-summary { position:static; }
+  #gallery { padding-left:0; padding-right:0; }
+  .gallery-header { padding:0 24px; margin-bottom:32px; }
+  .masonry { columns:1; gap:10px; padding:0 24px; }
+  .masonry-item { margin-bottom:10px; }
+  .gallery-panorama { margin:0 24px; width:calc(100% - 48px); }
+  #order { padding:80px 24px; }
+  .order-inner { grid-template-columns:1fr; gap:40px; }
+  #reviews { padding-bottom:60px; }
+  .reviews-header { flex-direction:column; align-items:flex-start; gap:16px; padding:60px 24px 0; }
+  .reviews-track-wrap { padding:24px 24px 40px; }
+  .review-card { width:min(340px, 82vw); padding:28px 24px; }
+  #hours { padding:80px 24px; }
+  .hours-inner { grid-template-columns:1fr; gap:48px; }
+  .hours-map-wrap { height:280px; }
+  .map-actions { justify-content:center; }
+  #footer { padding:60px 24px 40px; }
+  .footer-inner { grid-template-columns:1fr; gap:36px; }
+  #scroll-river, #section-counter { display:none; }
+  #about, #menu, #builder, #gallery, #order, #reviews, #hours { clip-path:none !important; transform:none !important; filter:none !important; }
+}
+@media(max-width:900px) {
+  .builder-layout { grid-template-columns:1fr; }
+  #builder .container { padding:0 40px; }
+  .menu-grid { grid-template-columns:repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-river"></div>
+<div id="section-counter">
+  <span id="section-num">01</span>
+  <div class="sc-line"></div>
+  <span id="section-name">WELCOME</span>
+</div>
+<div id="cursor"><span id="cursor-label">CLICK</span></div>
+
+<!-- NAV -->
+<nav id="nav" class="nav-dark">
+  <a href="#" class="nav-logo"><img src="https://img.cdn4dd.com/p/fit=contain,width=200,height=200,format=auto,quality=95/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza"></a>
+  <div class="nav-links">
+    <a href="#about" class="nav-link">Story</a>
+    <a href="#menu" class="nav-link">Menu</a>
+    <a href="#builder" class="nav-link" style="color:var(--red);font-weight:600;">Build Pizza</a>
+    <a href="#gallery" class="nav-link">Gallery</a>
+    <a href="#order" class="nav-link">Order</a>
+    <a href="#reviews" class="nav-link">Reviews</a>
+  </div>
+  <a href="#builder" class="nav-order magnetic-btn">Order Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-slide" style="background-image:url('https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('https://img.cdn4dd.com/p/fit=cover,width=1800,height=1200,format=auto,quality=88/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03')"></div>
+    <div class="hero-slide" style="background-image:url('https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg')"></div>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <img src="https://img.cdn4dd.com/p/fit=contain,width=200,height=200,format=auto,quality=95/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="hero-logo-badge" style="width:80px;height:80px;object-fit:contain;border-radius:50%;border:3px solid var(--red);background:#fff;padding:4px;display:block;margin:0 auto 20px;">
+    <p class="hero-eyebrow">Rising Sun Ave · Philadelphia, PA</p>
+    <h1 class="hero-title">Authentic<br><em>Brazilian</em><br>Pizza</h1>
+    <p class="hero-tagline">Stuffed crust. Natural ingredients. A taste of Brazil right here in Northeast Philly — crafted with love since day one.</p>
+    <div class="hero-ctas">
+      <a href="#builder" class="btn-red magnetic-btn">📲 Order Now</a>
+      <a href="#menu" class="btn-glass magnetic-btn">See the Menu</a>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <span class="badge-stars">★ 4.7</span>
+    <span>4.7 · Google<br>Best Brazilian<br>in Philly</span>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div id="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Pizza com Borda Recheada</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Pastel de Camarão</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Esfihas Artesanais</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Frango com Catupiry</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Batata com Cheddar e Bacon</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Banana com Chocolate</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Guaraná Antártica</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Tábua Frita</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Pizza com Borda Recheada</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Pastel de Camarão</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Esfihas Artesanais</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Frango com Catupiry</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Batata com Cheddar e Bacon</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Banana com Chocolate</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Guaraná Antártica</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Tábua Frita</span><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="clip-section">
+  <div class="about-inner">
+    <div class="about-left">
+      <div class="about-watermark">BIZA</div>
+      <div class="about-content">
+        <p class="about-eyebrow">Nossa História · Our Story</p>
+        <h2 class="about-title section-title">A slice of Brazil<br>in Philadelphia</h2>
+        <p class="about-body">We brought authentic Brazilian pizza to Northeast Philadelphia — the kind with golden stuffed crust, natural ingredients, and flavors that feel like São Paulo. Our pastéis are fried fresh to order, our esfihas use long-fermented dough, and every pizza comes out of the kitchen exactly how it was meant to: perfect.</p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-num" data-target="40" data-suffix="+">0</div>
+            <div class="stat-label">Pizza Flavors</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num" data-target="5800" data-suffix="+">0</div>
+            <div class="stat-label">Instagram Fans</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">4.7★</div>
+            <div class="stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-img about-img-1">
+        <img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Brazilian pizza" loading="lazy">
+      </div>
+      <div class="about-img about-img-2">
+        <img src="https://img.cdn4dd.com/p/fit=cover,width=600,height=500,format=auto,quality=92/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza slice" loading="lazy">
+      </div>
+      <div class="women-badge">👩 Women-Owned</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="clip-section">
+  <div class="menu-header">
+    <p class="menu-eyebrow">Cardápio · Our Menu</p>
+    <h2 class="menu-title section-title">Made Fresh.<br>Every Night.</h2>
+    <p class="menu-subtitle">Tap any item to order — all pizzas come with stuffed crust</p>
+  </div>
+  <div class="menu-tabs">
+    <button class="menu-tab active" data-filter="all">All</button>
+    <button class="menu-tab" data-filter="pizzas">🍕 Pizzas</button>
+    <button class="menu-tab" data-filter="esfihas">🥟 Esfihas</button>
+    <button class="menu-tab" data-filter="drinks">🥤 Drinks</button>
+    <button class="menu-tab" data-filter="combos">🎁 Combos</button>
+  </div>
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
+
+<!-- MENU OVERLAY -->
+<div id="menu-overlay">
+  <div class="menu-overlay-inner" id="menuOverlayInner">
+    <button id="menu-close" aria-label="Close">×</button>
+    <img class="menu-overlay-img" id="overlayImg" src="" alt="">
+    <div class="menu-overlay-body">
+      <h2 class="menu-overlay-title" id="overlayTitle"></h2>
+      <p class="menu-overlay-desc" id="overlayDesc"></p>
+      <p class="menu-overlay-price" id="overlayPrice"></p>
+      <a class="menu-overlay-wa" id="overlayWa" href="#builder">Build Your Order →</a>
+    </div>
+  </div>
+</div>
+
+<!-- BUILD YOUR PIZZA -->
+<section id="builder">
+  <div class="container">
+    <div class="section-label">Order Online</div>
+    <h2 class="section-title">Build Your<br><em>Perfect Pizza</em></h2>
+    <p class="section-sub">Choose your size, flavor, and extras — order goes straight to the kitchen.</p>
+    <div class="builder-layout">
+      <div class="builder-steps">
+        <div class="builder-step" data-step="1">
+          <div class="step-label">Step 1 — Choose Your Size</div>
+          <div class="size-options">
+            <div class="size-card" data-size="Broto" data-price="33.39">
+              <div class="size-name">Broto</div>
+              <div class="size-slices">4 slices · Feeds 1–2</div>
+              <div class="size-price">$33.39</div>
+            </div>
+            <div class="size-card" data-size="Grande" data-price="39.59">
+              <div class="size-badge">Most Popular</div>
+              <div class="size-name">Grande</div>
+              <div class="size-slices">8 slices · Feeds 2–3</div>
+              <div class="size-price">$39.59</div>
+            </div>
+            <div class="size-card" data-size="Gigante" data-price="49.49">
+              <div class="size-name">Gigante</div>
+              <div class="size-slices">12 slices · Feeds 3–4</div>
+              <div class="size-price">$49.49</div>
+            </div>
+          </div>
+        </div>
+        <div class="builder-step" data-step="2">
+          <div class="step-label">Step 2 — Choose Your Flavor</div>
+          <div class="flavor-options">
+            <button type="button" class="flavor-btn" data-flavor="Margherita">Margherita</button>
+            <button type="button" class="flavor-btn" data-flavor="Pepperoni">Pepperoni</button>
+            <button type="button" class="flavor-btn" data-flavor="Chicken & Catupiry">Chicken & Catupiry</button>
+            <button type="button" class="flavor-btn" data-flavor="4 Cheese">4 Cheese</button>
+            <button type="button" class="flavor-btn" data-flavor="Calabresa">Calabresa</button>
+            <button type="button" class="flavor-btn" data-flavor="Portuguesa">Portuguesa</button>
+          </div>
+        </div>
+        <div class="builder-step" data-step="3">
+          <div class="step-label">Step 3 — Add Extras <span style="opacity:0.5;font-weight:400">(optional)</span></div>
+          <div class="extras-options">
+            <button type="button" class="extra-btn" data-extra="Extra Cheese" data-price="2.50">Extra Cheese <span>+$2.50</span></button>
+            <button type="button" class="extra-btn" data-extra="Extra Pepperoni" data-price="2.50">Extra Pepperoni <span>+$2.50</span></button>
+            <button type="button" class="extra-btn" data-extra="Stuffed Crust" data-price="3.00">Stuffed Crust <span>+$3.00</span></button>
+            <button type="button" class="extra-btn" data-extra="Guaraná Antártica" data-price="7.59">Guaraná Antártica <span>+$7.59</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="builder-summary">
+        <div class="summary-header">Your Order</div>
+        <div class="summary-body" id="summaryBody">
+          <div class="summary-placeholder">Select a size to start building your order.</div>
+        </div>
+        <div class="summary-total" id="summaryTotal" style="display:none">
+          <span>Total</span>
+          <span id="totalPrice">$0.00</span>
+        </div>
+        <button type="button" class="place-order-btn" id="placeOrderBtn" disabled>
+          🍕&nbsp; Place Order
+        </button>
+        <p class="wa-note">Your order goes straight to the kitchen — 20–25 min.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header">
+    <p class="gallery-eyebrow">@bizapizza</p>
+    <h2 class="gallery-title section-title">Fresh out the kitchen</h2>
+  </div>
+  <div class="masonry" id="masonryGrid">
+    <div class="masonry-item tall"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=430,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=900,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Brazilian pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=540,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza top view" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Kitchen" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=400,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza cheese" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=550,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Fresh pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=880,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=520,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza night" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=560,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Restaurant" class="reveal-img-clip" loading="lazy"></div>
+  </div>
+  <div class="gallery-panorama">
+    <img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza spread" class="reveal-img-clip" loading="lazy">
+  </div>
+</section>
+
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ORDER CONFIRMATION OVERLAY -->
+<div id="order-confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-check">✓</div>
+    <div class="confirm-order-num" id="confirmOrderNum">#0000</div>
+    <p class="confirm-preparing">Biza Pizza · 6339 Rising Sun Ave</p>
+    <div class="confirm-items-list" id="confirmItemsList"></div>
+    <div class="confirm-total-row">
+      <span>Total</span>
+      <span id="confirmTotal">$0.00</span>
+    </div>
+    <p class="confirm-status">Your order is being prepared!</p>
+    <p class="confirm-eta">Estimated time: 20–25 minutes</p>
+    <p class="confirm-track"><a href="#">Track your order →</a> (demo only)</p>
+    <button class="confirm-close-btn" id="confirmCloseBtn">Close</button>
+  </div>
+</div>
+
+<!-- ORDER -->
+<section id="order">
+  <div class="order-inner">
+    <div class="order-left">
+      <div class="order-blob"></div>
+      <blockquote class="order-quote">"I drove 45 minutes to get here. The stuffed crust alone is worth the trip — and the pastéis? Forget it. This is the best Brazilian food I've found in the US."</blockquote>
+      <p class="order-attrib">— Emanoelly N. &nbsp;·&nbsp; Google Review</p>
+      <p class="order-sub">Open nightly 6:30 PM &nbsp;·&nbsp; Tuesday closed &nbsp;·&nbsp; Thursday until 10:30 PM<br>Delivery available on DoorDash</p>
+    </div>
+    <div class="order-right">
+      <h2 class="order-title">Ready to order?</h2>
+      <p class="order-desc">Order directly through WhatsApp for pickup, or grab delivery on DoorDash. We also do dine-in — walk in and we'll take care of you.</p>
+      <div class="order-options">
+        <a href="#builder" class="order-btn primary magnetic-btn">
+          <span class="order-btn-icon">🍕</span>
+          <div class="order-btn-text">
+            <strong>Order Now</strong>
+            <span>Build your perfect pizza</span>
+          </div>
+        </a>
+        <a href="https://www.doordash.com/store/biza-pizza-philadelphia-28040226/" target="_blank" class="order-btn magnetic-btn">
+          <span class="order-btn-icon">🛵</span>
+          <div class="order-btn-text">
+            <strong>Order on DoorDash</strong>
+            <span>Delivery to your door</span>
+          </div>
+        </a>
+        <a href="tel:+12677487163" class="order-btn magnetic-btn">
+          <span class="order-btn-icon">📞</span>
+          <div class="order-btn-text">
+            <strong>Call Us</strong>
+            <span>(267) 748-7163</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header">
+    <div>
+      <p class="reviews-eyebrow">O Que Dizem · What Guests Say</p>
+      <h2 class="reviews-title section-title">They came. They tasted.<br>They came back.</h2>
+    </div>
+    <div class="reviews-progress-wrap">
+      <p class="reviews-progress-label">Drag to explore</p>
+      <div class="reviews-progress-bar"><div class="reviews-progress-fill" id="reviewsProgressFill"></div></div>
+    </div>
+  </div>
+  <div class="reviews-track-wrap" id="reviewsTrackWrap">
+    <div class="reviews-track" id="reviewsTrack">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The best Brazilian pizza in the US. I've been searching for years and finally found it. Everything is made with love — you can taste the difference."</p>
+        <div class="review-author">
+          <div class="review-photo">F</div>
+          <div><p class="review-name">Fabio Santos</p><p class="review-via">via Google · Feb 2025</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I drove 45 minutes to get here and did not regret it at all. Simply the best pizza place in the US — great service, incredible pizza, worth every cent. I'll be back!"</p>
+        <div class="review-author">
+          <div class="review-photo">E</div>
+          <div><p class="review-name">Emanoelly Nogueira</p><p class="review-via">via Google · Feb 2025</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"The cheese is the best I've had. Seems like all ingredients are natural. I'd say this is one of the best pizzas I've ever eaten. Get the chicken — absolutely worth the price."</p>
+        <div class="review-author">
+          <div class="review-photo">M</div>
+          <div><p class="review-name">M K</p><p class="review-via">via Google · Apr 2024</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Very good Brazilian pizza. I had been looking for something like this in Northeast Philly for many years. Thank God I finally found it. Authentic flavors, just like home."</p>
+        <div class="review-author">
+          <div class="review-photo">G</div>
+          <div><p class="review-name">Germano Boides</p><p class="review-via">via Google · Oct 2024</p></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Honestly one of the best hidden gems in Philly. The stuffed crust is next level — you can tell everything is made fresh. We ordered the chicken pizza and the pastéis. Will be back every week."</p>
+        <div class="review-author">
+          <div class="review-photo">A</div>
+          <div><p class="review-name">Ana Lima</p><p class="review-via">via Google · Jan 2025</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS + LOCATION -->
+<section id="hours">
+  <div class="hours-inner">
+    <div class="hours-left">
+      <p class="hours-eyebrow">Horário · Hours</p>
+      <h2 class="hours-title section-title">Hours &amp;<br>Location</h2>
+      <p class="hours-sub">Walk-ins welcome · Dine-in, pickup & delivery</p>
+      <div class="hours-cards" id="hoursGrid"></div>
+    </div>
+    <div class="hours-right">
+      <div class="hours-map-wrap">
+        <iframe
+          src="https://maps.google.com/maps?q=6339+Rising+Sun+Ave+Philadelphia+PA+19111&output=embed&z=15"
+          width="100%" height="100%" style="border:0;border-radius:20px;display:block;" allowfullscreen="" loading="lazy"
+          title="Biza Pizzas location map">
+        </iframe>
+      </div>
+      <div class="map-actions">
+        <a href="https://maps.google.com/?q=6339+Rising+Sun+Ave+Philadelphia+PA+19111" target="_blank" class="map-link red">📍 Get Directions</a>
+        <a href="tel:+12677487163" class="map-link outline">📞 (267) 748-7163</a>
+        <a href="https://wa.link/7v1ndm" target="_blank" class="map-link outline">💬 Questions? Chat with us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div>
+      <p class="footer-brand-name">Biza Pizzas 🍕</p>
+      <p class="footer-tagline">Authentic Brazilian pizza with stuffed crust,<br>pastéis, and esfihas. Northeast Philadelphia's<br>best-kept secret — open every night.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/bizapizza/" target="_blank" class="social-icon" aria-label="Instagram">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/bizapizza/" target="_blank" class="social-icon" aria-label="Facebook">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://wa.link/7v1ndm" target="_blank" class="social-icon" aria-label="WhatsApp">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-col-title">Navigate</p>
+      <ul class="footer-links">
+        <li><a href="#about">Our Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#order">Order</a></li>
+        <li><a href="#hours">Hours</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Contact</p>
+      <div class="footer-contact">
+        <p>6339 Rising Sun Ave<br>Philadelphia, PA 19111<br><br>(267) 748-7163<br><br>Mon, Wed–Sun 6:30–11:30 PM<br>Thu closes at 10:30 PM<br>Tuesday: Closed</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Biza Pizzas. All rights reserved.</p>
+    <p class="footer-credit">Site by <a href="#">NEXO Digital</a></p>
+  </div>
+</footer>
+
+<script>
+/* ── MENU DATA ── */
+const DD_BANNER = 'https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg';
+const DD_COVER = (w,h) => `https://img.cdn4dd.com/p/fit=cover,width=${w},height=${h},format=auto,quality=92/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03`;
+const IMG_PIZZA  = DD_BANNER;
+const IMG_ESFIHA = DD_COVER(600,400);
+const IMG_DRINK  = DD_COVER(400,400);
+const IMG_COMBO  = DD_COVER(600,400);
+
+const ORDER_ITEMS = [
+  { name:'Pizza Broto', price:'$33.39', desc:'Personal 8-slice pizza. Choice of flavor. Feeds 1–2.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Pizza Grande', price:'$39.59', desc:'Large 8-slice pizza. Choice of flavor. Feeds 2–3.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Pizza Gigante', price:'$49.49', desc:'XL 8-slice pizza. Choice of flavor. Feeds 3–4.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Esfihas', price:'$21.69', desc:'Traditional Brazilian savory pastries. 6-pack.', category:'esfihas', img:IMG_ESFIHA },
+  { name:'Guaraná Antártica', price:'$7.59', desc:'Classic Brazilian soda. 2L bottle.', category:'drinks', img:IMG_DRINK },
+  { name:'Combo Eu', price:'$28.49', desc:'1 personal pizza + 1 Guaraná Antártica. Perfect solo meal.', category:'combos', img:IMG_COMBO },
+];
+
+const HOURS_DATA = [
+  { day:'Monday',    time:'6:30 PM – 11:30 PM' },
+  { day:'Tuesday',   time:'Closed' },
+  { day:'Wednesday', time:'6:30 PM – 11:30 PM' },
+  { day:'Thursday',  time:'6:30 PM – 10:30 PM' },
+  { day:'Friday',    time:'6:30 PM – 11:30 PM' },
+  { day:'Saturday',  time:'6:30 PM – 11:30 PM' },
+  { day:'Sunday',    time:'6:30 PM – 11:30 PM' },
+];
+
+/* ── HOURS BUILD ── */
+(function buildHours() {
+  const grid = document.getElementById('hoursGrid');
+  if (!grid) return;
+  const todayIdx = new Date().getDay();
+  const map = [6,0,1,2,3,4,5];
+  HOURS_DATA.forEach((h, i) => {
+    const isToday = map[todayIdx] === i;
+    const isClosed = h.time === 'Closed';
+    const row = document.createElement('div');
+    row.className = 'hours-row' + (isToday ? ' today' : '') + (isClosed ? ' closed' : '');
+    row.innerHTML = `
+      <span class="hours-day">${h.day}${isToday ? '<span class="today-pill">Today</span>' : ''}</span>
+      <span class="hours-time">${h.time}</span>
+    `;
+    grid.appendChild(row);
+  });
+})();
+
+/* ── INIT GSAP + LENIS ── */
+gsap.registerPlugin(ScrollTrigger, Flip, Draggable);
+ScrollTrigger.config({ ignoreMobileResize: true });
+let lenis;
+const scrollRiver = document.getElementById('scroll-river');
+if (typeof Lenis !== 'undefined') {
+  lenis = new Lenis({ lerp: 0.08, duration: 1.2, smoothWheel: true });
+  lenis.on('scroll', ({ scroll, limit }) => {
+    ScrollTrigger.update();
+    if (scrollRiver) scrollRiver.style.height = (scroll / limit * 100) + '%';
+  });
+  gsap.ticker.add((time) => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0);
+} else {
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    if (scrollRiver) scrollRiver.style.height = pct + '%';
+  });
+}
+
+/* ── CUSTOM CURSOR ── */
+const cursor = document.getElementById('cursor');
+const cursorLabel = document.getElementById('cursor-label');
+const isMobile = () => window.innerWidth < 768;
+if (!isMobile()) {
+  const cursorX = gsap.quickTo(cursor, 'x', { duration:0.12, ease:'power3' });
+  const cursorY = gsap.quickTo(cursor, 'y', { duration:0.12, ease:'power3' });
+  document.addEventListener('mousemove', e => { cursorX(e.clientX); cursorY(e.clientY); });
+  const setHover = () => { cursor.className = 'state-hover'; cursorLabel.textContent = 'CLICK'; };
+  const setImage = () => { cursor.className = 'state-image'; cursorLabel.textContent = 'LOOK'; };
+  const setDrag  = () => { cursor.className = 'state-drag';  cursorLabel.textContent = 'DRAG'; };
+  const setDef   = () => { cursor.className = ''; cursorLabel.textContent = ''; };
+  document.querySelectorAll('a, button, .menu-card, .order-btn').forEach(el => {
+    el.addEventListener('mouseenter', setHover);
+    el.addEventListener('mouseleave', setDef);
+  });
+  document.querySelectorAll('.masonry-item, .gallery-panorama').forEach(el => {
+    el.addEventListener('mouseenter', setImage);
+    el.addEventListener('mouseleave', setDef);
+  });
+  const rw = document.getElementById('reviewsTrackWrap');
+  if (rw) { rw.addEventListener('mouseenter', setDrag); rw.addEventListener('mouseleave', setDef); }
+}
+
+/* ── NAV ── */
+const nav = document.getElementById('nav');
+ScrollTrigger.create({
+  start:'top+=80 top',
+  onEnter:() => nav.classList.add('scrolled'),
+  onLeaveBack:() => nav.classList.remove('scrolled'),
+});
+['#about','#gallery','#order','#reviews','#hours'].forEach(id => {
+  ScrollTrigger.create({
+    trigger:id, start:'top 8%', end:'bottom 8%',
+    onEnter:()    => nav.classList.remove('nav-dark'),
+    onLeave:()    => nav.classList.add('nav-dark'),
+    onEnterBack:()=> nav.classList.remove('nav-dark'),
+    onLeaveBack:()=> nav.classList.add('nav-dark'),
+  });
+});
+['#menu','#builder'].forEach(id => {
+  ScrollTrigger.create({
+    trigger:id, start:'top 8%', end:'bottom 8%',
+    onEnter:()    => nav.classList.add('nav-dark'),
+    onLeave:()    => nav.classList.remove('nav-dark'),
+    onEnterBack:()=> nav.classList.add('nav-dark'),
+    onLeaveBack:()=> nav.classList.remove('nav-dark'),
+  });
+});
+
+/* ── SPLIT CHARS ── */
+function splitChars(el) {
+  const parts = el.innerHTML.split(/<br\s*\/?>/i);
+  const allSpans = [];
+  el.innerHTML = '';
+  el.setAttribute('aria-label', parts.map(p => p.replace(/<[^>]+>/g,'')).join(' '));
+  parts.forEach((part, pi) => {
+    const isEm = /<em>/i.test(part);
+    const text = part.replace(/<[^>]+>/g, '');
+    [...text].forEach(ch => {
+      const s = document.createElement('span');
+      s.textContent = ch === ' ' ? ' ' : ch;
+      s.style.cssText = 'display:inline-block;will-change:transform,opacity;';
+      if (isEm) s.style.color = 'var(--red)';
+      el.appendChild(s);
+      allSpans.push(s);
+    });
+    if (pi < parts.length - 1) el.appendChild(document.createElement('br'));
+  });
+  return allSpans;
+}
+
+/* ── HERO ANIMATIONS ── */
+window.addEventListener('DOMContentLoaded', () => {
+  const titleEl = document.querySelector('.hero-title');
+  if (titleEl) {
+    const chars = [];
+    titleEl.childNodes.forEach(node => {
+      if (node.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        [...node.textContent].forEach(ch => {
+          const s = document.createElement('span');
+          s.style.cssText = 'display:inline-block;';
+          s.textContent = ch === ' ' ? ' ' : ch;
+          chars.push(s); frag.appendChild(s);
+        });
+        node.replaceWith(frag);
+      } else if (node.tagName === 'EM') {
+        const emChars = [];
+        [...node.textContent].forEach(ch => {
+          const s = document.createElement('span');
+          s.style.cssText = 'display:inline-block;';
+          s.textContent = ch === ' ' ? ' ' : ch;
+          emChars.push(s); chars.push(s);
+        });
+        node.innerHTML = '';
+        emChars.forEach(s => node.appendChild(s));
+      }
+    });
+    gsap.set(chars, { y:80, opacity:0, rotateX:90 });
+    gsap.to(chars,  { y:0, opacity:1, rotateX:0, stagger:0.012, duration:0.45, ease:'back.out(1.4)', delay:0.35 });
+  }
+  gsap.fromTo('.hero-eyebrow', {opacity:0,y:22},{opacity:1,y:0,duration:0.7,delay:0.2,ease:'power2.out'});
+  gsap.fromTo('.hero-tagline', {opacity:0,y:24},{opacity:1,y:0,duration:0.7,delay:1.25,ease:'power2.out'});
+  gsap.fromTo('.hero-ctas',    {opacity:0,y:24},{opacity:1,y:0,duration:0.7,delay:1.45,ease:'power2.out'});
+  gsap.fromTo('.hero-badge',   {opacity:0,scale:0,rotation:-140},{opacity:1,scale:1,rotation:0,duration:0.9,delay:1.65,ease:'back.out(1.8)'});
+  gsap.fromTo('.hero-scroll',  {opacity:0,y:16},{opacity:1,y:0,duration:0.6,delay:1.9,ease:'power2.out'});
+  document.querySelectorAll('.section-title').forEach(el => {
+    const cs = splitChars(el);
+    gsap.set(cs, {y:60,opacity:0,rotateX:90});
+    ScrollTrigger.create({ trigger:el, start:'top 85%', once:true,
+      onEnter:() => gsap.to(cs,{y:0,opacity:1,rotateX:0,stagger:0.012,duration:0.45,ease:'power3.out'}),
+    });
+  });
+});
+
+/* ── BG MORPH ── */
+const bgSections = [
+  { id:'#hero',    bg:'#0a0806' },
+  { id:'#about',   bg:'#F5EDD8' },
+  { id:'#menu',    bg:'#1C0E08' },
+  { id:'#builder', bg:'#120A06' },
+  { id:'#gallery', bg:'#F5EDD8' },
+  { id:'#order',   bg:'#ffffff' },
+  { id:'#reviews', bg:'#FDF3E3' },
+  { id:'#hours',   bg:'#F5EDD8' },
+];
+bgSections.forEach(({id,bg}) => {
+  const el = document.querySelector(id);
+  if (!el) return;
+  ScrollTrigger.create({ trigger:el, start:'top 52%',
+    onEnter:    ()=>gsap.to(document.body,{backgroundColor:bg,duration:0.55}),
+    onEnterBack:()=>gsap.to(document.body,{backgroundColor:bg,duration:0.55}),
+  });
+});
+
+/* ── MAGNETIC BUTTONS ── */
+if (!isMobile()) {
+  document.querySelectorAll('.magnetic-btn').forEach(btn => {
+    const qX = gsap.quickTo(btn,'x',{duration:0.4,ease:'power3'});
+    const qY = gsap.quickTo(btn,'y',{duration:0.4,ease:'power3'});
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX-(r.left+r.width/2), dy = e.clientY-(r.top+r.height/2);
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      qX(dx * Math.min(14,dist)/80); qY(dy * Math.min(9,dist)/80);
+    });
+    btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:0.6,ease:'elastic.out(1,0.5)'}));
+  });
+}
+
+/* ── ABOUT COUNTERS ── */
+ScrollTrigger.create({ trigger:'#about', start:'top 70%', once:true,
+  onEnter() {
+    document.querySelectorAll('.stat-num').forEach(el => {
+      if (!el.dataset.target) return;
+      const target = +el.dataset.target, suffix = el.dataset.suffix || '';
+      gsap.fromTo({val:0},{val:target},{duration:2,ease:'power2.out',
+        onUpdate() { el.textContent = Math.round(this.targets()[0].val).toLocaleString()+suffix; },
+        onComplete() { el.textContent = target.toLocaleString()+suffix; }
+      });
+    });
+  }
+});
+document.querySelectorAll('.about-img').forEach((wrap,i) => {
+  ScrollTrigger.create({ trigger:wrap, start:'top 85%', once:true,
+    onEnter() {
+      gsap.fromTo(wrap,{clipPath:'inset(0 100% 0 0)',opacity:1},{clipPath:'inset(0 0% 0 0)',duration:1,ease:'expo.out',delay:i*0.15});
+    }
+  });
+});
+
+/* ── GALLERY REVEALS ── */
+document.querySelectorAll('.reveal-img-clip').forEach((img,i) => {
+  gsap.set(img,{clipPath:'inset(0 100% 0 0)'});
+  ScrollTrigger.create({ trigger:img.closest('.masonry-item')||img.parentElement, start:'top 85%', once:true,
+    onEnter:()=>gsap.to(img,{clipPath:'inset(0 0% 0 0)',duration:1,ease:'expo.out',delay:(i%3)*0.12}),
+  });
+});
+
+/* ── MENU GRID RENDER ── */
+(function renderMenu() {
+  const grid = document.getElementById('menuGrid');
+  if (!grid) return;
+  grid.innerHTML = ORDER_ITEMS.map(item => `
+    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}">
+      <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
+      <div class="menu-card-body">
+        <h3 class="menu-card-name">${item.name}</h3>
+        <p class="menu-card-desc">${item.desc}</p>
+        <p class="menu-card-price">${item.price}</p>
+        <button type="button" class="menu-card-btn">+ Add to Order</button>
+      </div>
+    </article>`).join('');
+})();
+
+/* ── MENU CARD REVEAL ── */
+ScrollTrigger.create({ trigger:'#menuGrid', start:'top 70%', once:true, lazy:true,
+  onEnter() { gsap.to('.menu-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.65,ease:'power3.out'}); }
+});
+
+/* ── MENU TABS ── */
+document.querySelectorAll('.menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.menu-card').forEach(card => {
+      const show = filter === 'all' || card.dataset.category === filter;
+      card.style.display = show ? '' : 'none';
+    });
+  });
+});
+
+/* ── MENU OVERLAY ── */
+const overlay = document.getElementById('menu-overlay');
+const overlayClose = document.getElementById('menu-close');
+let overlayOpen = false;
+function openMenuOverlay(item) {
+  if (overlayOpen) return;
+  overlayOpen = true;
+  const name = item.dataset.name, price = item.dataset.price, desc = item.dataset.desc, img = item.dataset.img;
+  document.getElementById('overlayImg').src = img;
+  document.getElementById('overlayImg').alt = name;
+  document.getElementById('overlayTitle').textContent = name;
+  document.getElementById('overlayDesc').textContent = desc;
+  document.getElementById('overlayPrice').textContent = price;
+  document.getElementById('overlayWa').onclick = (e) => {
+    e.preventDefault(); closeMenuOverlay();
+    const builder = document.querySelector('#builder');
+    if (lenis) lenis.scrollTo(builder, { offset: -80 });
+    else builder.scrollIntoView({ behavior: 'smooth' });
+  };
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  if (lenis) lenis.stop();
+  gsap.fromTo('.menu-overlay-inner', {scale:0.92, opacity:0}, {scale:1, opacity:1, duration:0.35, ease:'power2.out'});
+}
+function closeMenuOverlay() {
+  if (!overlayOpen) return;
+  gsap.to('.menu-overlay-inner', {scale:0.95, opacity:0, duration:0.25, ease:'power2.in',
+    onComplete() {
+      overlay.style.display = 'none';
+      document.body.style.overflow = '';
+      if (lenis) lenis.start();
+      overlayOpen = false;
+    }
+  });
+}
+document.getElementById('menuGrid').addEventListener('click', e => {
+  const card = e.target.closest('.menu-card');
+  if (!card) return;
+  openMenuOverlay(card);
+});
+overlayClose.addEventListener('click', closeMenuOverlay);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeMenuOverlay(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenuOverlay(); });
+
+/* ── PIZZA BUILDER ── */
+const builderOrder = { size: null, sizePrice: 0, flavor: null, extras: [] };
+
+function updateSummary() {
+  const body = document.getElementById('summaryBody');
+  const totalEl = document.getElementById('totalPrice');
+  const totalRow = document.getElementById('summaryTotal');
+  const waBtn = document.getElementById('placeOrderBtn');
+  if (!builderOrder.size && !builderOrder.flavor) {
+    body.innerHTML = '<div class="summary-placeholder">Select a size to start building your order.</div>';
+    totalRow.style.display = 'none';
+    waBtn.disabled = true;
+    return;
+  }
+  let lines = '';
+  let total = builderOrder.sizePrice;
+  if (builderOrder.size) {
+    lines += `<div class="summary-line main"><span>Pizza ${builderOrder.size}</span><span>$${builderOrder.sizePrice.toFixed(2)}</span></div>`;
+  }
+  if (builderOrder.flavor) {
+    lines += `<div class="summary-line"><span>Flavor: ${builderOrder.flavor}</span><span>—</span></div>`;
+  }
+  builderOrder.extras.forEach(e => {
+    total += e.price;
+    lines += `<div class="summary-line"><span>${e.name}</span><span>+$${e.price.toFixed(2)}</span></div>`;
+  });
+  body.innerHTML = lines || '<div class="summary-placeholder">Select a size to start.</div>';
+  totalEl.textContent = '$' + total.toFixed(2);
+  totalRow.style.display = 'flex';
+  waBtn.disabled = !(builderOrder.size && builderOrder.flavor);
+}
+
+document.querySelectorAll('.size-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    builderOrder.size = card.dataset.size;
+    builderOrder.sizePrice = parseFloat(card.dataset.price);
+    updateSummary();
+  });
+});
+document.querySelectorAll('.flavor-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.flavor-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    builderOrder.flavor = btn.dataset.flavor;
+    updateSummary();
+  });
+});
+document.querySelectorAll('.extra-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('selected');
+    const name = btn.dataset.extra, price = parseFloat(btn.dataset.price);
+    const idx = builderOrder.extras.findIndex(e => e.name === name);
+    if (idx > -1) builderOrder.extras.splice(idx, 1);
+    else builderOrder.extras.push({ name, price });
+    updateSummary();
+  });
+});
+document.getElementById('placeOrderBtn').addEventListener('click', () => {
+  if (!(builderOrder.size && builderOrder.flavor)) return;
+  const orderId = Math.floor(1000 + Math.random() * 9000);
+  const extras = builderOrder.extras;
+  const total = (builderOrder.sizePrice + extras.reduce((s, e) => s + e.price, 0)).toFixed(2);
+  const items = [
+    { name: `Pizza ${builderOrder.size} — ${builderOrder.flavor}`, price: builderOrder.sizePrice.toFixed(2) },
+    ...extras.map(e => ({ name: e.name, price: e.price.toFixed(2) }))
+  ];
+  const orderObj = { id: orderId, timestamp: Date.now(), items, total: parseFloat(total), status: 'new' };
+  const saved = JSON.parse(localStorage.getItem('biza_demo_orders') || '[]');
+  saved.push(orderObj);
+  localStorage.setItem('biza_demo_orders', JSON.stringify(saved));
+  document.getElementById('confirmOrderNum').textContent = `Order #${orderId}`;
+  document.getElementById('confirmItemsList').innerHTML =
+    items.map(it => `<div class="confirm-item-row"><span>${it.name}</span><span>$${it.price}</span></div>`).join('');
+  document.getElementById('confirmTotal').textContent = `$${total}`;
+  const co = document.getElementById('order-confirm-overlay');
+  co.style.display = 'flex';
+  if (lenis) lenis.stop();
+  gsap.fromTo('.confirm-box', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.6)' });
+  document.querySelectorAll('.size-card, .flavor-btn, .extra-btn').forEach(el => el.classList.remove('selected'));
+  builderOrder.size = null; builderOrder.sizePrice = 0; builderOrder.flavor = null; builderOrder.extras = [];
+  updateSummary();
+});
+
+document.getElementById('confirmCloseBtn').addEventListener('click', () => {
+  gsap.to('.confirm-box', { scale: 0.95, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+    document.getElementById('order-confirm-overlay').style.display = 'none';
+    if (lenis) lenis.start();
+  }});
+});
+
+gsap.set('#builder .builder-step', { opacity: 0, y: 30 });
+gsap.set('#builder .builder-summary', { opacity: 0, x: 20 });
+ScrollTrigger.create({
+  trigger: '#builder', start: 'top 75%', once: true, lazy: true,
+  onEnter: () => {
+    gsap.to('#builder .builder-step', { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: 'power2.out' });
+    gsap.to('#builder .builder-summary', { opacity: 1, x: 0, duration: 0.6, delay: 0.2, ease: 'power2.out' });
+  }
+});
+
+/* ── LIGHTBOX ── */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.masonry-item').forEach(item => {
+  item.addEventListener('click',()=>{
+    lightboxImg.src = item.querySelector('img').src;
+    lightbox.classList.add('active');
+    gsap.from('#lightbox img',{scale:0.85,opacity:0,duration:0.4,ease:'power3.out'});
+  });
+});
+document.getElementById('lightbox-close').addEventListener('click',()=>{lightbox.classList.remove('active');lightboxImg.src='';});
+lightbox.addEventListener('click',e=>{if(e.target===lightbox){lightbox.classList.remove('active');lightboxImg.src='';}});
+
+/* ── GALLERY STAGGER ── */
+gsap.set('.masonry-item',{opacity:0,y:40,scale:0.93});
+ScrollTrigger.create({ trigger:'#masonryGrid', start:'top 10%', once:true, lazy:true,
+  onEnter:()=>gsap.to('.masonry-item',{opacity:1,y:0,scale:1,stagger:0.07,duration:0.6,ease:'power3.out'}),
+});
+
+/* ── ORDER SECTION FADE ── */
+gsap.set('.order-btn', {opacity:0, y:20});
+ScrollTrigger.create({
+  trigger:'#order', start:'top 70%', once:true, lazy:true,
+  onEnter:() => gsap.to('.order-btn',{opacity:1,y:0,duration:0.6,stagger:0.12,ease:'power2.out'})
+});
+
+/* ── REVIEWS ── */
+gsap.set('.review-card',{opacity:0,y:40,scale:.93});
+ScrollTrigger.create({ trigger:'#reviews', start:'top 15%', once:true, lazy:true,
+  onEnter:()=>gsap.to('.review-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.6,ease:'power3.out'}),
+});
+const trackWrap = document.getElementById('reviewsTrackWrap');
+const track = document.getElementById('reviewsTrack');
+const progressFill = document.getElementById('reviewsProgressFill');
+let dragX=0,startDragX=0,dragStartClientX=0,isDragging=false,velX=0,lastClientX=0,momentum=null;
+function getMaxDrag(){return -(track.scrollWidth-trackWrap.offsetWidth+80);}
+function clamp(v){return Math.max(getMaxDrag(),Math.min(0,v));}
+function updateProgress(){const max=Math.abs(getMaxDrag());const p=max>0?Math.abs(dragX)/max:0;gsap.set(progressFill,{width:(p*100)+'%'});}
+trackWrap.addEventListener('pointerdown',e=>{isDragging=true;dragStartClientX=e.clientX;startDragX=dragX;lastClientX=e.clientX;velX=0;if(momentum)momentum.kill();trackWrap.setPointerCapture(e.pointerId);e.preventDefault();});
+trackWrap.addEventListener('pointermove',e=>{if(!isDragging)return;velX=e.clientX-lastClientX;lastClientX=e.clientX;dragX=clamp(startDragX+(e.clientX-dragStartClientX));gsap.set(track,{x:dragX});updateProgress();});
+trackWrap.addEventListener('pointerup',()=>{if(!isDragging)return;isDragging=false;const target=clamp(dragX+velX*8);momentum=gsap.to(track,{x:target,duration:0.75,ease:'power3.out',onUpdate:()=>{dragX=gsap.getProperty(track,'x');updateProgress();}});});
+if (!isMobile()) {
+  document.querySelectorAll('.review-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-0.5;const y=(e.clientY-r.top)/r.height-0.5;gsap.to(card,{rotateY:x*14,rotateX:-y*10,duration:0.35,ease:'power2.out',transformPerspective:700});});
+    card.addEventListener('mouseleave',()=>gsap.to(card,{rotateY:0,rotateX:0,duration:0.6,ease:'elastic.out(1,0.5)'}));
+  });
+}
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'));
+    if(!target)return; e.preventDefault();
+    if(lenis)lenis.scrollTo(target,{offset:-80});
+    else target.scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ── SECTION COUNTER ── */
+(function(){
+  function updateCounter(num,name){
+    const numEl=document.getElementById('section-num'),nameEl=document.getElementById('section-name');
+    if(!numEl)return;
+    gsap.to([numEl,nameEl],{opacity:0,y:-8,duration:0.18,onComplete:()=>{numEl.textContent=num;nameEl.textContent=name;gsap.to([numEl,nameEl],{opacity:1,y:0,duration:0.28});}});
+  }
+  [
+    {el:'#hero',num:'01',name:'WELCOME'},
+    {el:'#about',num:'02',name:'STORY'},
+    {el:'#menu',num:'03',name:'MENU'},
+    {el:'#builder',num:'04',name:'BUILD'},
+    {el:'#gallery',num:'05',name:'GALLERY'},
+    {el:'#order',num:'06',name:'ORDER'},
+    {el:'#reviews',num:'07',name:'REVIEWS'},
+    {el:'#hours',num:'08',name:'HOURS'},
+  ].forEach(s=>{
+    const el=document.querySelector(s.el);if(!el)return;
+    ScrollTrigger.create({trigger:el,start:'top center',
+      onEnter:()=>updateCounter(s.num,s.name),
+      onEnterBack:()=>updateCounter(s.num,s.name),
+    });
+  });
+  const counter=document.getElementById('section-counter');
+  ['#menu','#builder'].forEach(sel => {
+    ScrollTrigger.create({trigger:sel,start:'top center',end:'bottom center',
+      onEnter:()=>{if(counter)counter.style.color='rgba(255,255,255,0.45)';},
+      onLeave:()=>{if(counter)counter.style.color='rgba(0,0,0,0.3)';},
+      onEnterBack:()=>{if(counter)counter.style.color='rgba(255,255,255,0.45)';},
+      onLeaveBack:()=>{if(counter)counter.style.color='rgba(0,0,0,0.3)';},
+    });
+  });
+})();
+
+/* ── SECTION TRANSITIONS ── */
+(function(){
+  const fadeUp = (el) => {
+    gsap.from(el, { y: 60, opacity: 0, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 85%', end: 'top 50%', scrub: 0.4, lazy: true }
+    });
+  };
+  if (window.innerWidth >= 768) {
+    ScrollTrigger.create({ trigger: '#hero', start: 'top top', end: '+=120%', pin: true, pinSpacing: true, lazy: true, invalidateOnRefresh: true });
+    gsap.to('.hero-content', { y: -60, opacity: 0.4, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: '+=250', scrub: 0.4, lazy: true }
+    });
+    document.querySelectorAll('.clip-section').forEach((el, i) => {
+      const prev = el.previousElementSibling;
+      const st = { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true };
+      if (el.id === 'about') {
+        gsap.fromTo(el, { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' },
+          { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', ease: 'none', scrollTrigger: st });
+        gsap.to('#hero', { scale: 0.95, opacity: 0.65, ease: 'none', scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true } });
+      } else if (el.id === 'menu') {
+        gsap.fromTo(el, { clipPath: 'circle(0% at 50% 50%)' },
+          { clipPath: 'circle(150% at 50% 50%)', ease: 'none', scrollTrigger: st });
+        if (prev) gsap.to(prev, { scale: 0.88, opacity: 0.45, filter: 'blur(3px)', ease: 'none', scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true } });
+      }
+    });
+    ['#gallery', '#order', '#reviews', '#hours', '#builder'].forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el && !el.classList.contains('clip-section')) fadeUp(el);
+    });
+  }
+  gsap.from('.stat-item', { y: 50, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '#about', start: 'top 65%', once: true, lazy: true }
+  });
+})();
+</script>
+</body>
+</html>
