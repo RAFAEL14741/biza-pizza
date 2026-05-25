@@ -276,14 +276,6 @@ section { position:relative; }
   margin-top:4px; transition:background .2s;
 }
 .menu-card-btn:hover { background:#a81f21; }
-.menu-card-from { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:-4px; }
-.overlay-pizza-sizes { display:flex; gap:10px; margin-bottom:16px; }
-.overlay-size-opt { flex:1; background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; cursor:pointer; text-align:center; transition:all .2s; }
-.overlay-size-opt:hover { border-color:rgba(200,40,42,.5); }
-.overlay-size-opt.selected { border-color:var(--red); background:rgba(200,40,42,.12); }
-.sz-name { font-size:.9rem; font-weight:700; color:#fff; }
-.sz-slices { font-size:.72rem; color:rgba(255,255,255,.45); margin:3px 0; }
-.sz-price { font-size:1rem; font-weight:700; color:var(--red); }
 
 /* ── MENU OVERLAY ── */
 #menu-overlay {
@@ -299,7 +291,7 @@ section { position:relative; }
 .menu-overlay-wa {
   display:block; width:100%; text-align:center; background:var(--red); color:#fff;
   padding:14px; border-radius:10px; font-weight:700; font-size:.95rem;
-  transition:background .2s; cursor:pointer; border:none;
+  transition:background .2s;
 }
 .menu-overlay-wa:hover { background:#a81f21; }
 #menu-close {
@@ -343,10 +335,28 @@ section { position:relative; }
 .summary-line { display:flex; justify-content:space-between; color:rgba(255,255,255,.75); font-size:.88rem; margin-bottom:10px; }
 .summary-line.main { color:#fff; font-weight:600; font-size:.95rem; }
 .summary-total { display:flex; justify-content:space-between; border-top:1px solid rgba(255,255,255,.12); padding-top:16px; margin-top:8px; margin-bottom:24px; font-size:1.1rem; font-weight:700; color:#fff; }
-.whatsapp-order-btn { width:100%; background:#25D366; color:#fff; border:none; border-radius:12px; padding:16px; font-size:1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all .2s ease; }
-.whatsapp-order-btn:hover:not(:disabled) { background:#1da855; transform:translateY(-1px); }
-.whatsapp-order-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.place-order-btn { width:100%; background:var(--red); color:#fff; border:none; border-radius:12px; padding:16px; font-size:1rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all .2s ease; }
+.place-order-btn:hover:not(:disabled) { background:#a81f21; transform:translateY(-1px); box-shadow:0 8px 28px rgba(200,40,42,.4); }
+.place-order-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
 .wa-note { text-align:center; font-size:.75rem; color:rgba(255,255,255,.35); margin-top:12px; }
+/* ── ORDER CONFIRMATION OVERLAY ── */
+#order-confirm-overlay { position:fixed; inset:0; background:rgba(18,10,6,.97); z-index:1000; display:none; align-items:center; justify-content:center; padding:24px; }
+#order-confirm-overlay.active { display:flex; }
+.confirm-box { background:var(--slate); border:1px solid rgba(255,255,255,.1); border-radius:24px; padding:40px 36px; max-width:460px; width:100%; text-align:center; }
+.confirm-check { width:72px; height:72px; border-radius:50%; background:var(--red); color:#fff; font-size:2rem; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; animation:checkPop .45s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes checkPop { from{scale:0;opacity:0} to{scale:1;opacity:1} }
+.confirm-order-num { font-family:var(--serif); font-size:2.2rem; color:var(--cream); margin-bottom:4px; }
+.confirm-preparing { font-size:.85rem; color:rgba(255,255,255,.4); margin-bottom:24px; font-style:italic; }
+.confirm-items-list { background:rgba(255,255,255,.04); border-radius:12px; padding:16px 20px; margin-bottom:2px; text-align:left; }
+.confirm-item-row { display:flex; justify-content:space-between; color:rgba(255,255,255,.7); font-size:.88rem; margin-bottom:8px; }
+.confirm-item-row:last-child { margin-bottom:0; }
+.confirm-total-row { display:flex; justify-content:space-between; font-size:1.1rem; font-weight:700; color:#fff; border-top:1px solid rgba(255,255,255,.1); padding-top:12px; margin:0 0 24px; }
+.confirm-status { font-size:1rem; color:var(--cream); font-weight:600; margin-bottom:6px; }
+.confirm-eta { font-size:.88rem; color:rgba(255,255,255,.45); margin-bottom:6px; }
+.confirm-track { font-size:.78rem; color:rgba(255,255,255,.2); font-style:italic; margin-bottom:28px; }
+.confirm-track a { color:rgba(200,40,42,.6); }
+.confirm-close-btn { width:100%; background:var(--red); color:#fff; border:none; border-radius:12px; padding:14px; font-size:.95rem; font-weight:700; cursor:pointer; transition:background .2s; }
+.confirm-close-btn:hover { background:#a81f21; }
 
 /* ── GALLERY ── */
 #gallery { background:var(--cream); padding:100px 80px 0; }
@@ -538,30 +548,6 @@ section { position:relative; }
   #scroll-river, #section-counter { display:none; }
   #about, #menu, #builder, #gallery, #order, #reviews, #hours { clip-path:none !important; transform:none !important; filter:none !important; }
 }
-/* ── ORDER CONFIRMATION OVERLAY ── */
-#order-confirm-overlay {
-  display:none; position:fixed; inset:0; background:rgba(10,4,2,.92);
-  z-index:9999; align-items:center; justify-content:center;
-  backdrop-filter:blur(8px);
-}
-#order-confirm-overlay.active { display:flex; }
-.confirm-card {
-  background:var(--slate); border:1px solid rgba(255,255,255,.1);
-  border-radius:24px; padding:48px 40px; max-width:480px; width:90%;
-  text-align:center; animation:confirmIn .4s cubic-bezier(.16,1,.3,1);
-}
-@keyframes confirmIn { from{opacity:0;transform:scale(.92) translateY(20px)} to{opacity:1;transform:none} }
-.confirm-icon { font-size:3rem; margin-bottom:16px; }
-.confirm-order-num { font-size:.85rem; color:var(--red); font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:8px; }
-.confirm-title { font-family:var(--serif); font-size:2rem; color:#fff; margin-bottom:8px; }
-.confirm-sub { color:rgba(255,255,255,.5); font-size:.9rem; margin-bottom:28px; }
-.confirm-items { background:rgba(255,255,255,.04); border-radius:12px; padding:20px; margin-bottom:20px; text-align:left; }
-.confirm-item-line { display:flex; justify-content:space-between; color:rgba(255,255,255,.8); font-size:.9rem; padding:4px 0; }
-.confirm-item-line.total { border-top:1px solid rgba(255,255,255,.1); margin-top:8px; padding-top:12px; color:#fff; font-weight:700; font-size:1rem; }
-.confirm-wait { display:inline-flex; align-items:center; gap:8px; background:rgba(200,40,42,.12); color:var(--red); border-radius:8px; padding:10px 20px; font-size:.9rem; font-weight:600; margin-bottom:28px; }
-.confirm-close { width:100%; padding:14px; background:var(--red); color:#fff; border:none; border-radius:12px; font-size:1rem; font-weight:700; cursor:pointer; transition:all .2s ease; }
-.confirm-close:hover { background:#a01f21; transform:translateY(-1px); }
-
 @media(max-width:900px) {
   .builder-layout { grid-template-columns:1fr; }
   #builder .container { padding:0 40px; }
@@ -590,15 +576,15 @@ section { position:relative; }
     <a href="#order" class="nav-link">Order</a>
     <a href="#reviews" class="nav-link">Reviews</a>
   </div>
-  <a href="https://wa.link/7v1ndm" target="_blank" class="nav-order magnetic-btn">Order Now</a>
+  <a href="#builder" class="nav-order magnetic-btn">Order Now</a>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg" aria-hidden="true">
     <div class="hero-slide" style="background-image:url('https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1800&q=85&fm=jpg&fit=crop&crop=center')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1800&q=85&fm=jpg&fit=crop&crop=center')"></div>
+    <div class="hero-slide" style="background-image:url('https://img.cdn4dd.com/p/fit=cover,width=1800,height=1200,format=auto,quality=88/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03')"></div>
+    <div class="hero-slide" style="background-image:url('https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg')"></div>
     <div class="hero-overlay"></div>
   </div>
   <div class="hero-content">
@@ -607,7 +593,7 @@ section { position:relative; }
     <h1 class="hero-title">Authentic<br><em>Brazilian</em><br>Pizza</h1>
     <p class="hero-tagline">Stuffed crust. Natural ingredients. A taste of Brazil right here in Northeast Philly — crafted with love since day one.</p>
     <div class="hero-ctas">
-      <a href="https://wa.link/7v1ndm" target="_blank" class="btn-red magnetic-btn">📲 Order on WhatsApp</a>
+      <a href="#builder" class="btn-red magnetic-btn">📲 Order Now</a>
       <a href="#menu" class="btn-glass magnetic-btn">See the Menu</a>
     </div>
   </div>
@@ -670,10 +656,10 @@ section { position:relative; }
     </div>
     <div class="about-right">
       <div class="about-img about-img-1">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Brazilian pizza" loading="lazy">
+        <img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Brazilian pizza" loading="lazy">
       </div>
       <div class="about-img about-img-2">
-        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?fm=jpg&q=80&w=600&auto=format&fit=crop" alt="Pizza slice" loading="lazy">
+        <img src="https://img.cdn4dd.com/p/fit=cover,width=600,height=500,format=auto,quality=92/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza slice" loading="lazy">
       </div>
       <div class="women-badge">👩 Women-Owned</div>
     </div>
@@ -690,9 +676,7 @@ section { position:relative; }
   <div class="menu-tabs">
     <button class="menu-tab active" data-filter="all">All</button>
     <button class="menu-tab" data-filter="pizzas">🍕 Pizzas</button>
-    <button class="menu-tab" data-filter="pasteis">🥟 Pastéis</button>
-    <button class="menu-tab" data-filter="esfihas">🧆 Esfihas</button>
-    <button class="menu-tab" data-filter="porcoes">🍟 Porções</button>
+    <button class="menu-tab" data-filter="esfihas">🥟 Esfihas</button>
     <button class="menu-tab" data-filter="drinks">🥤 Drinks</button>
     <button class="menu-tab" data-filter="combos">🎁 Combos</button>
   </div>
@@ -708,18 +692,7 @@ section { position:relative; }
       <h2 class="menu-overlay-title" id="overlayTitle"></h2>
       <p class="menu-overlay-desc" id="overlayDesc"></p>
       <p class="menu-overlay-price" id="overlayPrice"></p>
-      <div id="overlayPizzaSizes" class="overlay-pizza-sizes" style="display:none">
-        <button class="overlay-size-opt" data-size="Broto" data-price="33.39">
-          <div class="sz-name">Broto</div><div class="sz-slices">4 slices · 1–2</div><div class="sz-price">$33.39</div>
-        </button>
-        <button class="overlay-size-opt" data-size="Grande" data-price="39.59">
-          <div class="sz-name">Grande</div><div class="sz-slices">8 slices · 2–3</div><div class="sz-price">$39.59</div>
-        </button>
-        <button class="overlay-size-opt" data-size="Gigante" data-price="49.49">
-          <div class="sz-name">Gigante</div><div class="sz-slices">8 slices · 3–4</div><div class="sz-price">$49.49</div>
-        </button>
-      </div>
-      <button class="menu-overlay-wa" id="overlayWa">Build Your Order →</button>
+      <a class="menu-overlay-wa" id="overlayWa" href="#builder">Build Your Order →</a>
     </div>
   </div>
 </div>
@@ -729,7 +702,7 @@ section { position:relative; }
   <div class="container">
     <div class="section-label">Order Online</div>
     <h2 class="section-title">Build Your<br><em>Perfect Pizza</em></h2>
-    <p class="section-sub">Choose your size, flavor, and extras — order direct via WhatsApp in 60 seconds.</p>
+    <p class="section-sub">Choose your size, flavor, and extras — order goes straight to the kitchen.</p>
     <div class="builder-layout">
       <div class="builder-steps">
         <div class="builder-step" data-step="1">
@@ -783,11 +756,10 @@ section { position:relative; }
           <span>Total</span>
           <span id="totalPrice">$0.00</span>
         </div>
-        <button type="button" class="whatsapp-order-btn" id="waOrderBtn" disabled>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Order on WhatsApp
+        <button type="button" class="place-order-btn" id="placeOrderBtn" disabled>
+          🍕&nbsp; Place Order
         </button>
-        <p class="wa-note">Opens WhatsApp with your full order ready to send.</p>
+        <p class="wa-note">Your order goes straight to the kitchen — 20–25 min.</p>
       </div>
     </div>
   </div>
@@ -800,27 +772,45 @@ section { position:relative; }
     <h2 class="gallery-title section-title">Fresh out the kitchen</h2>
   </div>
   <div class="masonry" id="masonryGrid">
-    <div class="masonry-item tall"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Brazilian pizza" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item short"><img src="https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza slice" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item tall"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item square"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza top view" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item tall"><img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza oven" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item short"><img src="https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza cheese" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item square"><img src="https://images.unsplash.com/photo-1548369937-47519962c11a?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza close" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item short"><img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Fried food" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item tall"><img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Food plated" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item square"><img src="https://images.unsplash.com/photo-1506354666786-959d6d497f1a?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza night" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item short"><img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Pizza dough" class="reveal-img-clip" loading="lazy"></div>
-    <div class="masonry-item square"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?fm=jpg&q=80&w=700&auto=format&fit=crop" alt="Restaurant" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=430,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=900,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Brazilian pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=540,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza top view" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Kitchen" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=400,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza cheese" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=550,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Fresh pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item tall"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=880,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=520,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Pizza night" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item short"><img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza" class="reveal-img-clip" loading="lazy"></div>
+    <div class="masonry-item square"><img src="https://img.cdn4dd.com/p/fit=cover,width=700,height=560,format=auto,quality=90/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03" alt="Restaurant" class="reveal-img-clip" loading="lazy"></div>
   </div>
   <div class="gallery-panorama">
-    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?fm=jpg&q=80&w=1800&auto=format&fit=crop" alt="Biza Pizza spread" class="reveal-img-clip" loading="lazy">
+    <img src="https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg" alt="Biza Pizza spread" class="reveal-img-clip" loading="lazy">
   </div>
 </section>
 
 <div id="lightbox">
   <button id="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ORDER CONFIRMATION OVERLAY -->
+<div id="order-confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-check">✓</div>
+    <div class="confirm-order-num" id="confirmOrderNum">#0000</div>
+    <p class="confirm-preparing">Biza Pizza · 6339 Rising Sun Ave</p>
+    <div class="confirm-items-list" id="confirmItemsList"></div>
+    <div class="confirm-total-row">
+      <span>Total</span>
+      <span id="confirmTotal">$0.00</span>
+    </div>
+    <p class="confirm-status">Your order is being prepared!</p>
+    <p class="confirm-eta">Estimated time: 20–25 minutes</p>
+    <p class="confirm-track"><a href="#">Track your order →</a> (demo only)</p>
+    <button class="confirm-close-btn" id="confirmCloseBtn">Close</button>
+  </div>
 </div>
 
 <!-- ORDER -->
@@ -836,11 +826,11 @@ section { position:relative; }
       <h2 class="order-title">Ready to order?</h2>
       <p class="order-desc">Order directly through WhatsApp for pickup, or grab delivery on DoorDash. We also do dine-in — walk in and we'll take care of you.</p>
       <div class="order-options">
-        <a href="https://wa.link/7v1ndm" target="_blank" class="order-btn primary magnetic-btn">
-          <span class="order-btn-icon">📲</span>
+        <a href="#builder" class="order-btn primary magnetic-btn">
+          <span class="order-btn-icon">🍕</span>
           <div class="order-btn-text">
-            <strong>Order on WhatsApp</strong>
-            <span>Fastest way — direct to us</span>
+            <strong>Order Now</strong>
+            <span>Build your perfect pizza</span>
           </div>
         </a>
         <a href="https://www.doordash.com/store/biza-pizza-philadelphia-28040226/" target="_blank" class="order-btn magnetic-btn">
@@ -940,7 +930,7 @@ section { position:relative; }
       <div class="map-actions">
         <a href="https://maps.google.com/?q=6339+Rising+Sun+Ave+Philadelphia+PA+19111" target="_blank" class="map-link red">📍 Get Directions</a>
         <a href="tel:+12677487163" class="map-link outline">📞 (267) 748-7163</a>
-        <a href="https://wa.link/7v1ndm" target="_blank" class="map-link outline">💬 WhatsApp Order</a>
+        <a href="https://wa.link/7v1ndm" target="_blank" class="map-link outline">💬 Questions? Chat with us</a>
       </div>
     </div>
   </div>
@@ -989,41 +979,20 @@ section { position:relative; }
 
 <script>
 /* ── MENU DATA ── */
-const IMG = id => `https://images.unsplash.com/${id}?fm=jpg&q=80&w=600&auto=format&fit=crop`;
+const DD_BANNER = 'https://doordash-static.s3.amazonaws.com/media/store/header/7239695b-1176-47ec-99d3-daa39576a3b3.jpg';
+const DD_COVER = (w,h) => `https://img.cdn4dd.com/p/fit=cover,width=${w},height=${h},format=auto,quality=92/media/restaurant/cover_square/e9466487-cae5-4354-85dc-85e14c85970f.03`;
+const IMG_PIZZA  = DD_BANNER;
+const IMG_ESFIHA = DD_COVER(600,400);
+const IMG_DRINK  = DD_COVER(400,400);
+const IMG_COMBO  = DD_COVER(600,400);
 
 const ORDER_ITEMS = [
-  /* PIZZAS */
-  { name:'Pizza Mussarela',       price:'From $33.39', fromPrice:'$33.39', desc:'Classic mozzarella, rich tomato sauce, and fresh basil. The one that started it all.', category:'pizzas', img:IMG('photo-1513104890138-7c749659a591'), isPizza:true },
-  { name:'Pizza Calabresa',       price:'From $33.39', fromPrice:'$33.39', desc:'Spicy Brazilian sausage with mozzarella and caramelized onion rings.', category:'pizzas', img:IMG('photo-1574071318508-1cdbab80d002'), isPizza:true },
-  { name:'Pizza Frango Catupiry', price:'From $33.39', fromPrice:'$33.39', desc:"Tender shredded chicken with Brazil's iconic Catupiry cream cheese.", category:'pizzas', img:IMG('photo-1565299624946-b28f40a0ae38'), isPizza:true },
-  { name:'Pizza Portuguesa',      price:'From $33.39', fromPrice:'$33.39', desc:'Ham, boiled egg, onion, bell pepper, and olives. A Brazilian classic.', category:'pizzas', img:IMG('photo-1571997478779-2adcbbe9ab2f'), isPizza:true },
-  { name:'Pizza Quatro Queijos',  price:'From $33.39', fromPrice:'$33.39', desc:'Mozzarella, cheddar, provolone, and Catupiry melted to golden perfection.', category:'pizzas', img:IMG('photo-1593560708920-61dd98c46a4e'), isPizza:true },
-  { name:'Pizza Margherita',      price:'From $33.39', fromPrice:'$33.39', desc:'Fresh tomato, mozzarella, and basil. Light, bright, and timeless.', category:'pizzas', img:IMG('photo-1548369937-47519962c11a'), isPizza:true },
-  { name:'Pizza Lombo Canadense', price:'From $33.39', fromPrice:'$33.39', desc:'Canadian-style pork loin with cheddar, tomato, and crispy onion.', category:'pizzas', img:IMG('photo-1604382354936-07c5d9983bd3'), isPizza:true },
-  { name:'Pizza Brigadeiro',      price:'From $33.39', fromPrice:'$33.39', desc:'Brazilian chocolate dream — Nutella base, brigadeiro drizzle, and condensed milk.', category:'pizzas', img:IMG('photo-1590947132387-155cc02f3212'), isPizza:true },
-  /* PASTÉIS */
-  { name:'Pastel de Carne',     price:'$8.99',  desc:'Ground beef with onion and parsley in golden fried dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Queijo',    price:'$8.49',  desc:'Melted mozzarella in crispy, thin-crust fried pastry. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Frango',    price:'$9.49',  desc:'Shredded chicken with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Palmito',   price:'$9.99',  desc:'Heart of palm with mozzarella in crispy dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Carne Seca',price:'$10.49', desc:'Savory dried beef with mozzarella. A Brazilian favorite. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Calabresa', price:'$9.49',  desc:'Spicy sausage with cheddar and Catupiry cream cheese. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Camarão',   price:'$11.99', desc:'Juicy shrimp with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Banana',    price:'$7.99',  desc:'Sweet banana with cinnamon and condensed milk. Dessert. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  /* ESFIHAS */
-  { name:'Esfihas de Carne', price:'$21.69', desc:'Traditional open-faced minced beef pastries with onion and parsley. 5-pack.', category:'esfihas', img:IMG('photo-1528735602780-2552fd46c7af') },
-  /* DRINKS */
-  { name:'Guaraná Antártica',   price:'$7.59', desc:'Classic Brazilian soda — sweet, citrusy, and refreshing. Can.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Coca-Cola',           price:'$5.99', desc:'Ice-cold Coca-Cola. 2L bottle.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Suco de Maracujá',    price:'$6.49', desc:'Passion fruit juice — tangy and tropical. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Água com Gás',        price:'$3.49', desc:'Sparkling mineral water. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Limonada Brasileira', price:'$6.99', desc:'Brazilian lemonade blended with condensed milk. Creamy and citrusy. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  /* PORÇÕES */
-  { name:'Batata Frita',  price:'$12.99', desc:'Crispy golden fries with our house seasoning. Serves 2.', category:'porcoes', img:IMG('photo-1628840042765-356cda07504e') },
-  { name:'Frango Frito',  price:'$15.99', desc:'Golden fried chicken pieces, seasoned Brazilian-style. Serves 2.', category:'porcoes', img:IMG('photo-1565299507177-b0ac66763828') },
-  /* COMBOS */
-  { name:'Combo Eu',      price:'$28.49', desc:'7 esfihas de carne + 1 can Guaraná Antártica. Quick and satisfying combo.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
-  { name:'Combo Família', price:'$52.99', desc:'1 Grande pizza + 2 cans Guaraná + 4 pastéis. The full family feast.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
+  { name:'Pizza Broto', price:'$33.39', desc:'Personal 8-slice pizza. Choice of flavor. Feeds 1–2.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Pizza Grande', price:'$39.59', desc:'Large 8-slice pizza. Choice of flavor. Feeds 2–3.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Pizza Gigante', price:'$49.49', desc:'XL 8-slice pizza. Choice of flavor. Feeds 3–4.', category:'pizzas', img:IMG_PIZZA },
+  { name:'Esfihas', price:'$21.69', desc:'Traditional Brazilian savory pastries. 6-pack.', category:'esfihas', img:IMG_ESFIHA },
+  { name:'Guaraná Antártica', price:'$7.59', desc:'Classic Brazilian soda. 2L bottle.', category:'drinks', img:IMG_DRINK },
+  { name:'Combo Eu', price:'$28.49', desc:'1 personal pizza + 1 Guaraná Antártica. Perfect solo meal.', category:'combos', img:IMG_COMBO },
 ];
 
 const HOURS_DATA = [
@@ -1260,19 +1229,19 @@ document.querySelectorAll('.reveal-img-clip').forEach((img,i) => {
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
   grid.innerHTML = ORDER_ITEMS.map(item => `
-    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}"${item.isPizza ? ' data-is-pizza="1"' : ''}>
+    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}">
       <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
       <div class="menu-card-body">
         <h3 class="menu-card-name">${item.name}</h3>
         <p class="menu-card-desc">${item.desc}</p>
-        ${item.isPizza ? `<p class="menu-card-from">From</p><p class="menu-card-price">${item.fromPrice}</p>` : `<p class="menu-card-price">${item.price}</p>`}
-        <button type="button" class="menu-card-btn">${item.isPizza ? 'Choose Size →' : '+ Add to Order'}</button>
+        <p class="menu-card-price">${item.price}</p>
+        <button type="button" class="menu-card-btn">+ Add to Order</button>
       </div>
     </article>`).join('');
 })();
 
 /* ── MENU CARD REVEAL ── */
-ScrollTrigger.create({ trigger:'#menuGrid', start:'top 75%', once:true, lazy:true,
+ScrollTrigger.create({ trigger:'#menuGrid', start:'top 70%', once:true, lazy:true,
   onEnter() { gsap.to('.menu-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.65,ease:'power3.out'}); }
 });
 
@@ -1297,32 +1266,16 @@ function openMenuOverlay(item) {
   if (overlayOpen) return;
   overlayOpen = true;
   const name = item.dataset.name, price = item.dataset.price, desc = item.dataset.desc, img = item.dataset.img;
-  const isPizza = !!item.dataset.isPizza;
   document.getElementById('overlayImg').src = img;
   document.getElementById('overlayImg').alt = name;
   document.getElementById('overlayTitle').textContent = name;
   document.getElementById('overlayDesc').textContent = desc;
-  const sizesEl = document.getElementById('overlayPizzaSizes');
-  const waBtn = document.getElementById('overlayWa');
-  if (isPizza) {
-    document.getElementById('overlayPrice').textContent = 'From $33.39';
-    sizesEl.style.display = 'flex';
-    sizesEl.querySelectorAll('.overlay-size-opt').forEach(btn => {
-      btn.classList.remove('selected');
-      btn.onclick = () => {
-        sizesEl.querySelectorAll('.overlay-size-opt').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        document.getElementById('overlayPrice').textContent = '$' + btn.dataset.price;
-      };
-    });
-  } else {
-    document.getElementById('overlayPrice').textContent = price;
-    sizesEl.style.display = 'none';
-  }
-  waBtn.textContent = 'Build Your Order →';
-  waBtn.onclick = () => {
-    closeMenuOverlay();
-    setTimeout(() => document.getElementById('builder').scrollIntoView({ behavior: 'smooth' }), 310);
+  document.getElementById('overlayPrice').textContent = price;
+  document.getElementById('overlayWa').onclick = (e) => {
+    e.preventDefault(); closeMenuOverlay();
+    const builder = document.querySelector('#builder');
+    if (lenis) lenis.scrollTo(builder, { offset: -80 });
+    else builder.scrollIntoView({ behavior: 'smooth' });
   };
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -1356,7 +1309,7 @@ function updateSummary() {
   const body = document.getElementById('summaryBody');
   const totalEl = document.getElementById('totalPrice');
   const totalRow = document.getElementById('summaryTotal');
-  const waBtn = document.getElementById('waOrderBtn');
+  const waBtn = document.getElementById('placeOrderBtn');
   if (!builderOrder.size && !builderOrder.flavor) {
     body.innerHTML = '<div class="summary-placeholder">Select a size to start building your order.</div>';
     totalRow.style.display = 'none';
@@ -1408,22 +1361,37 @@ document.querySelectorAll('.extra-btn').forEach(btn => {
     updateSummary();
   });
 });
-document.getElementById('waOrderBtn').addEventListener('click', () => {
-  const total = (builderOrder.sizePrice + builderOrder.extras.reduce((s, e) => s + e.price, 0)).toFixed(2);
-  const orderNum = '#' + (Math.floor(Math.random() * 9000) + 1000);
-  // Build items HTML
-  let itemsHtml = `<div class="confirm-item-line"><span>Pizza ${builderOrder.size} — ${builderOrder.flavor}</span><span>$${builderOrder.sizePrice.toFixed(2)}</span></div>`;
-  builderOrder.extras.forEach(e => {
-    itemsHtml += `<div class="confirm-item-line"><span>${e.name}</span><span>+$${e.price.toFixed(2)}</span></div>`;
-  });
-  itemsHtml += `<div class="confirm-item-line total"><span>Total</span><span>$${total}</span></div>`;
-  document.getElementById('confirmOrderNum').textContent = 'Order ' + orderNum;
-  document.getElementById('confirmItems').innerHTML = itemsHtml;
-  document.getElementById('order-confirm-overlay').classList.add('active');
-  // Save to localStorage for kitchen demo
-  const orders = JSON.parse(localStorage.getItem('biza_demo_orders') || '[]');
-  orders.unshift({ id: orderNum, timestamp: Date.now(), size: builderOrder.size, flavor: builderOrder.flavor, extras: builderOrder.extras, total, status: 'new' });
-  localStorage.setItem('biza_demo_orders', JSON.stringify(orders));
+document.getElementById('placeOrderBtn').addEventListener('click', () => {
+  if (!(builderOrder.size && builderOrder.flavor)) return;
+  const orderId = Math.floor(1000 + Math.random() * 9000);
+  const extras = builderOrder.extras;
+  const total = (builderOrder.sizePrice + extras.reduce((s, e) => s + e.price, 0)).toFixed(2);
+  const items = [
+    { name: `Pizza ${builderOrder.size} — ${builderOrder.flavor}`, price: builderOrder.sizePrice.toFixed(2) },
+    ...extras.map(e => ({ name: e.name, price: e.price.toFixed(2) }))
+  ];
+  const orderObj = { id: orderId, timestamp: Date.now(), items, total: parseFloat(total), status: 'new' };
+  const saved = JSON.parse(localStorage.getItem('biza_demo_orders') || '[]');
+  saved.push(orderObj);
+  localStorage.setItem('biza_demo_orders', JSON.stringify(saved));
+  document.getElementById('confirmOrderNum').textContent = `Order #${orderId}`;
+  document.getElementById('confirmItemsList').innerHTML =
+    items.map(it => `<div class="confirm-item-row"><span>${it.name}</span><span>$${it.price}</span></div>`).join('');
+  document.getElementById('confirmTotal').textContent = `$${total}`;
+  const co = document.getElementById('order-confirm-overlay');
+  co.style.display = 'flex';
+  if (lenis) lenis.stop();
+  gsap.fromTo('.confirm-box', { scale: 0.88, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.6)' });
+  document.querySelectorAll('.size-card, .flavor-btn, .extra-btn').forEach(el => el.classList.remove('selected'));
+  builderOrder.size = null; builderOrder.sizePrice = 0; builderOrder.flavor = null; builderOrder.extras = [];
+  updateSummary();
+});
+
+document.getElementById('confirmCloseBtn').addEventListener('click', () => {
+  gsap.to('.confirm-box', { scale: 0.95, opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+    document.getElementById('order-confirm-overlay').style.display = 'none';
+    if (lenis) lenis.start();
+  }});
 });
 
 gsap.set('#builder .builder-step', { opacity: 0, y: 30 });
@@ -1451,7 +1419,7 @@ lightbox.addEventListener('click',e=>{if(e.target===lightbox){lightbox.classList
 
 /* ── GALLERY STAGGER ── */
 gsap.set('.masonry-item',{opacity:0,y:40,scale:0.93});
-ScrollTrigger.create({ trigger:'#masonryGrid', start:'top 75%', once:true, lazy:true,
+ScrollTrigger.create({ trigger:'#masonryGrid', start:'top 10%', once:true, lazy:true,
   onEnter:()=>gsap.to('.masonry-item',{opacity:1,y:0,scale:1,stagger:0.07,duration:0.6,ease:'power3.out'}),
 });
 
@@ -1464,7 +1432,7 @@ ScrollTrigger.create({
 
 /* ── REVIEWS ── */
 gsap.set('.review-card',{opacity:0,y:40,scale:.93});
-ScrollTrigger.create({ trigger:'#reviews', start:'top 75%', once:true, lazy:true,
+ScrollTrigger.create({ trigger:'#reviews', start:'top 15%', once:true, lazy:true,
   onEnter:()=>gsap.to('.review-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.6,ease:'power3.out'}),
 });
 const trackWrap = document.getElementById('reviewsTrackWrap');
@@ -1542,15 +1510,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     });
     document.querySelectorAll('.clip-section').forEach((el, i) => {
       const prev = el.previousElementSibling;
-      const st = { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true };
+      const st = { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true };
       if (el.id === 'about') {
         gsap.fromTo(el, { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' },
           { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', ease: 'none', scrollTrigger: st });
-        gsap.to('#hero', { scale: 0.95, opacity: 0.65, ease: 'none', scrollTrigger: st });
+        gsap.to('#hero', { scale: 0.95, opacity: 0.65, ease: 'none', scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true } });
       } else if (el.id === 'menu') {
         gsap.fromTo(el, { clipPath: 'circle(0% at 50% 50%)' },
           { clipPath: 'circle(150% at 50% 50%)', ease: 'none', scrollTrigger: st });
-        if (prev) gsap.to(prev, { scale: 0.88, opacity: 0.45, filter: 'blur(3px)', ease: 'none', scrollTrigger: st });
+        if (prev) gsap.to(prev, { scale: 0.88, opacity: 0.45, filter: 'blur(3px)', ease: 'none', scrollTrigger: { trigger: el, start: 'top 88%', end: 'top 12%', scrub: 0.4, lazy: true, invalidateOnRefresh: true } });
       }
     });
     ['#gallery', '#order', '#reviews', '#hours', '#builder'].forEach(sel => {
@@ -1563,18 +1531,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 })();
 </script>
-
-<!-- ORDER CONFIRMATION OVERLAY -->
-<div id="order-confirm-overlay">
-  <div class="confirm-card">
-    <div class="confirm-icon">🍕</div>
-    <div class="confirm-order-num" id="confirmOrderNum">Order #0000</div>
-    <h2 class="confirm-title">Order Placed!</h2>
-    <p class="confirm-sub">Your order has been received and is being prepared.</p>
-    <div class="confirm-items" id="confirmItems"></div>
-    <div class="confirm-wait">⏱ Estimated wait: 20–25 minutes</div>
-    <button class="confirm-close" onclick="document.getElementById('order-confirm-overlay').classList.remove('active')">Got it — Back to Menu</button>
-  </div>
-</div>
 </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "id": "session-1779742671314",
+  "startedAt": "2026-05-25T20:57:51.314Z",
+  "platform": "darwin",
+  "cwd": "/Users/rafaelrodrigues/Desktop/Projects/BizaPizza",
+  "context": {},
+  "metrics": {
+    "edits": 13,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  }
+}
