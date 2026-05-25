@@ -102,6 +102,7 @@ section { position:relative; }
 #hero {
   position:relative; height:100vh; min-height:640px;
   display:flex; align-items:center; overflow:hidden;
+  will-change:transform; backface-visibility:hidden; transform:translateZ(0);
 }
 .hero-bg { position:absolute; inset:0; z-index:0; background:#0a0806; }
 .hero-slide {
@@ -129,6 +130,7 @@ section { position:relative; }
 .hero-content {
   position:relative; z-index:2;
   width:100%; max-width:1300px; margin:0 auto; padding:0 80px;
+  will-change:transform, opacity;
 }
 .hero-eyebrow {
   font-size:.72rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase;
@@ -1274,6 +1276,7 @@ const HOURS_DATA = [
 
 /* ── INIT GSAP + LENIS ── */
 gsap.registerPlugin(ScrollTrigger, Flip, Draggable);
+gsap.defaults({ overwrite: 'auto' });
 ScrollTrigger.config({ ignoreMobileResize: true });
 let lenis;
 const scrollRiver = document.getElementById('scroll-river');
@@ -1795,7 +1798,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     });
   };
   if (window.innerWidth >= 768) {
-    ScrollTrigger.create({ trigger: '#hero', start: 'top top', end: '+=120%', pin: true, pinSpacing: true, lazy: true, invalidateOnRefresh: true });
+    ScrollTrigger.create({ trigger: '#hero', start: 'top top', end: '+=120%', pin: true, pinSpacing: true, lazy: true, invalidateOnRefresh: true, anticipatePin: 1 });
     gsap.to('.hero-content', { y: -60, opacity: 0.4, ease: 'none',
       scrollTrigger: { trigger: '#hero', start: 'top top', end: '+=250', scrub: 0.4, lazy: true }
     });
