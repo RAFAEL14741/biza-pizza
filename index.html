@@ -249,11 +249,14 @@ section { position:relative; }
 .menu-eyebrow { font-size:.78rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:16px; }
 .menu-title { font-family:var(--serif); font-size:clamp(2.4rem,4.5vw,4rem); color:#fff; line-height:1.1; }
 .menu-subtitle { font-size:.95rem; color:rgba(255,255,255,.45); margin-top:12px; font-style:italic; }
-.menu-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:36px; }
-.menu-tab { background:rgba(255,255,255,.07); color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:8px 20px; font-size:.82rem; letter-spacing:.06em; cursor:pointer; transition:all .2s ease; }
+.menu-tabs { display:flex; gap:10px; justify-content:center; margin-bottom:36px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; flex-wrap:nowrap; padding-bottom:4px; }
+.menu-tabs::-webkit-scrollbar { display:none; }
+.menu-tab { background:rgba(255,255,255,.07); color:rgba(255,255,255,.7); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:8px 20px; font-size:.82rem; letter-spacing:.06em; cursor:pointer; transition:all .2s ease; white-space:nowrap; flex-shrink:0; }
 .menu-tab:hover { background:rgba(200,40,42,.15); border-color:var(--red); color:#fff; }
 .menu-tab.active { background:var(--red); border-color:var(--red); color:#fff; }
-.menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1200px; margin:0 auto; }
+.menu-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; max-width:1400px; margin:0 auto; }
+@media (max-width:1023px) { .menu-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:639px)  { .menu-grid { grid-template-columns:repeat(2,1fr); } }
 .menu-card {
   background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
   border-radius:16px; overflow:hidden; cursor:pointer;
@@ -265,18 +268,25 @@ section { position:relative; }
 @media (hover:hover) and (pointer:fine) {
   .menu-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.35); }
 }
-.menu-card-img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
-.menu-card-body { padding:20px; display:flex; flex-direction:column; gap:10px; flex:1; }
-.menu-card-name { font-size:1.1rem; font-weight:700; color:#fff; line-height:1.25; }
-.menu-card-desc { font-size:.82rem; color:rgba(255,255,255,.6); line-height:1.5; flex:1; }
-.menu-card-price { font-size:1.2rem; font-weight:700; color:var(--red); }
+.menu-card-img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+.menu-card-body { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.menu-card-name { font-size:1rem; font-weight:700; color:#fff; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.menu-card-desc { font-size:.8rem; color:rgba(255,255,255,.5); line-height:1.5; flex:1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.menu-card-price { font-size:1.1rem; font-weight:700; color:var(--red); }
 .menu-card-btn {
-  width:100%; background:var(--red); color:#fff; border:none; border-radius:8px;
-  padding:10px; font-size:.82rem; font-weight:600; letter-spacing:.04em;
-  margin-top:4px; transition:background .2s;
+  width:100%; background:transparent; color:var(--red); border:1px solid var(--red); border-radius:8px;
+  padding:9px; font-size:.8rem; font-weight:600; letter-spacing:.04em;
+  margin-top:auto; transition:background .2s, color .2s;
 }
-.menu-card-btn:hover { background:#a81f21; }
-.menu-card-from { font-size:.78rem; color:rgba(255,255,255,.5); margin-top:-4px; }
+.menu-card-btn:hover { background:var(--red); color:#fff; }
+.menu-card-from { font-size:.75rem; color:rgba(255,255,255,.45); margin-top:-4px; }
+.menu-cat-header {
+  grid-column:1/-1; display:flex; align-items:center; gap:12px;
+  padding:12px 0 8px; border-bottom:1px solid rgba(255,255,255,.1);
+  font-size:.8rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--gold); margin-top:20px;
+}
+.menu-cat-header:first-child { margin-top:0; }
 .overlay-pizza-sizes { display:flex; gap:10px; margin-bottom:16px; }
 .overlay-size-opt { flex:1; background:rgba(255,255,255,.06); border:2px solid rgba(255,255,255,.12); border-radius:12px; padding:12px 8px; cursor:pointer; text-align:center; transition:all .2s; }
 .overlay-size-opt:hover { border-color:rgba(200,40,42,.5); }
@@ -284,6 +294,8 @@ section { position:relative; }
 .sz-name { font-size:.9rem; font-weight:700; color:#fff; }
 .sz-slices { font-size:.72rem; color:rgba(255,255,255,.45); margin:3px 0; }
 .sz-price { font-size:1rem; font-weight:700; color:var(--red); }
+.overlay-stuffed-note { font-size:.78rem; color:rgba(255,255,255,.45); text-align:center; margin-bottom:16px; line-height:1.5; }
+.menu-overlay-wa:disabled { background:rgba(255,255,255,.1); color:rgba(255,255,255,.3); cursor:not-allowed; pointer-events:none; }
 
 /* ── MENU OVERLAY ── */
 #menu-overlay {
@@ -291,7 +303,7 @@ section { position:relative; }
   display:none; align-items:center; justify-content:center; padding:40px 24px;
 }
 .menu-overlay-inner { max-width:520px; width:100%; background:var(--slate); border-radius:20px; overflow:hidden; border:1px solid rgba(255,255,255,.1); position:relative; }
-.menu-overlay-img { width:100%; aspect-ratio:16/9; object-fit:cover; display:block; }
+.menu-overlay-img { width:100%; height:200px; object-fit:cover; object-position:center; display:block; }
 .menu-overlay-body { padding:28px; }
 .menu-overlay-title { font-family:var(--serif); font-size:1.8rem; color:#fff; margin-bottom:8px; }
 .menu-overlay-desc { font-size:.9rem; color:rgba(255,255,255,.55); line-height:1.6; margin-bottom:16px; }
@@ -867,9 +879,10 @@ input, textarea, select { cursor: text; }
           <div class="sz-name">Grande</div><div class="sz-slices">8 slices · 2–3</div><div class="sz-price">$39.59</div>
         </button>
         <button class="overlay-size-opt" data-size="Gigante" data-price="49.49">
-          <div class="sz-name">Gigante</div><div class="sz-slices">8 slices · 3–4</div><div class="sz-price">$49.49</div>
+          <div class="sz-name">Gigante</div><div class="sz-slices">12 slices · 3–4</div><div class="sz-price">$49.49</div>
         </button>
       </div>
+      <p class="overlay-stuffed-note" id="overlayStuffedNote" style="display:none">🧀 All pizzas include stuffed crust — Cheddar, Catupiry, or Chocolate</p>
       <button class="menu-overlay-wa" id="overlayWa">Build Your Order →</button>
     </div>
   </div>
@@ -1195,41 +1208,39 @@ input, textarea, select { cursor: text; }
 
 <script>
 /* ── MENU DATA ── */
-const IMG = id => `https://images.unsplash.com/${id}?fm=jpg&q=80&w=600&auto=format&fit=crop`;
-
 const ORDER_ITEMS = [
   /* PIZZAS */
-  { name:'Pizza Mussarela',       price:'From $33.39', fromPrice:'$33.39', desc:'Classic mozzarella, rich tomato sauce, and fresh basil. The one that started it all.', category:'pizzas', img:IMG('photo-1513104890138-7c749659a591'), isPizza:true },
-  { name:'Pizza Calabresa',       price:'From $33.39', fromPrice:'$33.39', desc:'Spicy Brazilian sausage with mozzarella and caramelized onion rings.', category:'pizzas', img:IMG('photo-1574071318508-1cdbab80d002'), isPizza:true },
-  { name:'Pizza Frango Catupiry', price:'From $33.39', fromPrice:'$33.39', desc:"Tender shredded chicken with Brazil's iconic Catupiry cream cheese.", category:'pizzas', img:IMG('photo-1565299624946-b28f40a0ae38'), isPizza:true },
-  { name:'Pizza Portuguesa',      price:'From $33.39', fromPrice:'$33.39', desc:'Ham, boiled egg, onion, bell pepper, and olives. A Brazilian classic.', category:'pizzas', img:IMG('photo-1571997478779-2adcbbe9ab2f'), isPizza:true },
-  { name:'Pizza Quatro Queijos',  price:'From $33.39', fromPrice:'$33.39', desc:'Mozzarella, cheddar, provolone, and Catupiry melted to golden perfection.', category:'pizzas', img:IMG('photo-1593560708920-61dd98c46a4e'), isPizza:true },
-  { name:'Pizza Margherita',      price:'From $33.39', fromPrice:'$33.39', desc:'Fresh tomato, mozzarella, and basil. Light, bright, and timeless.', category:'pizzas', img:IMG('photo-1548369937-47519962c11a'), isPizza:true },
-  { name:'Pizza Lombo Canadense', price:'From $33.39', fromPrice:'$33.39', desc:'Canadian-style pork loin with cheddar, tomato, and crispy onion.', category:'pizzas', img:IMG('photo-1604382354936-07c5d9983bd3'), isPizza:true },
-  { name:'Pizza Brigadeiro',      price:'From $33.39', fromPrice:'$33.39', desc:'Brazilian chocolate dream — Nutella base, brigadeiro drizzle, and condensed milk.', category:'pizzas', img:IMG('photo-1590947132387-155cc02f3212'), isPizza:true },
+  { name:'Pizza Mussarela',       price:'From $33.39', fromPrice:'$33.39', desc:'Classic mozzarella, rich tomato sauce, and fresh basil. The one that started it all.', category:'pizzas', img:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80', isPizza:true },
+  { name:'Pizza Calabresa',       price:'From $33.39', fromPrice:'$33.39', desc:'Spicy Brazilian sausage with mozzarella and caramelized onion rings.', category:'pizzas', img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80', isPizza:true },
+  { name:'Pizza Frango Catupiry', price:'From $33.39', fromPrice:'$33.39', desc:"Tender shredded chicken with Brazil's iconic Catupiry cream cheese.", category:'pizzas', img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80', isPizza:true },
+  { name:'Pizza Portuguesa',      price:'From $33.39', fromPrice:'$33.39', desc:'Ham, boiled egg, onion, bell pepper, and olives. A Brazilian classic.', category:'pizzas', img:'https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?w=600&q=80', isPizza:true },
+  { name:'Pizza Quatro Queijos',  price:'From $33.39', fromPrice:'$33.39', desc:'Mozzarella, cheddar, provolone, and Catupiry melted to golden perfection.', category:'pizzas', img:'https://images.unsplash.com/photo-1548369937-47519962c11a?w=600&q=80', isPizza:true },
+  { name:'Pizza Margherita',      price:'From $33.39', fromPrice:'$33.39', desc:'Fresh tomato, mozzarella, and basil. Light, bright, and timeless.', category:'pizzas', img:'https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=600&q=80', isPizza:true },
+  { name:'Pizza Lombo Canadense', price:'From $33.39', fromPrice:'$33.39', desc:'Canadian-style pork loin with cheddar, tomato, and crispy onion.', category:'pizzas', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80', isPizza:true },
+  { name:'Pizza Brigadeiro',      price:'From $33.39', fromPrice:'$33.39', desc:'Brazilian chocolate dream — Nutella base, brigadeiro drizzle, and condensed milk.', category:'pizzas', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isPizza:true },
   /* PASTÉIS */
-  { name:'Pastel de Carne',     price:'$8.99',  desc:'Ground beef with onion and parsley in golden fried dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Queijo',    price:'$8.49',  desc:'Melted mozzarella in crispy, thin-crust fried pastry. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Frango',    price:'$9.49',  desc:'Shredded chicken with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Palmito',   price:'$9.99',  desc:'Heart of palm with mozzarella in crispy dough. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Carne Seca',price:'$10.49', desc:'Savory dried beef with mozzarella. A Brazilian favorite. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Calabresa', price:'$9.49',  desc:'Spicy sausage with cheddar and Catupiry cream cheese. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Camarão',   price:'$11.99', desc:'Juicy shrimp with cream cheese and herbs. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
-  { name:'Pastel de Banana',    price:'$7.99',  desc:'Sweet banana with cinnamon and condensed milk. Dessert. 2-pack.', category:'pasteis', img:IMG('photo-1601050690597-df0568f70950') },
+  { name:'Pastel de Carne',     price:'$8.99',  desc:'Ground beef with onion and parsley in golden fried dough. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
+  { name:'Pastel de Queijo',    price:'$8.49',  desc:'Melted mozzarella in crispy, thin-crust fried pastry. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
+  { name:'Pastel de Frango',    price:'$9.49',  desc:'Shredded chicken with cream cheese and herbs. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
+  { name:'Pastel de Palmito',   price:'$9.99',  desc:'Heart of palm with mozzarella in crispy dough. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  { name:'Pastel de Carne Seca',price:'$10.49', desc:'Savory dried beef with mozzarella. A Brazilian favorite. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
+  { name:'Pastel de Calabresa', price:'$9.49',  desc:'Spicy sausage with cheddar and Catupiry cream cheese. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
+  { name:'Pastel de Camarão',   price:'$11.99', desc:'Juicy shrimp with cream cheese and herbs. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
+  { name:'Pastel de Banana',    price:'$7.99',  desc:'Sweet banana with cinnamon and condensed milk. Dessert. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80' },
   /* ESFIHAS */
-  { name:'Esfihas de Carne', price:'$21.69', desc:'Traditional open-faced minced beef pastries with onion and parsley. 5-pack.', category:'esfihas', img:IMG('photo-1528735602780-2552fd46c7af') },
-  /* DRINKS */
-  { name:'Guaraná Antártica',   price:'$7.59', desc:'Classic Brazilian soda — sweet, citrusy, and refreshing. Can.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Coca-Cola',           price:'$5.99', desc:'Ice-cold Coca-Cola. 2L bottle.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Suco de Maracujá',    price:'$6.49', desc:'Passion fruit juice — tangy and tropical. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Água com Gás',        price:'$3.49', desc:'Sparkling mineral water. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
-  { name:'Limonada Brasileira', price:'$6.99', desc:'Brazilian lemonade blended with condensed milk. Creamy and citrusy. 500ml.', category:'drinks', img:IMG('photo-1625772452859-1c03d884dcd7') },
+  { name:'Esfihas de Carne', price:'$21.69', desc:'Traditional open-faced minced beef pastries with onion and parsley. 5-pack.', category:'esfihas', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
   /* PORÇÕES */
-  { name:'Batata Frita',  price:'$12.99', desc:'Crispy golden fries with our house seasoning. Serves 2.', category:'porcoes', img:IMG('photo-1628840042765-356cda07504e') },
-  { name:'Frango Frito',  price:'$15.99', desc:'Golden fried chicken pieces, seasoned Brazilian-style. Serves 2.', category:'porcoes', img:IMG('photo-1565299507177-b0ac66763828') },
+  { name:'Batata Frita',  price:'$12.99', desc:'Crispy golden fries with our house seasoning. Serves 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
+  { name:'Frango Frito',  price:'$15.99', desc:'Golden fried chicken pieces, seasoned Brazilian-style. Serves 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80' },
   /* COMBOS */
-  { name:'Combo Eu',      price:'$28.49', desc:'7 esfihas de carne + 1 can Guaraná Antártica. Quick and satisfying combo.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
-  { name:'Combo Família', price:'$52.99', desc:'1 Grande pizza + 2 cans Guaraná + 4 pastéis. The full family feast.', category:'combos', img:IMG('photo-1565299624946-b28f40a0ae38') },
+  { name:'Combo Eu',      price:'$28.49', desc:'7 esfihas de carne + 1 can Guaraná Antártica. Quick and satisfying combo.', category:'combos', img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80' },
+  { name:'Combo Família', price:'$52.99', desc:'1 Grande pizza + 2 cans Guaraná + 4 pastéis. The full family feast.', category:'combos', img:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80' },
+  /* DRINKS */
+  { name:'Guaraná Antártica',   price:'$7.59', desc:'Classic Brazilian soda — sweet, citrusy, and refreshing. Can.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
+  { name:'Coca-Cola',           price:'$5.99', desc:'Ice-cold Coca-Cola. Can.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
+  { name:'Suco de Maracujá',    price:'$6.49', desc:'Passion fruit juice — tangy and tropical. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
+  { name:'Água com Gás',        price:'$3.49', desc:'Sparkling mineral water. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80' },
+  { name:'Limonada Brasileira', price:'$6.99', desc:'Brazilian lemonade blended with condensed milk. Creamy and citrusy. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
 ];
 
 const HOURS_DATA = [
@@ -1466,16 +1477,32 @@ document.querySelectorAll('.reveal-img-clip').forEach((img,i) => {
 (function renderMenu() {
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
-  grid.innerHTML = ORDER_ITEMS.map(item => `
-    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc}" data-img="${item.img}"${item.isPizza ? ' data-is-pizza="1"' : ''}>
+  const CATS = [
+    { id:'pizzas',  label:'🍕 Pizzas' },
+    { id:'pasteis', label:'🥟 Pastéis' },
+    { id:'esfihas', label:'🧆 Esfihas' },
+    { id:'porcoes', label:'🍟 Porções' },
+    { id:'combos',  label:'🎁 Combos' },
+    { id:'drinks',  label:'🥤 Drinks' },
+  ];
+  const cardHtml = item => `
+    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc||''}" data-img="${item.img}"${item.isPizza ? ' data-is-pizza="1"' : ''}>
       <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
       <div class="menu-card-body">
         <h3 class="menu-card-name">${item.name}</h3>
-        <p class="menu-card-desc">${item.desc}</p>
+        <p class="menu-card-desc">${item.desc||''}</p>
         ${item.isPizza ? `<p class="menu-card-from">From</p><p class="menu-card-price">${item.fromPrice}</p>` : `<p class="menu-card-price">${item.price}</p>`}
-        <button type="button" class="menu-card-btn">${item.isPizza ? 'Choose Size →' : '+ Add to Order'}</button>
+        <button type="button" class="menu-card-btn">${item.isPizza ? 'Choose Size →' : 'Add to Order'}</button>
       </div>
-    </article>`).join('');
+    </article>`;
+  let html = '';
+  CATS.forEach(cat => {
+    const items = ORDER_ITEMS.filter(i => i.category === cat.id);
+    if (!items.length) return;
+    html += `<div class="menu-cat-header" data-cat="${cat.id}">${cat.label}</div>`;
+    html += items.map(cardHtml).join('');
+  });
+  grid.innerHTML = html;
 })();
 
 /* ── MENU CARD REVEAL ── */
@@ -1490,8 +1517,10 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
     tab.classList.add('active');
     const filter = tab.dataset.filter;
     document.querySelectorAll('.menu-card').forEach(card => {
-      const show = filter === 'all' || card.dataset.category === filter;
-      card.style.display = show ? '' : 'none';
+      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+    });
+    document.querySelectorAll('.menu-cat-header').forEach(h => {
+      h.style.display = filter === 'all' ? '' : 'none';
     });
   });
 });
@@ -1511,29 +1540,35 @@ function openMenuOverlay(item) {
   document.getElementById('overlayDesc').textContent = desc;
   const sizesEl = document.getElementById('overlayPizzaSizes');
   const waBtn = document.getElementById('overlayWa');
+  const stuffedNote = document.getElementById('overlayStuffedNote');
   if (isPizza) {
-    document.getElementById('overlayPrice').textContent = 'From $33.39';
+    document.getElementById('overlayPrice').textContent = 'Select a size';
     sizesEl.style.display = 'flex';
+    if (stuffedNote) stuffedNote.style.display = '';
+    waBtn.disabled = true;
+    waBtn.textContent = 'Choose a size first';
     sizesEl.querySelectorAll('.overlay-size-opt').forEach(btn => {
       btn.classList.remove('selected');
       btn.onclick = () => {
         sizesEl.querySelectorAll('.overlay-size-opt').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         document.getElementById('overlayPrice').textContent = '$' + btn.dataset.price;
+        waBtn.disabled = false;
+        waBtn.textContent = 'Add to Cart →';
       };
     });
-    waBtn.textContent = 'Add to Cart →';
     waBtn.onclick = () => {
       const sel = sizesEl.querySelector('.overlay-size-opt.selected');
-      const size = sel ? sel.dataset.size : 'Broto';
-      const sizePrice = sel ? parseFloat(sel.dataset.price) : 33.39;
-      addToCart({ name, variant: size, price: sizePrice, img });
-      showToast(name + ' (' + size + ') added ✓');
+      if (!sel) return;
+      addToCart({ name, variant: sel.dataset.size, price: parseFloat(sel.dataset.price), img });
+      showToast(name + ' (' + sel.dataset.size + ') added ✓');
       closeMenuOverlay();
     };
   } else {
     document.getElementById('overlayPrice').textContent = price;
     sizesEl.style.display = 'none';
+    if (stuffedNote) stuffedNote.style.display = 'none';
+    waBtn.disabled = false;
     waBtn.textContent = 'Add to Cart →';
     waBtn.onclick = () => {
       addToCart({ name, variant: '', price: parseFloat(price.replace(/[^0-9.]/g, '')), img });
