@@ -287,6 +287,7 @@ section { position:relative; }
   padding:12px 0 8px; border-bottom:1px solid rgba(255,255,255,.1);
   font-size:.8rem; font-weight:700; letter-spacing:.12em;
   text-transform:uppercase; color:var(--gold); margin-top:20px;
+  opacity:1;
 }
 .menu-cat-header:first-child { margin-top:0; }
 .overlay-pizza-sizes { display:flex; gap:10px; margin-bottom:16px; }
@@ -1406,8 +1407,12 @@ document.querySelectorAll('.reveal-img-clip').forEach((img,i) => {
 
 /* ── MENU CARD REVEAL ── */
 ScrollTrigger.create({ trigger:'#menuGrid', start:'top 75%', once:true, lazy:true,
-  onEnter() { gsap.to('.menu-card',{opacity:1,y:0,scale:1,stagger:0.09,duration:0.65,ease:'power3.out'}); }
+  onEnter() { gsap.to('.menu-card',{opacity:1,y:0,scale:1,stagger:0.06,duration:0.5,ease:'power3.out'}); }
 });
+// If menu is already in viewport on load (e.g. user scrolled before JS ran), reveal immediately
+if (document.getElementById('menuGrid').getBoundingClientRect().top < window.innerHeight * 0.75) {
+  gsap.set('.menu-card', { opacity:1, y:0, scale:1 });
+}
 
 /* ── MENU TABS ── */
 document.querySelectorAll('.menu-tab').forEach(tab => {
@@ -1420,6 +1425,12 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
     });
     document.querySelectorAll('.menu-cat-header').forEach(h => {
       h.style.display = filter === 'all' ? '' : 'none';
+    });
+    // Force-reveal all now-visible cards — they may still be opacity:0 if ScrollTrigger fired before this tab switch
+    requestAnimationFrame(() => {
+      const shown = [...document.querySelectorAll('.menu-card')].filter(c => c.style.display !== 'none');
+      gsap.killTweensOf(shown);
+      gsap.set(shown, { opacity:1, y:0, scale:1 });
     });
   });
 });
