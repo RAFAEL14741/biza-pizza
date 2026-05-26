@@ -131,6 +131,11 @@ button { background:none; border:none; font-family:var(--sans); cursor:pointer; 
   text-transform:uppercase; color:var(--gold); margin-top:20px; opacity:1;
 }
 .menu-cat-header:first-child { margin-top:0; }
+.doce-badge {
+  display:inline-block; background:rgba(168,40,200,.15); border:1px solid rgba(168,40,200,.35);
+  color:#e879f9; border-radius:999px; font-size:.65rem; font-weight:700;
+  letter-spacing:.05em; padding:2px 10px; align-self:flex-start; margin-bottom:2px;
+}
 
 /* ── MENU OVERLAY ── */
 #menu-overlay {
@@ -383,38 +388,68 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ── MENU DATA ── */
 const ORDER_ITEMS = [
-  /* PIZZAS */
-  { name:'Pizza Mussarela',       price:'From $33.39', fromPrice:'$33.39', desc:'Classic mozzarella, rich tomato sauce, and fresh basil. The one that started it all.', category:'pizzas', img:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80', isPizza:true },
-  { name:'Pizza Calabresa',       price:'From $33.39', fromPrice:'$33.39', desc:'Spicy Brazilian sausage with mozzarella and caramelized onion rings.', category:'pizzas', img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80', isPizza:true },
-  { name:'Pizza Frango Catupiry', price:'From $33.39', fromPrice:'$33.39', desc:"Tender shredded chicken with Brazil's iconic Catupiry cream cheese.", category:'pizzas', img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80', isPizza:true },
-  { name:'Pizza Portuguesa',      price:'From $33.39', fromPrice:'$33.39', desc:'Ham, boiled egg, onion, bell pepper, and olives. A Brazilian classic.', category:'pizzas', img:'https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?w=600&q=80', isPizza:true },
-  { name:'Pizza Quatro Queijos',  price:'From $33.39', fromPrice:'$33.39', desc:'Mozzarella, cheddar, provolone, and Catupiry melted to golden perfection.', category:'pizzas', img:'https://images.unsplash.com/photo-1548369937-47519962c11a?w=600&q=80', isPizza:true },
-  { name:'Pizza Margherita',      price:'From $33.39', fromPrice:'$33.39', desc:'Fresh tomato, mozzarella, and basil. Light, bright, and timeless.', category:'pizzas', img:'https://images.unsplash.com/photo-1552539618-7eec9b4d1796?w=600&q=80', isPizza:true },
-  { name:'Pizza Lombo Canadense', price:'From $33.39', fromPrice:'$33.39', desc:'Canadian-style pork loin with cheddar, tomato, and crispy onion.', category:'pizzas', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80', isPizza:true },
-  { name:'Pizza Brigadeiro',      price:'From $33.39', fromPrice:'$33.39', desc:'Brazilian chocolate dream — Nutella base, brigadeiro drizzle, and condensed milk.', category:'pizzas', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isPizza:true },
-  /* PASTÉIS */
-  { name:'Pastel de Carne',     price:'$8.99',  desc:'Ground beef with onion and parsley in golden fried dough. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
-  { name:'Pastel de Queijo',    price:'$8.49',  desc:'Melted mozzarella in crispy, thin-crust fried pastry. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
-  { name:'Pastel de Frango',    price:'$9.49',  desc:'Shredded chicken with cream cheese and herbs. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
-  { name:'Pastel de Palmito',   price:'$9.99',  desc:'Heart of palm with mozzarella in crispy dough. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  { name:'Pastel de Carne Seca',price:'$10.49', desc:'Savory dried beef with mozzarella. A Brazilian favorite. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
-  { name:'Pastel de Calabresa', price:'$9.49',  desc:'Spicy sausage with cheddar and Catupiry cream cheese. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
-  { name:'Pastel de Camarão',   price:'$11.99', desc:'Juicy shrimp with cream cheese and herbs. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
-  { name:'Pastel de Banana',    price:'$7.99',  desc:'Sweet banana with cinnamon and condensed milk. Dessert. 2-pack.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80' },
-  /* ESFIHAS */
-  { name:'Esfihas de Carne', price:'$21.69', desc:'Traditional open-faced minced beef pastries with onion and parsley. 5-pack.', category:'esfihas', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
-  /* PORÇÕES */
-  { name:'Batata Frita',  price:'$12.99', desc:'Crispy golden fries with our house seasoning. Serves 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
-  { name:'Frango Frito',  price:'$15.99', desc:'Golden fried chicken pieces, seasoned Brazilian-style. Serves 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80' },
-  /* COMBOS */
-  { name:'Combo Eu',      price:'$28.49', desc:'7 esfihas de carne + 1 can Guaraná Antártica. Quick and satisfying combo.', category:'combos', img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80' },
-  { name:'Combo Família', price:'$52.99', desc:'1 Grande pizza + 2 cans Guaraná + 4 pastéis. The full family feast.', category:'combos', img:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80' },
-  /* DRINKS */
-  { name:'Guaraná Antártica',   price:'$7.59', desc:'Classic Brazilian soda — sweet, citrusy, and refreshing. Can.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
-  { name:'Coca-Cola',           price:'$5.99', desc:'Ice-cold Coca-Cola. Can.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
-  { name:'Suco de Maracujá',    price:'$6.49', desc:'Passion fruit juice — tangy and tropical. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
-  { name:'Água com Gás',        price:'$3.49', desc:'Sparkling mineral water. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&q=80' },
-  { name:'Limonada Brasileira', price:'$6.99', desc:'Brazilian lemonade blended with condensed milk. Creamy and citrusy. 500ml.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
+  // ── PIZZAS ──
+  { name:'Pizza Broto 6 Fatias',   price:'$33.39', desc:'6 slices, up to 2 traditional flavors. Stuffed crust: cheddar, catupiry or chocolate.', category:'pizzas', img:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80' },
+  { name:'Pizza Grande 8 Fatias',  price:'$39.59', desc:'8 slices, up to 2 traditional flavors. Stuffed crust: cheddar, catupiry or chocolate.', category:'pizzas', img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80' },
+  { name:'Pizza Gigante 12 Fatias',price:'$49.49', desc:'12 slices, 3 traditional flavors. Comes with a free soda! Stuffed crust included.', category:'pizzas', img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80' },
+  // ── PASTÉIS TRADICIONAIS ── $9.89
+  { name:'Carne, Ovos E Mussarela',                    price:'$9.89', desc:'Ground beef, eggs and mozzarella in crispy fried dough.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
+  { name:'Carne, Catupiry E Mussarela',                price:'$9.89', desc:'Ground beef, catupiry cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
+  { name:'Carne, Cheddar E Mussarela',                 price:'$9.89', desc:'Ground beef, cheddar and mozzarella. A classic combo.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
+  { name:'Carne, Bacon, Mussarela E Cheddar',          price:'$9.89', desc:'Ground beef, crispy bacon, mozzarella and cheddar.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
+  { name:'Frango, Catupiry E Mussarela',               price:'$9.89', desc:'Shredded chicken, catupiry cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
+  { name:'Frango, Cheddar E Mussarela',                price:'$9.89', desc:'Shredded chicken, cheddar and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
+  { name:'Frango, Milho, Bacon E Mussarela',           price:'$9.89', desc:'Chicken, sweet corn, crispy bacon and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
+  { name:'Frango, Milho, Brócolis E Mussarela',        price:'$9.89', desc:'Chicken, corn, broccoli and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
+  { name:'Calabresa, Catupiry E Mussarela',            price:'$9.89', desc:'Brazilian smoked sausage, catupiry and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
+  { name:'Calabresa, Cheddar E Mussarela',             price:'$9.89', desc:'Smoked sausage, cheddar and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
+  { name:'Calabresa, Azeitonas E Mussarela',           price:'$9.89', desc:'Smoked sausage, black olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
+  { name:'Presunto, Ovo, Cebola E Mussarela',          price:'$9.89', desc:'Ham, egg, onion and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  { name:'Presunto, Bacon, Requeijão E Mussarela',     price:'$9.89', desc:'Ham, bacon, cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  { name:'Palmito, Mussarela E Azeitonas',             price:'$9.89', desc:'Hearts of palm, mozzarella and black olives.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  { name:'Palmito, Bacon, Mussarela E Parmesão',       price:'$9.89', desc:'Hearts of palm, bacon, mozzarella and parmesan.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  { name:'Atum, Azeitonas E Mussarela',                price:'$9.89', desc:'Tuna, black olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
+  { name:'Mussarela E Milho',                          price:'$9.89', desc:'Mozzarella and sweet corn. Simple and delicious.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
+  { name:'Lombo Canadense, Parmesão E Requeijão',      price:'$9.89', desc:'Canadian pork loin, parmesan and cream cheese.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
+  { name:'Peito De Peru Defumado, Requeijão E Mussarela', price:'$9.89', desc:'Smoked turkey breast, cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  // ── PASTÉIS ESPECIAIS ── $12.39
+  { name:'Camarão, Mussarela E Catupiry',              price:'$12.39', desc:'Shrimp, mozzarella and catupiry cream cheese. Premium filling.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
+  { name:'Salame Italiano, Calabresa, Tomate E Mussarela', price:'$12.39', desc:'Italian salami, smoked sausage, tomato, oregano and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
+  { name:'Peperone, Palmito, Azeitonas E Mussarela',   price:'$12.39', desc:'Pepperoni, hearts of palm, olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
+  // ── PASTÉIS DOCES ── $9.89
+  { name:'Banana Com Chocolate Preto',   price:'$9.89', desc:'Banana with dark chocolate. Fried to golden perfection.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80', isDoce:true },
+  { name:'Banana Com Chocolate Branco',  price:'$9.89', desc:'Banana with white chocolate. Sweet and crispy.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80', isDoce:true },
+  { name:'Coco Com Chocolate Branco',    price:'$9.89', desc:'Coconut with white chocolate. A tropical treat.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
+  { name:'Chocolate Preto Com Morangos', price:'$9.89', desc:'Dark chocolate with strawberries. Rich and indulgent.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
+  { name:'Chocolate Branco Com Morangos',price:'$9.89', desc:'White chocolate with strawberries. Light and sweet.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
+  { name:'Chocolate Oreo Com Morangos',  price:'$9.89', desc:'Oreo chocolate with strawberries. Fan favorite.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
+  // ── ESFIHAS ──
+  { name:'Esfihas (5-pack)', price:'$21.69', desc:'Soft dough, generous filling. Mix any 5 flavors: carne, calabresa, frango catupiry, quatro queijos, bacon.', category:'esfihas', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
+  // ── PORÇÕES ──
+  { name:'Batata Frita',                  price:'$14.89', desc:'Classic fries, fried fresh. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
+  { name:'Batata Frita Com Cheddar E Bacon', price:'$21.09', desc:'Loaded fries with cheddar sauce and crispy bacon. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
+  { name:'Frango À Passarinho',           price:'$24.79', desc:'Brazilian-style fried chicken bites, seasoned and crispy. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80' },
+  { name:'Anéis De Cebola',              price:'$17.29', desc:'Crispy onion rings, fried fresh to order. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1639024471283-03518883512d?w=600&q=80' },
+  { name:'Tábua Frita',                  price:'$43.29', desc:'The full combo: fries + frango à passarinho + onion rings. Perfect for sharing.', category:'porcoes', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80' },
+  // ── COMBOS ──
+  { name:'Combo Eu',       price:'$28.49', desc:'7 esfihas (2 carne, 2 calabresa, 2 frango catupiry, 1 quatro queijos) + 1 can soda.', category:'combos', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
+  { name:'Combo Eu E Você',price:'$62.99', desc:'15 esfihas (3 of each: carne, calabresa, frango, quatro queijos, bacon) + 2 can sodas.', category:'combos', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
+  { name:'Combo Nós',      price:'$74.19', desc:'20 esfihas (5 of each: carne, calabresa, frango catupiry, quatro queijos) + 1 soda 2L.', category:'combos', img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80' },
+  { name:'Combo Galera',   price:'$122.29',desc:'30 esfihas (5 carne, 5 calabresa, 5 frango, 5 bacon, 5 quatro queijos, 5 your choice) + 1 soda 2L.', category:'combos', img:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80' },
+  // ── DRINKS — LATA $2.59 ──
+  { name:'Guaraná Antártica',      price:'$2.59', desc:'Classic Brazilian guaraná. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
+  { name:'Guaraná Antártica Zero', price:'$2.59', desc:'Zero sugar guaraná Antártica. Full flavor.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
+  { name:'Coca-Cola',              price:'$2.59', desc:'The classic Coca-Cola. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
+  { name:'Coca-Cola Zero',         price:'$2.59', desc:'Zero sugar Coke. Same great taste.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
+  { name:'Sprite',                 price:'$2.59', desc:'Crisp lemon-lime soda. Refreshing with any meal.', category:'drinks', img:'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80' },
+  { name:'Fanta Laranja',          price:'$2.59', desc:'Orange Fanta. Sweet and tropical.', category:'drinks', img:'https://images.unsplash.com/photo-1624552184280-9e9b2ca0d660?w=600&q=80' },
+  { name:'Pepsi',                  price:'$2.59', desc:'Bold Pepsi cola flavor. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=600&q=80' },
+  { name:'Pepsi Zero',             price:'$2.59', desc:'Zero sugar Pepsi. Full bold flavor.', category:'drinks', img:'https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=600&q=80' },
+  // ── DRINKS — 500ML $3.79 ──
+  { name:'Coca-Cola 500ml',        price:'$3.79', desc:'500ml Coca-Cola bottle. Ice cold.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
+  { name:'Coca-Cola Zero 500ml',   price:'$3.79', desc:'500ml zero sugar Coke bottle.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
+  { name:'Sprite 500ml',           price:'$3.79', desc:'500ml Sprite bottle. Crisp and refreshing.', category:'drinks', img:'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80' },
+  { name:'Fanta Laranja 500ml',    price:'$3.79', desc:'500ml orange Fanta bottle.', category:'drinks', img:'https://images.unsplash.com/photo-1624552184280-9e9b2ca0d660?w=600&q=80' },
 ];
 
 /* ── RENDER MENU ── */
@@ -422,28 +457,30 @@ const ORDER_ITEMS = [
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
   const CATS = [
-    { id:'pizzas',  label:'🍕 Pizzas' },
-    { id:'pasteis', label:'🥟 Pastéis' },
-    { id:'esfihas', label:'🧆 Esfihas' },
-    { id:'porcoes', label:'🍟 Porções' },
-    { id:'combos',  label:'🎁 Combos' },
-    { id:'drinks',  label:'🥤 Drinks' },
+    { id:'pizzas',           label:'🍕 Pizzas',           filter: i => i.category === 'pizzas' },
+    { id:'pasteis-salgados', label:'🥟 Pastéis Salgados', filter: i => i.category === 'pasteis' && !i.isDoce, catTab:'pasteis' },
+    { id:'pasteis-doces',    label:'🍫 Pastéis Doces',    filter: i => i.category === 'pasteis' && i.isDoce,  catTab:'pasteis' },
+    { id:'esfihas',          label:'🧆 Esfihas',           filter: i => i.category === 'esfihas' },
+    { id:'porcoes',          label:'🍟 Porções',           filter: i => i.category === 'porcoes' },
+    { id:'combos',           label:'🎁 Combos',            filter: i => i.category === 'combos' },
+    { id:'drinks',           label:'🥤 Drinks',            filter: i => i.category === 'drinks' },
   ];
   const cardHtml = item => `
-    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc||''}" data-img="${item.img}"${item.isPizza ? ' data-is-pizza="1"' : ''}>
+    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc||''}" data-img="${item.img}">
       <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
       <div class="menu-card-body">
+        ${item.isDoce ? '<span class="doce-badge">🍫 Doce</span>' : ''}
         <h3 class="menu-card-name">${item.name}</h3>
         <p class="menu-card-desc">${item.desc||''}</p>
-        ${item.isPizza ? `<p class="menu-card-from">From</p><p class="menu-card-price">${item.fromPrice}</p>` : `<p class="menu-card-price">${item.price}</p>`}
-        <button type="button" class="menu-card-btn">${item.isPizza ? 'Choose Size →' : 'Add to Order'}</button>
+        <p class="menu-card-price">${item.price}</p>
+        <button type="button" class="menu-card-btn">Add to Order</button>
       </div>
     </article>`;
   let html = '';
   CATS.forEach(cat => {
-    const items = ORDER_ITEMS.filter(i => i.category === cat.id);
+    const items = ORDER_ITEMS.filter(cat.filter);
     if (!items.length) return;
-    html += `<div class="menu-cat-header" data-cat="${cat.id}">${cat.label}</div>`;
+    html += `<div class="menu-cat-header" data-cat="${cat.catTab || cat.id}">${cat.label}</div>`;
     html += items.map(cardHtml).join('');
   });
   grid.innerHTML = html;
@@ -467,7 +504,7 @@ document.querySelectorAll('.menu-tab').forEach(tab => {
       card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
     });
     document.querySelectorAll('.menu-cat-header').forEach(h => {
-      h.style.display = filter === 'all' ? '' : 'none';
+      h.style.display = (filter === 'all' || h.dataset.cat === filter) ? '' : 'none';
     });
     requestAnimationFrame(() => {
       const shown = [...document.querySelectorAll('.menu-card')].filter(c => c.style.display !== 'none');
