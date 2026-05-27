@@ -88,20 +88,20 @@ button { background:none; border:none; font-family:var(--sans); cursor:pointer; 
   flex-wrap:nowrap; padding-bottom:4px;
 }
 .menu-tabs::-webkit-scrollbar { display:none; }
-.menu-tab {
+.tab-btn {
   background:rgba(255,255,255,.07); color:rgba(255,255,255,.7);
   border:1px solid rgba(255,255,255,.12); border-radius:999px;
   padding:8px 20px; font-size:.82rem; letter-spacing:.06em;
   cursor:pointer; transition:all .2s ease; white-space:nowrap; flex-shrink:0;
 }
-.menu-tab:hover { background:rgba(200,40,42,.15); border-color:var(--red); color:#fff; }
-.menu-tab.active { background:var(--red); border-color:var(--red); color:#fff; }
+.tab-btn:hover { background:rgba(200,40,42,.15); border-color:var(--red); color:#fff; }
+.tab-btn.active { background:var(--red); border-color:var(--red); color:#fff; }
 .menu-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:24px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:18px;
   max-width:1400px; margin:0 auto;
 }
-@media (max-width:1200px) { .menu-grid { grid-template-columns:repeat(3,1fr); } }
-@media (max-width:767px)  { .menu-grid { grid-template-columns:repeat(2,1fr); gap:14px; } }
+@media (max-width:1100px) { .menu-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:768px)  { .menu-grid { grid-template-columns:repeat(2,1fr); gap:12px; } }
 .menu-card {
   background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
   border-radius:16px; overflow:hidden; cursor:pointer;
@@ -112,17 +112,19 @@ button { background:none; border:none; font-family:var(--sans); cursor:pointer; 
 @media (hover:hover) and (pointer:fine) {
   .menu-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.35); }
 }
-.menu-card-img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+.menu-card-img-wrap { position:relative; overflow:hidden; }
+.menu-card-img { width:100%; aspect-ratio:4/3; object-fit:cover; transition:transform .4s ease; }
+.menu-card:hover .menu-card-img { transform:scale(1.05); }
+.menu-card-img-wrap::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(18,10,6,.55) 0%, transparent 60%); pointer-events:none; }
+.menu-card-cat-label { position:absolute; bottom:10px; left:12px; font-size:.65rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.85); z-index:1; }
+.menu-card-badge { position:absolute; top:10px; right:10px; background:#C8282A; color:#fff; font-size:.62rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:999px; z-index:2; }
 .menu-card-body { padding:16px; display:flex; flex-direction:column; gap:8px; flex:1; }
 .menu-card-name { font-size:1rem; font-weight:700; color:#fff; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .menu-card-desc { font-size:.8rem; color:rgba(255,255,255,.5); line-height:1.5; flex:1; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
 .menu-card-price { font-size:1.1rem; font-weight:700; color:var(--red); }
-.menu-card-btn {
-  width:100%; background:transparent; color:var(--red); border:1px solid var(--red);
-  border-radius:8px; padding:9px; font-size:.8rem; font-weight:600;
-  letter-spacing:.04em; margin-top:auto; transition:background .2s, color .2s;
-}
-.menu-card-btn:hover { background:var(--red); color:#fff; }
+.menu-card-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px; }
+.menu-card-btn { background:rgba(200,40,42,.18); color:#C8282A; border:1px solid rgba(200,40,42,.35); border-radius:8px; padding:7px 14px; font-size:.75rem; font-weight:700; white-space:nowrap; transition:all .2s; }
+.menu-card-btn:hover { background:#C8282A; color:#fff; border-color:#C8282A; }
 .menu-card-from { font-size:.75rem; color:rgba(255,255,255,.45); margin-top:-4px; }
 .menu-cat-header {
   grid-column:1/-1; display:flex; align-items:center; gap:12px;
@@ -336,13 +338,13 @@ button { background:none; border:none; font-family:var(--sans); cursor:pointer; 
 <!-- MENU -->
 <section id="menu">
   <div class="menu-tabs">
-    <button class="menu-tab active" data-filter="all">All</button>
-    <button class="menu-tab" data-filter="pizzas">🍕 Pizzas</button>
-    <button class="menu-tab" data-filter="pasteis">🥟 Pastéis</button>
-    <button class="menu-tab" data-filter="esfihas">🧆 Esfihas</button>
-    <button class="menu-tab" data-filter="porcoes">🍟 Porções</button>
-    <button class="menu-tab" data-filter="drinks">🥤 Drinks</button>
-    <button class="menu-tab" data-filter="combos">🎁 Combos</button>
+    <button class="tab-btn active" data-tab="all">All</button>
+    <button class="tab-btn" data-tab="pizzas">🍕 Pizzas</button>
+    <button class="tab-btn" data-tab="pasteis">🥟 Pastéis</button>
+    <button class="tab-btn" data-tab="esfihas">🧆 Esfihas</button>
+    <button class="tab-btn" data-tab="porcoes">🍟 Porções</button>
+    <button class="tab-btn" data-tab="combos">🎁 Combos</button>
+    <button class="tab-btn" data-tab="drinks">🥤 Drinks</button>
   </div>
   <div class="menu-grid" id="menuGrid"></div>
 </section>
@@ -387,104 +389,110 @@ button { background:none; border:none; font-family:var(--sans); cursor:pointer; 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── MENU DATA ── */
+const I = {
+  p1:  'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80',
+  p2:  'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80',
+  p3:  'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',
+  pas: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80',
+  pac: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=80',
+  pad: 'https://images.unsplash.com/photo-1506354666786-959d6d497f1a?w=600&q=80',
+  esf: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  fri: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80',
+  chk: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=600&q=80',
+  oni: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=600&q=80',
+  tbd: 'https://images.unsplash.com/photo-1548369937-47519962c11a?w=600&q=80',
+  cmb: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80',
+  drk: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=600&q=80',
+};
+
 const ORDER_ITEMS = [
-  // ── PIZZAS ──
-  { name:'Pizza Broto 6 Fatias',   price:'$33.39', desc:'6 slices, up to 2 traditional flavors. Stuffed crust: cheddar, catupiry or chocolate.', category:'pizzas', img:'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600&q=80' },
-  { name:'Pizza Grande 8 Fatias',  price:'$39.59', desc:'8 slices, up to 2 traditional flavors. Stuffed crust: cheddar, catupiry or chocolate.', category:'pizzas', img:'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80' },
-  { name:'Pizza Gigante 12 Fatias',price:'$49.49', desc:'12 slices, 3 traditional flavors. Comes with a free soda! Stuffed crust included.', category:'pizzas', img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&q=80' },
-  // ── PASTÉIS TRADICIONAIS ── $9.89
-  { name:'Carne, Ovos E Mussarela',                    price:'$9.89', desc:'Ground beef, eggs and mozzarella in crispy fried dough.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
-  { name:'Carne, Catupiry E Mussarela',                price:'$9.89', desc:'Ground beef, catupiry cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80' },
-  { name:'Carne, Cheddar E Mussarela',                 price:'$9.89', desc:'Ground beef, cheddar and mozzarella. A classic combo.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
-  { name:'Carne, Bacon, Mussarela E Cheddar',          price:'$9.89', desc:'Ground beef, crispy bacon, mozzarella and cheddar.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
-  { name:'Frango, Catupiry E Mussarela',               price:'$9.89', desc:'Shredded chicken, catupiry cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
-  { name:'Frango, Cheddar E Mussarela',                price:'$9.89', desc:'Shredded chicken, cheddar and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
-  { name:'Frango, Milho, Bacon E Mussarela',           price:'$9.89', desc:'Chicken, sweet corn, crispy bacon and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
-  { name:'Frango, Milho, Brócolis E Mussarela',        price:'$9.89', desc:'Chicken, corn, broccoli and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1598515213692-56f98f927b57?w=600&q=80' },
-  { name:'Calabresa, Catupiry E Mussarela',            price:'$9.89', desc:'Brazilian smoked sausage, catupiry and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
-  { name:'Calabresa, Cheddar E Mussarela',             price:'$9.89', desc:'Smoked sausage, cheddar and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
-  { name:'Calabresa, Azeitonas E Mussarela',           price:'$9.89', desc:'Smoked sausage, black olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
-  { name:'Presunto, Ovo, Cebola E Mussarela',          price:'$9.89', desc:'Ham, egg, onion and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  { name:'Presunto, Bacon, Requeijão E Mussarela',     price:'$9.89', desc:'Ham, bacon, cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  { name:'Palmito, Mussarela E Azeitonas',             price:'$9.89', desc:'Hearts of palm, mozzarella and black olives.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  { name:'Palmito, Bacon, Mussarela E Parmesão',       price:'$9.89', desc:'Hearts of palm, bacon, mozzarella and parmesan.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  { name:'Atum, Azeitonas E Mussarela',                price:'$9.89', desc:'Tuna, black olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
-  { name:'Mussarela E Milho',                          price:'$9.89', desc:'Mozzarella and sweet corn. Simple and delicious.', category:'pasteis', img:'https://images.unsplash.com/photo-1531749668029-2db88e4276c7?w=600&q=80' },
-  { name:'Lombo Canadense, Parmesão E Requeijão',      price:'$9.89', desc:'Canadian pork loin, parmesan and cream cheese.', category:'pasteis', img:'https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=600&q=80' },
-  { name:'Peito De Peru Defumado, Requeijão E Mussarela', price:'$9.89', desc:'Smoked turkey breast, cream cheese and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  // ── PASTÉIS ESPECIAIS ── $12.39
-  { name:'Camarão, Mussarela E Catupiry',              price:'$12.39', desc:'Shrimp, mozzarella and catupiry cream cheese. Premium filling.', category:'pasteis', img:'https://images.unsplash.com/photo-1565680018093-ebb6b9ab5460?w=600&q=80' },
-  { name:'Salame Italiano, Calabresa, Tomate E Mussarela', price:'$12.39', desc:'Italian salami, smoked sausage, tomato, oregano and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1555243896-c709bfa0b564?w=600&q=80' },
-  { name:'Peperone, Palmito, Azeitonas E Mussarela',   price:'$12.39', desc:'Pepperoni, hearts of palm, olives and mozzarella.', category:'pasteis', img:'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80' },
-  // ── PASTÉIS DOCES ── $9.89
-  { name:'Banana Com Chocolate Preto',   price:'$9.89', desc:'Banana with dark chocolate. Fried to golden perfection.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80', isDoce:true },
-  { name:'Banana Com Chocolate Branco',  price:'$9.89', desc:'Banana with white chocolate. Sweet and crispy.', category:'pasteis', img:'https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=600&q=80', isDoce:true },
-  { name:'Coco Com Chocolate Branco',    price:'$9.89', desc:'Coconut with white chocolate. A tropical treat.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
-  { name:'Chocolate Preto Com Morangos', price:'$9.89', desc:'Dark chocolate with strawberries. Rich and indulgent.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
-  { name:'Chocolate Branco Com Morangos',price:'$9.89', desc:'White chocolate with strawberries. Light and sweet.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
-  { name:'Chocolate Oreo Com Morangos',  price:'$9.89', desc:'Oreo chocolate with strawberries. Fan favorite.', category:'pasteis', img:'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80', isDoce:true },
-  // ── ESFIHAS ──
-  { name:'Esfihas (5-pack)', price:'$21.69', desc:'Soft dough, generous filling. Mix any 5 flavors: carne, calabresa, frango catupiry, quatro queijos, bacon.', category:'esfihas', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
-  // ── PORÇÕES ──
-  { name:'Batata Frita',                  price:'$14.89', desc:'Classic fries, fried fresh. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
-  { name:'Batata Frita Com Cheddar E Bacon', price:'$21.09', desc:'Loaded fries with cheddar sauce and crispy bacon. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600&q=80' },
-  { name:'Frango À Passarinho',           price:'$24.79', desc:'Brazilian-style fried chicken bites, seasoned and crispy. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80' },
-  { name:'Anéis De Cebola',              price:'$17.29', desc:'Crispy onion rings, fried fresh to order. Serves up to 2.', category:'porcoes', img:'https://images.unsplash.com/photo-1639024471283-03518883512d?w=600&q=80' },
-  { name:'Tábua Frita',                  price:'$43.29', desc:'The full combo: fries + frango à passarinho + onion rings. Perfect for sharing.', category:'porcoes', img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80' },
-  // ── COMBOS ──
-  { name:'Combo Eu',       price:'$28.49', desc:'7 esfihas (2 carne, 2 calabresa, 2 frango catupiry, 1 quatro queijos) + 1 can soda.', category:'combos', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
-  { name:'Combo Eu E Você',price:'$62.99', desc:'15 esfihas (3 of each: carne, calabresa, frango, quatro queijos, bacon) + 2 can sodas.', category:'combos', img:'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80' },
-  { name:'Combo Nós',      price:'$74.19', desc:'20 esfihas (5 of each: carne, calabresa, frango catupiry, quatro queijos) + 1 soda 2L.', category:'combos', img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80' },
-  { name:'Combo Galera',   price:'$122.29',desc:'30 esfihas (5 carne, 5 calabresa, 5 frango, 5 bacon, 5 quatro queijos, 5 your choice) + 1 soda 2L.', category:'combos', img:'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80' },
-  // ── DRINKS — LATA $2.59 ──
-  { name:'Guaraná Antártica',      price:'$2.59', desc:'Classic Brazilian guaraná. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
-  { name:'Guaraná Antártica Zero', price:'$2.59', desc:'Zero sugar guaraná Antártica. Full flavor.', category:'drinks', img:'https://images.unsplash.com/photo-1625772452859-1c03d884dcd7?w=600&q=80' },
-  { name:'Coca-Cola',              price:'$2.59', desc:'The classic Coca-Cola. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
-  { name:'Coca-Cola Zero',         price:'$2.59', desc:'Zero sugar Coke. Same great taste.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
-  { name:'Sprite',                 price:'$2.59', desc:'Crisp lemon-lime soda. Refreshing with any meal.', category:'drinks', img:'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80' },
-  { name:'Fanta Laranja',          price:'$2.59', desc:'Orange Fanta. Sweet and tropical.', category:'drinks', img:'https://images.unsplash.com/photo-1624552184280-9e9b2ca0d660?w=600&q=80' },
-  { name:'Pepsi',                  price:'$2.59', desc:'Bold Pepsi cola flavor. Ice cold can.', category:'drinks', img:'https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=600&q=80' },
-  { name:'Pepsi Zero',             price:'$2.59', desc:'Zero sugar Pepsi. Full bold flavor.', category:'drinks', img:'https://images.unsplash.com/photo-1553456558-aff63285bdd1?w=600&q=80' },
-  // ── DRINKS — 500ML $3.79 ──
-  { name:'Coca-Cola 500ml',        price:'$3.79', desc:'500ml Coca-Cola bottle. Ice cold.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
-  { name:'Coca-Cola Zero 500ml',   price:'$3.79', desc:'500ml zero sugar Coke bottle.', category:'drinks', img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=600&q=80' },
-  { name:'Sprite 500ml',           price:'$3.79', desc:'500ml Sprite bottle. Crisp and refreshing.', category:'drinks', img:'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=600&q=80' },
-  { name:'Fanta Laranja 500ml',    price:'$3.79', desc:'500ml orange Fanta bottle.', category:'drinks', img:'https://images.unsplash.com/photo-1624552184280-9e9b2ca0d660?w=600&q=80' },
+  // PIZZAS
+  { name:'Pizza Broto 6 Fatias',     price:33.39, desc:'Pequena 6 fatias · Feeds 1–2 · Sabor à escolha.', category:'pizzas', img:I.p1 },
+  { name:'Pizza Grande 8 Fatias',    price:39.59, desc:'Grande 8 fatias · Feeds 2–3 · Borda recheada.', category:'pizzas', img:I.p2 },
+  { name:'Pizza Gigante 12 Fatias',  price:49.49, desc:'Gigante 12 fatias · Feeds 3–4 · Borda recheada.', category:'pizzas', img:I.p3 },
+  // PASTÉIS TRADICIONAIS
+  { name:'Pastel de Frango',              price:9.89, desc:'Frango desfiado temperado em massa crocante frita.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Carne',               price:9.89, desc:'Carne moída bem temperada na massa sequinha e dourada.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Queijo',              price:9.89, desc:'Queijo derretido na medida certa · Simples e delicioso.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Presunto e Queijo',   price:9.89, desc:'Clássico presunto com queijo fundido em massa crocante.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Calabresa',           price:9.89, desc:'Calabresa temperada com cebola · Sabor marcante.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Frango c/ Catupiry',  price:9.89, desc:'Frango desfiado com requeijão catupiry cremoso.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Carne c/ Queijo',     price:9.89, desc:'Carne moída com queijo derretido · Combinação perfeita.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Palmito',             price:9.89, desc:'Palmito refogado com temperinhos especiais da Biza.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Lombinho Defumado',   price:9.89, desc:'Lombinho defumado macio e saboroso em massa frita.', category:'pasteis', img:I.pas },
+  { name:'Pastel de Atum',                price:9.89, desc:'Atum com tomate e especiarias · Leve e gostoso.', category:'pasteis', img:I.pas },
+  { name:'Pastel Misto Quente',           price:9.89, desc:'Presunto e queijo gratinado · O clássico em versão frita.', category:'pasteis', img:I.pas },
+  { name:'Pastel de 4 Queijos',           price:9.89, desc:'Blend de quatro queijos especiais fundidos.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Calabresa c/ Queijo', price:9.89, desc:'Calabresa com queijo · Combinação irresistível.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Frango c/ Requeijão', price:9.89, desc:'Frango desfiado com requeijão cremoso e ervas.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Milho Verde',         price:9.89, desc:'Milho verde temperado com manteiga e ervinhas.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Bauru',               price:9.89, desc:'Rosbife, queijo e tomate · O autêntico sabor Bauru.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Peito de Peru',       price:9.89, desc:'Peito de peru defumado com queijo prato.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Bacalhau',            price:9.89, desc:'Bacalhau com azeitonas e temperos portugueses.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Frango c/ Milho',     price:9.89, desc:'Frango desfiado com milho verde e requeijão.', category:'pasteis', img:I.pac },
+  { name:'Pastel de Pizza',               price:9.89, desc:'Molho de tomate, mussarela e orégano no pastel.', category:'pasteis', img:I.pac },
+  // PASTÉIS ESPECIAIS
+  { name:'Pastel de Camarão',         price:12.39, desc:'Camarão temperado com alho e ervas · Sabor premium.', category:'pasteis', img:I.pac, badge:'Especial' },
+  { name:'Pastel de Salame Italiano', price:12.39, desc:'Salame italiano com queijo e manjericão.', category:'pasteis', img:I.pac, badge:'Especial' },
+  { name:'Pastel de Peperone',        price:12.39, desc:'Peperoni picante com mussarela derretida.', category:'pasteis', img:I.pac, badge:'Especial' },
+  // PASTÉIS DOCES
+  { name:'Pastel Doce de Banana',           price:9.89, desc:'Banana com canela e açúcar caramelizados.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  { name:'Pastel Doce de Coco',             price:9.89, desc:'Coco ralado com leite condensado e baunilha.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  { name:'Pastel Doce de Chocolate',        price:9.89, desc:'Chocolate cremoso derretido por dentro.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  { name:'Pastel Doce Banana c/ Chocolate', price:9.89, desc:'Banana e chocolate · A combinação mais pedida.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  { name:'Pastel Doce de Nutella',          price:9.89, desc:'Nutella original cremosa em massa crocante.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  { name:'Pastel Doce Goiabada c/ Queijo',  price:9.89, desc:'Romeo e Julieta no pastel · Goiabada com queijo minas.', category:'pasteis', img:I.pad, badge:'Doce 🍫' },
+  // ESFIHAS
+  { name:'Esfihas (5-pack)', price:21.69, desc:'5 esfihas assadas artesanalmente · Recheio à escolha · Pra compartilhar.', category:'esfihas', img:I.esf },
+  // PORÇÕES
+  { name:'Batata Frita',                    price:14.89, desc:'Batata frita sequinha e crocante · Temperada com ervas.', category:'porcoes', img:I.fri },
+  { name:'Batata Frita c/ Cheddar e Bacon', price:21.09, desc:'Batata frita coberta com cheddar cremoso e bacon crocante.', category:'porcoes', img:I.fri },
+  { name:'Frango à Passarinho',             price:24.79, desc:'Pedaços de frango frito crocante · Suculento por dentro.', category:'porcoes', img:I.chk },
+  { name:'Anéis de Cebola',                 price:17.29, desc:'Anéis de cebola empanados e fritos · Crocantes e dourados.', category:'porcoes', img:I.oni },
+  { name:'Tábua Frita',                     price:43.29, desc:'Mix de frango, batata, anéis de cebola e molho especial.', category:'porcoes', img:I.tbd },
+  // COMBOS
+  { name:'Combo Eu',        price:28.49,  desc:'7 esfihas sortidas + 1 refrigerante lata.', category:'combos', img:I.cmb },
+  { name:'Combo Eu e Você', price:62.99,  desc:'15 esfihas sortidas + 2 refrigerantes lata.', category:'combos', img:I.cmb },
+  { name:'Combo Nós',       price:74.19,  desc:'20 esfihas sortidas + Guaraná 2L.', category:'combos', img:I.cmb },
+  { name:'Combo Galera',    price:122.29, desc:'30 esfihas sortidas + Guaraná 2L · Para a galera toda.', category:'combos', img:I.cmb, badge:'Mais Pedido' },
+  // DRINKS — LATA
+  { name:'Coca-Cola Lata',          price:2.59, desc:'Coca-Cola clássica gelada · 350ml.', category:'drinks', img:I.drk },
+  { name:'Sprite Lata',             price:2.59, desc:'Sprite refrescante · 350ml.', category:'drinks', img:I.drk },
+  { name:'Guaraná Antártica Lata',  price:2.59, desc:'O guaraná mais famoso do Brasil · 350ml.', category:'drinks', img:I.drk },
+  { name:'Fanta Laranja Lata',      price:2.59, desc:'Fanta laranja bem gelada · 350ml.', category:'drinks', img:I.drk },
+  { name:'Fanta Uva Lata',          price:2.59, desc:'Fanta uva refrescante · 350ml.', category:'drinks', img:I.drk },
+  { name:'H2OH! Laranja Lata',      price:2.59, desc:'Levinho com gás · 350ml.', category:'drinks', img:I.drk },
+  { name:'Del Valle Uva Lata',      price:2.59, desc:'Suco de uva Del Valle · 290ml.', category:'drinks', img:I.drk },
+  { name:'Água Mineral Lata',       price:2.59, desc:'Água mineral natural · 350ml.', category:'drinks', img:I.drk },
+  // DRINKS — 500ML
+  { name:'Guaraná Antártica 500ml', price:3.79, desc:'Guaraná Antártica garrafa · 500ml.', category:'drinks', img:I.drk },
+  { name:'Coca-Cola 500ml',         price:3.79, desc:'Coca-Cola garrafa · 500ml.', category:'drinks', img:I.drk },
+  { name:'Suco de Laranja 500ml',   price:3.79, desc:'Suco de laranja natural · 500ml.', category:'drinks', img:I.drk },
+  { name:'Suco de Uva 500ml',       price:3.79, desc:'Suco de uva integral · 500ml.', category:'drinks', img:I.drk },
 ];
 
 /* ── RENDER MENU ── */
-(function renderMenu() {
+function renderMenu() {
   const grid = document.getElementById('menuGrid');
   if (!grid) return;
-  const CATS = [
-    { id:'pizzas',           label:'🍕 Pizzas',           filter: i => i.category === 'pizzas' },
-    { id:'pasteis-salgados', label:'🥟 Pastéis Salgados', filter: i => i.category === 'pasteis' && !i.isDoce, catTab:'pasteis' },
-    { id:'pasteis-doces',    label:'🍫 Pastéis Doces',    filter: i => i.category === 'pasteis' && i.isDoce,  catTab:'pasteis' },
-    { id:'esfihas',          label:'🧆 Esfihas',           filter: i => i.category === 'esfihas' },
-    { id:'porcoes',          label:'🍟 Porções',           filter: i => i.category === 'porcoes' },
-    { id:'combos',           label:'🎁 Combos',            filter: i => i.category === 'combos' },
-    { id:'drinks',           label:'🥤 Drinks',            filter: i => i.category === 'drinks' },
-  ];
-  const cardHtml = item => `
-    <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc||''}" data-img="${item.img}">
+  grid.innerHTML = ORDER_ITEMS.map(item => `
+  <article class="menu-card" data-category="${item.category}" data-name="${item.name}" data-price="${item.price}" data-desc="${item.desc || ''}" data-img="${item.img}">
+    ${item.badge ? `<span class="menu-card-badge">${item.badge}</span>` : ''}
+    <div class="menu-card-img-wrap">
       <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy">
-      <div class="menu-card-body">
-        ${item.isDoce ? '<span class="doce-badge">🍫 Doce</span>' : ''}
-        <h3 class="menu-card-name">${item.name}</h3>
-        <p class="menu-card-desc">${item.desc||''}</p>
-        <p class="menu-card-price">${item.price}</p>
-        <button type="button" class="menu-card-btn">Add to Order</button>
+      <span class="menu-card-cat-label">${{pizzas:'🍕 Pizza',pasteis:'🥟 Pastel',esfihas:'🧆 Esfiha',porcoes:'🍟 Porção',combos:'🎁 Combo',drinks:'🥤 Drink'}[item.category]||''}</span>
+    </div>
+    <div class="menu-card-body">
+      <h3 class="menu-card-name">${item.name}</h3>
+      <p class="menu-card-desc">${item.desc || ''}</p>
+      <div class="menu-card-footer">
+        <p class="menu-card-price">$${typeof item.price === 'number' ? item.price.toFixed(2) : item.price}</p>
+        <button class="menu-card-btn add-btn">+ Pedir</button>
       </div>
-    </article>`;
-  let html = '';
-  CATS.forEach(cat => {
-    const items = ORDER_ITEMS.filter(cat.filter);
-    if (!items.length) return;
-    html += `<div class="menu-cat-header" data-cat="${cat.catTab || cat.id}">${cat.label}</div>`;
-    html += items.map(cardHtml).join('');
-  });
-  grid.innerHTML = html;
-})();
+    </div>
+  </article>`).join('');
+}
+renderMenu();
 
 /* ── CARD REVEAL ── */
 ScrollTrigger.create({ trigger:'#menuGrid', start:'top 80%', once:true,
@@ -495,21 +503,18 @@ if (document.getElementById('menuGrid').getBoundingClientRect().top < window.inn
 }
 
 /* ── MENU TABS ── */
-document.querySelectorAll('.menu-tab').forEach(tab => {
+document.querySelectorAll('.tab-btn').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    const filter = tab.dataset.filter;
+    const filter = tab.dataset.tab;
     document.querySelectorAll('.menu-card').forEach(card => {
       card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-    });
-    document.querySelectorAll('.menu-cat-header').forEach(h => {
-      h.style.display = (filter === 'all' || h.dataset.cat === filter) ? '' : 'none';
     });
     requestAnimationFrame(() => {
       const shown = [...document.querySelectorAll('.menu-card')].filter(c => c.style.display !== 'none');
       gsap.killTweensOf(shown);
-      gsap.set(shown, { opacity:1, y:0 });
+      gsap.set(shown, { opacity:1, y:0, scale:1 });
     });
   });
 });
